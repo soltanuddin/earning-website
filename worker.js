@@ -93,6 +93,7 @@ async function getLoggedInUser(request, env) {
 
 export default {
   async fetch(request, env) {
+
     const url = new URL(request.url);
 
     // =========================
@@ -103,12 +104,15 @@ export default {
       request.method === "POST"
     ) {
       try {
+
         const body = await request.json();
 
         const name = String(body.name || "").trim();
+
         const email = String(body.email || "")
           .trim()
           .toLowerCase();
+
         const password = String(body.password || "");
 
         if (!name || !email || !password) {
@@ -145,10 +149,13 @@ export default {
         let referralCode = null;
 
         for (let i = 0; i < 10; i++) {
+
           const candidate = generateReferralCode();
 
           const exists = await env.DB
-            .prepare("SELECT id FROM users WHERE referral_code = ?")
+            .prepare(
+              "SELECT id FROM users WHERE referral_code = ?"
+            )
             .bind(candidate)
             .first();
 
@@ -156,6 +163,7 @@ export default {
             referralCode = candidate;
             break;
           }
+
         }
 
         if (!referralCode) {
@@ -198,12 +206,15 @@ export default {
         }, 201);
 
       } catch (error) {
+
         return json({
           success: false,
           message: "Server error during registration."
         }, 500);
+
       }
     }
+
 
     // =========================
     // LOGIN
@@ -213,6 +224,7 @@ export default {
       request.method === "POST"
     ) {
       try {
+
         const body = await request.json();
 
         const email = String(body.email || "")
@@ -251,7 +263,8 @@ export default {
           }, 401);
         }
 
-        const parts = String(user.password_hash).split(":");
+        const parts =
+          String(user.password_hash).split(":");
 
         if (parts.length !== 2) {
           return json({
@@ -307,12 +320,15 @@ export default {
         });
 
       } catch (error) {
+
         return json({
           success: false,
           message: "Server error during login."
         }, 500);
+
       }
     }
+
 
     // =========================
     // CURRENT USER
@@ -322,7 +338,9 @@ export default {
       request.method === "GET"
     ) {
       try {
-        const user = await getLoggedInUser(request, env);
+
+        const user =
+          await getLoggedInUser(request, env);
 
         if (!user) {
           return json({
@@ -337,12 +355,15 @@ export default {
         });
 
       } catch (error) {
+
         return json({
           success: false,
           message: "Could not load account."
         }, 500);
+
       }
     }
+
 
     // =========================
     // DAILY BONUS
@@ -352,7 +373,9 @@ export default {
       request.method === "POST"
     ) {
       try {
-        const user = await getLoggedInUser(request, env);
+
+        const user =
+          await getLoggedInUser(request, env);
 
         if (!user) {
           return json({
@@ -361,38 +384,41 @@ export default {
           }, 401);
         }
 
-        // Bangladesh local date
         const now = new Date();
 
-        const bdDate = new Intl.DateTimeFormat("en-CA", {
-          timeZone: "Asia/Dhaka",
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit"
-        }).format(now);
+        const bdDate =
+          new Intl.DateTimeFormat("en-CA", {
+            timeZone: "Asia/Dhaka",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+          }).format(now);
 
-        // Check today's claim
-        const alreadyClaimed = await env.DB
-          .prepare(`
-            SELECT id
-            FROM daily_bonus
-            WHERE user_id = ?
-            AND claim_date = ?
-            LIMIT 1
-          `)
-          .bind(user.id, bdDate)
-          .first();
+        const alreadyClaimed =
+          await env.DB
+            .prepare(`
+              SELECT id
+              FROM daily_bonus
+              WHERE user_id = ?
+              AND claim_date = ?
+              LIMIT 1
+            `)
+            .bind(
+              user.id,
+              bdDate
+            )
+            .first();
 
         if (alreadyClaimed) {
           return json({
             success: false,
-            message: "Today's bonus has already been claimed."
+            message:
+              "Today's bonus has already been claimed."
           }, 409);
         }
 
         const bonusAmount = 1;
 
-        // Save bonus claim
         await env.DB
           .prepare(`
             INSERT INTO daily_bonus
@@ -406,7 +432,6 @@ export default {
           )
           .run();
 
-        // Add bonus to balance
         await env.DB
           .prepare(`
             UPDATE users
@@ -419,7 +444,6 @@ export default {
           )
           .run();
 
-        // Add transaction history
         await env.DB
           .prepare(`
             INSERT INTO transactions
@@ -434,35 +458,94 @@ export default {
           )
           .run();
 
-        const updatedUser = await env.DB
-          .prepare(`
-            SELECT
-              id,
-              name,
-              email,
-              balance,
-              referral_code
-            FROM users
-            WHERE id = ?
-            LIMIT 1
-          `)
-          .bind(user.id)
-          .first();
+        const updatedUser =
+          await env.DB
+            .prepare(`
+              SELECT
+                id,
+                name,
+                email,
+                balance,
+                referral_code
+              FROM users
+              WHERE id = ?
+              LIMIT 1
+            `)
+            .bind(user.id)
+            .first();
 
         return json({
           success: true,
-          message: "Daily bonus claimed successfully.",
+          message:
+            "Daily bonus claimed successfully.",
           bonus: bonusAmount,
           user: updatedUser
         });
 
       } catch (error) {
+
         return json({
           success: false,
-          message: "Could not claim daily bonus."
+          message:
+            "Could not claim daily bonus."
         }, 500);
+
       }
     }
+
+
+    // =========================
+    // TRANSACTION HISTORY
+    // =========================
+    if (
+      url.pathname === "/api/transactions" &&
+      request.method === "GET"
+    ) {
+      try {
+
+        const user =
+          await getLoggedInUser(request, env);
+
+        if (!user) {
+          return json({
+            success: false,
+            message: "Please login first."
+          }, 401);
+        }
+
+        const result =
+          await env.DB
+            .prepare(`
+              SELECT
+                id,
+                type,
+                amount,
+                description,
+                created_at
+              FROM transactions
+              WHERE user_id = ?
+              ORDER BY id DESC
+              LIMIT 100
+            `)
+            .bind(user.id)
+            .all();
+
+        return json({
+          success: true,
+          transactions: result.results || []
+        });
+
+      } catch (error) {
+
+        return json({
+          success: false,
+          message:
+            "Could not load transaction history."
+        }, 500);
+
+      }
+    }
+
 
     // =========================
     // LOGOUT
@@ -472,29 +555,40 @@ export default {
       request.method === "POST"
     ) {
       try {
-        const token = getSessionToken(request);
+
+        const token =
+          getSessionToken(request);
 
         if (token) {
+
           await env.DB
-            .prepare("DELETE FROM sessions WHERE token = ?")
+            .prepare(
+              "DELETE FROM sessions WHERE token = ?"
+            )
             .bind(token)
             .run();
+
         }
 
         return json({
           success: true,
-          message: "Logged out successfully."
+          message:
+            "Logged out successfully."
         }, 200, {
-          "Set-Cookie": clearSessionCookie()
+          "Set-Cookie":
+            clearSessionCookie()
         });
 
       } catch (error) {
+
         return json({
           success: false,
           message: "Logout failed."
         }, 500);
+
       }
     }
+
 
     // =========================
     // DATABASE TEST
@@ -504,14 +598,16 @@ export default {
       request.method === "GET"
     ) {
       try {
-        const result = await env.DB
-          .prepare(`
-            SELECT name
-            FROM sqlite_master
-            WHERE type = 'table'
-            ORDER BY name
-          `)
-          .all();
+
+        const result =
+          await env.DB
+            .prepare(`
+              SELECT name
+              FROM sqlite_master
+              WHERE type = 'table'
+              ORDER BY name
+            `)
+            .all();
 
         return json({
           success: true,
@@ -519,16 +615,21 @@ export default {
         });
 
       } catch (error) {
+
         return json({
           success: false,
-          message: "Database connection failed."
+          message:
+            "Database connection failed."
         }, 500);
+
       }
     }
+
 
     // =========================
     // WEBSITE FILES
     // =========================
+
     return env.ASSETS.fetch(request);
   }
 };
