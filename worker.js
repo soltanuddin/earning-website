@@ -96,6 +96,7 @@ export default {
 
     const url = new URL(request.url);
 
+
     // =========================
     // REGISTER
     // =========================
@@ -359,6 +360,57 @@ export default {
         return json({
           success: false,
           message: "Could not load account."
+        }, 500);
+
+      }
+    }
+
+
+    // =========================
+    // TASK LIST
+    // =========================
+    if (
+      url.pathname === "/api/tasks" &&
+      request.method === "GET"
+    ) {
+      try {
+
+        const user =
+          await getLoggedInUser(request, env);
+
+        if (!user) {
+          return json({
+            success: false,
+            message: "Please login first."
+          }, 401);
+        }
+
+        const result =
+          await env.DB
+            .prepare(`
+              SELECT
+                id,
+                title,
+                description,
+                reward,
+                task_type,
+                task_url
+              FROM tasks
+              WHERE status = 'active'
+              ORDER BY id DESC
+            `)
+            .all();
+
+        return json({
+          success: true,
+          tasks: result.results || []
+        });
+
+      } catch (error) {
+
+        return json({
+          success: false,
+          message: "Could not load tasks."
         }, 500);
 
       }
