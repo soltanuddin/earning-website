@@ -345,6 +345,126 @@ export default {
     }
 
     // =========================
+    // DAILY BONUS
+    // =========================
+    if (
+      url.pathname === "/api/daily-bonus" &&
+      request.method === "POST"
+    ) {
+      try {
+        const user = await getLoggedInUser(request, env);
+
+        if (!user) {
+          return json({
+            success: false,
+            message: "Please login first."
+          }, 401);
+        }
+
+        // Bangladesh local date
+        const now = new Date();
+
+        const bdDate = new Intl.DateTimeFormat("en-CA", {
+          timeZone: "Asia/Dhaka",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit"
+        }).format(now);
+
+        // Check today's claim
+        const alreadyClaimed = await env.DB
+          .prepare(`
+            SELECT id
+            FROM daily_bonus
+            WHERE user_id = ?
+            AND claim_date = ?
+            LIMIT 1
+          `)
+          .bind(user.id, bdDate)
+          .first();
+
+        if (alreadyClaimed) {
+          return json({
+            success: false,
+            message: "Today's bonus has already been claimed."
+          }, 409);
+        }
+
+        const bonusAmount = 1;
+
+        // Save bonus claim
+        await env.DB
+          .prepare(`
+            INSERT INTO daily_bonus
+            (user_id, bonus_amount, claim_date)
+            VALUES (?, ?, ?)
+          `)
+          .bind(
+            user.id,
+            bonusAmount,
+            bdDate
+          )
+          .run();
+
+        // Add bonus to balance
+        await env.DB
+          .prepare(`
+            UPDATE users
+            SET balance = balance + ?
+            WHERE id = ?
+          `)
+          .bind(
+            bonusAmount,
+            user.id
+          )
+          .run();
+
+        // Add transaction history
+        await env.DB
+          .prepare(`
+            INSERT INTO transactions
+            (user_id, type, amount, description)
+            VALUES (?, ?, ?, ?)
+          `)
+          .bind(
+            user.id,
+            "bonus",
+            bonusAmount,
+            "Daily Bonus"
+          )
+          .run();
+
+        const updatedUser = await env.DB
+          .prepare(`
+            SELECT
+              id,
+              name,
+              email,
+              balance,
+              referral_code
+            FROM users
+            WHERE id = ?
+            LIMIT 1
+          `)
+          .bind(user.id)
+          .first();
+
+        return json({
+          success: true,
+          message: "Daily bonus claimed successfully.",
+          bonus: bonusAmount,
+          user: updatedUser
+        });
+
+      } catch (error) {
+        return json({
+          success: false,
+          message: "Could not claim daily bonus."
+        }, 500);
+      }
+    }
+
+    // =========================
     // LOGOUT
     // =========================
     if (
