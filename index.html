@@ -1,997 +1,788 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>EarnX - Earn Online</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fb;
-      color: #172033;
-    }
-
-    button {
-      font-family: inherit;
-      cursor: pointer;
-    }
-
-    /* HEADER */
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #e8ebf2;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-inner {
-      max-width: 1150px;
-      margin: auto;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 800;
-      color: #2563eb;
-    }
-
-    .login-btn {
-      border: none;
-      background: #2563eb;
-      color: white;
-      padding: 11px 20px;
-      border-radius: 10px;
-      font-weight: 700;
-    }
-
-    /* HERO */
-    .hero {
-      background: linear-gradient(135deg, #2563eb, #4f46e5);
-      color: white;
-      padding: 65px 20px;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 15px;
-    }
-
-    .hero p {
-      font-size: 17px;
-      opacity: 0.95;
-      max-width: 600px;
-      margin: auto;
-      line-height: 1.6;
-    }
-
-    .hero-btn {
-      margin-top: 25px;
-      background: white;
-      color: #2563eb;
-      border: none;
-      padding: 13px 25px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 15px;
-    }
-
-    /* GENERAL */
-    .container {
-      max-width: 1150px;
-      margin: auto;
-      padding: 45px 20px;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    .section-title h2 {
-      font-size: 28px;
-      margin-bottom: 8px;
-    }
-
-    .section-title p {
-      color: #667085;
-    }
-
-    /* DASHBOARD */
-    #dashboard {
-      display: none;
-    }
-
-    .dashboard-top {
-      margin-bottom: 25px;
-    }
-
-    .dashboard-top h2 {
-      font-size: 28px;
-      margin-bottom: 6px;
-    }
-
-    .dashboard-top p {
-      color: #667085;
-    }
-
-    .balance-card {
-      background: linear-gradient(135deg, #2563eb, #4f46e5);
-      color: white;
-      padding: 25px;
-      border-radius: 18px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.18);
-    }
-
-    .balance-label {
-      font-size: 14px;
-      opacity: 0.9;
-      margin-bottom: 8px;
-    }
-
-    .balance-amount {
-      font-size: 36px;
-      font-weight: 800;
-      margin-bottom: 18px;
-    }
-
-    .withdraw-btn {
-      border: none;
-      background: white;
-      color: #2563eb;
-      padding: 11px 18px;
-      border-radius: 9px;
-      font-weight: 700;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 25px;
-    }
-
-    .stat-card {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      border: 1px solid #e8ebf2;
-    }
-
-    .stat-icon {
-      font-size: 25px;
-      margin-bottom: 10px;
-    }
-
-    .stat-card h3 {
-      font-size: 23px;
-      margin-bottom: 5px;
-    }
-
-    .stat-card p {
-      color: #667085;
-      font-size: 14px;
-    }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 20px;
-    }
-
-    .dashboard-card {
-      background: white;
-      border: 1px solid #e8ebf2;
-      border-radius: 16px;
-      padding: 22px;
-      margin-bottom: 20px;
-    }
-
-    .dashboard-card h3 {
-      margin-bottom: 18px;
-      font-size: 20px;
-    }
-
-    /* BONUS */
-    .bonus-box {
-      background: #f0f7ff;
-      border: 1px solid #dbeafe;
-      padding: 18px;
-      border-radius: 12px;
-    }
-
-    .bonus-box strong {
-      display: block;
-      font-size: 19px;
-      margin-bottom: 6px;
-    }
-
-    .bonus-box p {
-      color: #667085;
-      margin-bottom: 14px;
-      line-height: 1.5;
-    }
-
-    .claim-btn {
-      border: none;
-      background: #2563eb;
-      color: white;
-      padding: 11px 17px;
-      border-radius: 8px;
-      font-weight: 700;
-    }
-
-    /* TASKS */
-    .task-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-
-    .task {
-      border: 1px solid #e8ebf2;
-      padding: 17px;
-      border-radius: 12px;
-      background: #fff;
-    }
-
-    .task-icon {
-      font-size: 27px;
-      margin-bottom: 8px;
-    }
-
-    .task h4 {
-      margin-bottom: 5px;
-      font-size: 16px;
-    }
-
-    .task p {
-      color: #667085;
-      font-size: 13px;
-      margin-bottom: 12px;
-    }
-
-    .task button {
-      width: 100%;
-      border: none;
-      background: #2563eb;
-      color: white;
-      padding: 9px;
-      border-radius: 8px;
-      font-weight: 700;
-    }
-
-    /* REFERRAL */
-    .referral-code {
-      background: #f5f7fb;
-      padding: 13px;
-      border-radius: 9px;
-      margin-bottom: 12px;
-      font-weight: 700;
-      word-break: break-all;
-    }
-
-    .copy-btn {
-      width: 100%;
-      border: none;
-      background: #172033;
-      color: white;
-      padding: 11px;
-      border-radius: 8px;
-      font-weight: 700;
-    }
-
-    /* TRANSACTIONS */
-    .transaction {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 14px 0;
-      border-bottom: 1px solid #edf0f5;
-    }
-
-    .transaction:last-child {
-      border-bottom: none;
-    }
-
-    .transaction-name {
-      font-weight: 700;
-    }
-
-    .transaction-date {
-      color: #667085;
-      font-size: 12px;
-      margin-top: 4px;
-    }
-
-    .transaction-amount {
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .positive {
-      color: #16a34a;
-    }
-
-    .negative {
-      color: #dc2626;
-    }
-
-    /* TASK SECTION */
-    .public-tasks {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .public-task {
-      background: white;
-      border: 1px solid #e8ebf2;
-      border-radius: 15px;
-      padding: 22px;
-      text-align: center;
-    }
-
-    .public-task .icon {
-      font-size: 35px;
-      margin-bottom: 12px;
-    }
-
-    .public-task h3 {
-      margin-bottom: 8px;
-    }
-
-    .public-task p {
-      color: #667085;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    /* HOW IT WORKS */
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .step {
-      background: white;
-      border: 1px solid #e8ebf2;
-      border-radius: 15px;
-      padding: 25px;
-      text-align: center;
-    }
-
-    .step-number {
-      width: 45px;
-      height: 45px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 14px;
-      background: #2563eb;
-      color: white;
-      border-radius: 50%;
-      font-weight: 800;
-      font-size: 18px;
-    }
-
-    .step p {
-      color: #667085;
-      margin-top: 8px;
-      line-height: 1.5;
-    }
-
-    /* FOOTER */
-    footer {
-      background: #172033;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-      margin-top: 20px;
-    }
-
-    footer p {
-      color: #cbd5e1;
-      font-size: 14px;
-    }
-
-    /* MODAL */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.55);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-box {
-      width: 100%;
-      max-width: 420px;
-      background: white;
-      border-radius: 18px;
-      padding: 25px;
-      position: relative;
-    }
-
-    .close {
-      position: absolute;
-      right: 17px;
-      top: 13px;
-      border: none;
-      background: none;
-      font-size: 25px;
-      color: #667085;
-    }
-
-    .modal-box h2 {
-      margin-bottom: 8px;
-    }
-
-    .modal-subtitle {
-      color: #667085;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-
-    .input-group {
-      margin-bottom: 14px;
-    }
-
-    .input-group label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d7dce5;
-      border-radius: 9px;
-      outline: none;
-      font-size: 15px;
-    }
-
-    .continue-btn {
-      width: 100%;
-      border: none;
-      background: #2563eb;
-      color: white;
-      padding: 12px;
-      border-radius: 9px;
-      font-weight: 700;
-      margin-top: 5px;
-    }
-
-    .switch-auth {
-      text-align: center;
-      margin-top: 17px;
-      font-size: 14px;
-      color: #667085;
-    }
-
-    .switch-auth button {
-      border: none;
-      background: none;
-      color: #2563eb;
-      font-weight: 700;
-    }
-
-    /* MOBILE */
-    @media (max-width: 800px) {
-
-      .hero h1 {
-        font-size: 32px;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .task-list {
-        grid-template-columns: 1fr;
-      }
-
-      .public-tasks {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .steps {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 500px) {
-
-      .header-inner {
-        padding: 14px 15px;
-      }
-
-      .logo {
-        font-size: 22px;
-      }
-
-      .login-btn {
-        padding: 9px 15px;
-      }
-
-      .hero {
-        padding: 50px 18px;
-      }
-
-      .hero h1 {
-        font-size: 29px;
-      }
-
-      .hero p {
-        font-size: 15px;
-      }
-
-      .container {
-        padding: 35px 15px;
-      }
-
-      .section-title h2 {
-        font-size: 24px;
-      }
-
-      .balance-card {
-        padding: 20px;
-      }
-
-      .balance-amount {
-        font-size: 32px;
-      }
-
-      .public-tasks {
-        grid-template-columns: 1fr;
-      }
-
-      .dashboard-card {
-        padding: 18px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EarnX - Earn Online</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f5f7fb;
+  color:#172033;
+}
+
+button{
+  font-family:inherit;
+  cursor:pointer;
+}
+
+/* HEADER */
+header{
+  background:#fff;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.header-inner{
+  max-width:1150px;
+  margin:auto;
+  padding:15px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:800;
+  color:#2563eb;
+}
+
+.login-btn{
+  border:0;
+  background:#2563eb;
+  color:#fff;
+  padding:10px 18px;
+  border-radius:9px;
+  font-weight:700;
+}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+  color:#fff;
+  text-align:center;
+  padding:60px 20px;
+}
+
+.hero h1{
+  font-size:42px;
+  margin-bottom:15px;
+}
+
+.hero p{
+  max-width:600px;
+  margin:auto;
+  line-height:1.6;
+  opacity:.95;
+}
+
+.hero-btn{
+  margin-top:25px;
+  border:0;
+  background:#fff;
+  color:#2563eb;
+  padding:13px 25px;
+  border-radius:10px;
+  font-weight:700;
+}
+
+/* CONTAINER */
+.container{
+  max-width:1150px;
+  margin:auto;
+  padding:40px 20px;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.section-title h2{
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.section-title p{
+  color:#667085;
+}
+
+/* DASHBOARD */
+#dashboard{
+  display:none;
+}
+
+.dashboard-top{
+  margin-bottom:20px;
+}
+
+.dashboard-top h2{
+  font-size:28px;
+  margin-bottom:6px;
+}
+
+.dashboard-top p{
+  color:#667085;
+}
+
+/* BALANCE */
+.balance-card{
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+  color:#fff;
+  padding:25px;
+  border-radius:18px;
+  margin-bottom:20px;
+}
+
+.balance-label{
+  font-size:14px;
+  opacity:.9;
+}
+
+.balance-amount{
+  font-size:36px;
+  font-weight:800;
+  margin:8px 0 18px;
+}
+
+.withdraw-btn{
+  border:0;
+  background:#fff;
+  color:#2563eb;
+  padding:11px 18px;
+  border-radius:9px;
+  font-weight:700;
+}
+
+/* STATS */
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.stat-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  padding:20px;
+  border-radius:15px;
+}
+
+.stat-icon{
+  font-size:25px;
+  margin-bottom:8px;
+}
+
+.stat-card h3{
+  font-size:23px;
+  margin-bottom:5px;
+}
+
+.stat-card p{
+  color:#667085;
+  font-size:14px;
+}
+
+/* DASHBOARD GRID */
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:20px;
+}
+
+.dashboard-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.dashboard-card h3{
+  font-size:20px;
+  margin-bottom:17px;
+}
+
+/* BONUS */
+.bonus-box{
+  background:#eff6ff;
+  padding:18px;
+  border-radius:12px;
+}
+
+.bonus-box strong{
+  display:block;
+  margin-bottom:7px;
+}
+
+.bonus-box p{
+  color:#667085;
+  line-height:1.5;
+  margin-bottom:13px;
+}
+
+.claim-btn{
+  border:0;
+  background:#2563eb;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:8px;
+  font-weight:700;
+}
+
+/* TASKS - 3 COLUMNS */
+.task-list{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.task{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:15px;
+}
+
+.task-icon{
+  font-size:27px;
+  margin-bottom:8px;
+}
+
+.task h4{
+  font-size:15px;
+  margin-bottom:5px;
+}
+
+.task p{
+  color:#667085;
+  font-size:12px;
+  line-height:1.4;
+  margin-bottom:11px;
+}
+
+.task button{
+  width:100%;
+  border:0;
+  background:#2563eb;
+  color:#fff;
+  padding:8px;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:700;
+}
+
+/* REFERRAL */
+.referral-code{
+  background:#f5f7fb;
+  padding:13px;
+  border-radius:9px;
+  margin-bottom:12px;
+  font-weight:700;
+  word-break:break-all;
+}
+
+.copy-btn{
+  width:100%;
+  border:0;
+  background:#172033;
+  color:#fff;
+  padding:11px;
+  border-radius:8px;
+  font-weight:700;
+}
+
+/* TRANSACTIONS */
+.transaction{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:13px 0;
+  border-bottom:1px solid #edf0f5;
+}
+
+.transaction-name{
+  font-weight:700;
+}
+
+.transaction-date{
+  color:#667085;
+  font-size:12px;
+  margin-top:4px;
+}
+
+.transaction-amount{
+  font-weight:700;
+  white-space:nowrap;
+}
+
+/* PUBLIC TASKS */
+.public-tasks{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.public-task{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:15px;
+  padding:22px;
+  text-align:center;
+}
+
+.public-task .icon{
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.public-task h3{
+  margin-bottom:7px;
+}
+
+.public-task p{
+  color:#667085;
+  font-size:14px;
+}
+
+/* HOW IT WORKS */
+.steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.step{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:15px;
+  padding:23px;
+  text-align:center;
+}
+
+.step-number{
+  width:45px;
+  height:45px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 13px;
+  background:#2563eb;
+  color:#fff;
+  border-radius:50%;
+  font-weight:800;
+}
+
+.step p{
+  color:#667085;
+  margin-top:8px;
+  line-height:1.5;
+}
+
+/* FOOTER */
+footer{
+  background:#172033;
+  color:#fff;
+  text-align:center;
+  padding:30px 20px;
+}
+
+footer p{
+  color:#cbd5e1;
+  font-size:14px;
+  margin-top:7px;
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:999;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-box{
+  width:100%;
+  max-width:420px;
+  background:#fff;
+  border-radius:18px;
+  padding:25px;
+  position:relative;
+}
+
+.close{
+  position:absolute;
+  right:15px;
+  top:10px;
+  border:0;
+  background:none;
+  font-size:25px;
+}
+
+.modal-box h2{
+  margin-bottom:8px;
+}
+
+.modal-subtitle{
+  color:#667085;
+  font-size:14px;
+  margin-bottom:20px;
+}
+
+.input-group{
+  margin-bottom:14px;
+}
+
+.input-group label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.input-group input{
+  width:100%;
+  padding:12px;
+  border:1px solid #d7dce5;
+  border-radius:9px;
+  font-size:15px;
+}
+
+.continue-btn{
+  width:100%;
+  border:0;
+  background:#2563eb;
+  color:#fff;
+  padding:12px;
+  border-radius:9px;
+  font-weight:700;
+}
+
+.switch-auth{
+  text-align:center;
+  margin-top:16px;
+  color:#667085;
+  font-size:14px;
+}
+
+.switch-auth button{
+  border:0;
+  background:none;
+  color:#2563eb;
+  font-weight:700;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .dashboard-grid{
+    grid-template-columns:1fr;
+  }
+
+  .task-list{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .public-tasks{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .steps{
+    grid-template-columns:1fr;
+  }
+}
+
+/* SMALL MOBILE */
+@media(max-width:500px){
+
+  .container{
+    padding:30px 12px;
+  }
+
+  .hero{
+    padding:45px 15px;
+  }
+
+  .hero h1{
+    font-size:28px;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(3,1fr);
+    gap:7px;
+  }
+
+  .stat-card{
+    padding:12px 8px;
+  }
+
+  .stat-card h3{
+    font-size:18px;
+  }
+
+  .stat-card p{
+    font-size:11px;
+  }
+
+  .task-list{
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+
+  .task{
+    padding:10px 7px;
+  }
+
+  .task-icon{
+    font-size:22px;
+  }
+
+  .task h4{
+    font-size:12px;
+  }
+
+  .task p{
+    font-size:10px;
+  }
+
+  .task button{
+    font-size:10px;
+    padding:7px 2px;
+  }
+
+  .public-tasks{
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+
+  .public-task{
+    padding:14px 7px;
+  }
+
+  .public-task .icon{
+    font-size:25px;
+  }
+
+  .public-task h3{
+    font-size:13px;
+  }
+
+  .public-task p{
+    font-size:10px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="header-inner">
-      <div class="logo">EarnX</div>
+<header>
+  <div class="header-inner">
+    <div class="logo">EarnX</div>
 
-      <button class="login-btn" id="loginBtn">
-        Login
-      </button>
+    <button class="login-btn" id="loginBtn">
+      Login
+    </button>
+  </div>
+</header>
+
+
+<section class="hero">
+
+  <h1>Earn Online Easily</h1>
+
+  <p>
+    Complete simple online tasks, earn rewards,
+    and manage your earnings from one place.
+  </p>
+
+  <button class="hero-btn" id="getStarted">
+    Get Started
+  </button>
+
+</section>
+
+
+<section id="dashboard">
+
+<div class="container">
+
+  <div class="dashboard-top">
+    <h2>My Dashboard</h2>
+    <p>Welcome back! Manage your earnings here.</p>
+  </div>
+
+
+  <div class="balance-card">
+
+    <div class="balance-label">
+      Available Balance
     </div>
-  </header>
 
+    <div class="balance-amount">
+      $0.00
+    </div>
 
-  <!-- HERO -->
-  <section class="hero" id="home">
-
-    <h1>Earn Online Easily</h1>
-
-    <p>
-      Complete simple online tasks, earn rewards,
-      and manage your earnings from one place.
-    </p>
-
-    <button class="hero-btn" id="getStarted">
-      Get Started
+    <button class="withdraw-btn">
+      Withdraw
     </button>
 
-  </section>
+  </div>
 
 
-  <!-- DASHBOARD -->
-  <section id="dashboard">
+  <div class="stats-grid">
 
-    <div class="container">
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <h3>$0.00</h3>
+      <p>Total Earned</p>
+    </div>
 
-      <div class="dashboard-top">
-        <h2>My Dashboard</h2>
-        <p>Welcome back! Manage your earnings here.</p>
+    <div class="stat-card">
+      <div class="stat-icon">✅</div>
+      <h3>0</h3>
+      <p>Tasks</p>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <h3>0</h3>
+      <p>Referrals</p>
+    </div>
+
+  </div>
+
+
+  <div class="dashboard-grid">
+
+    <div>
+
+      <div class="dashboard-card">
+
+        <h3>🎁 Daily Bonus</h3>
+
+        <div class="bonus-box">
+
+          <strong>Claim your daily reward</strong>
+
+          <p>
+            Come back every day and claim your bonus.
+          </p>
+
+          <button class="claim-btn">
+            Claim Bonus
+          </button>
+
+        </div>
+
       </div>
 
 
-      <!-- BALANCE -->
-      <div class="balance-card">
+      <div class="dashboard-card">
 
-        <div class="balance-label">
-          Available Balance
+        <h3>📋 Available Tasks</h3>
+
+        <div class="task-list">
+
+          <div class="task">
+            <div class="task-icon">📱</div>
+            <h4>Telegram</h4>
+            <p>Join channel</p>
+            <button>Start</button>
+          </div>
+
+          <div class="task">
+            <div class="task-icon">▶️</div>
+            <h4>YouTube</h4>
+            <p>Subscribe</p>
+            <button>Start</button>
+          </div>
+
+          <div class="task">
+            <div class="task-icon">🎵</div>
+            <h4>TikTok</h4>
+            <p>Follow account</p>
+            <button>Start</button>
+          </div>
+
+          <div class="task">
+            <div class="task-icon">🌐</div>
+            <h4>Website</h4>
+            <p>Visit website</p>
+            <button>Start</button>
+          </div>
+
+          <div class="task">
+            <div class="task-icon">🎬</div>
+            <h4>Video</h4>
+            <p>Watch video</p>
+            <button>Start</button>
+          </div>
+
+          <div class="task">
+            <div class="task-icon">📲</div>
+            <h4>App</h4>
+            <p>Install app</p>
+            <button>Start</button>
+          </div>
+
         </div>
 
-        <div class="balance-amount">
-          $0.00
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <div class="dashboard-card">
+
+        <h3>👥 Referral</h3>
+
+        <p style="color:#667085;margin-bottom:12px;">
+          Invite friends and earn rewards.
+        </p>
+
+        <div class="referral-code">
+          EARNX123
         </div>
 
-        <button class="withdraw-btn">
-          Withdraw
+        <button class="copy-btn">
+          Copy Code
         </button>
 
       </div>
 
 
-      <!-- STATS -->
-      <div class="stats-grid">
+      <div class="dashboard-card">
 
-        <div class="stat-card">
-          <div class="stat-icon">💰</div>
-          <h3>$0.00</h3>
-          <p>Total Earned</p>
-        </div>
+        <h3>📊 Transactions</h3>
 
-        <div class="stat-card">
-          <div class="stat-icon">✅</div>
-          <h3>0</h3>
-          <p>Tasks Completed</p>
-        </div>
+        <div class="transaction">
 
-        <div class="stat-card">
-          <div class="stat-icon">👥</div>
-          <h3>0</h3>
-          <p>Referrals</p>
-        </div>
-
-      </div>
-
-
-      <div class="dashboard-grid">
-
-        <!-- LEFT -->
-        <div>
-
-          <!-- DAILY BONUS -->
-          <div class="dashboard-card">
-
-            <h3>🎁 Daily Bonus</h3>
-
-            <div class="bonus-box">
-
-              <strong>Claim your daily reward</strong>
-
-              <p>
-                Come back every day and claim your bonus.
-              </p>
-
-              <button class="claim-btn">
-                Claim Bonus
-              </button>
-
+          <div>
+            <div class="transaction-name">
+              No transactions
             </div>
 
+            <div class="transaction-date">
+              Activity will appear here.
+            </div>
           </div>
 
-
-          <!-- TASKS -->
-          <div class="dashboard-card">
-
-            <h3>📋 Available Tasks</h3>
-
-            <div class="task-list">
-
-              <div class="task">
-                <div class="task-icon">📱</div>
-                <h4>Telegram Join</h4>
-                <p>Join a Telegram channel.</p>
-                <button>Start Task</button>
-              </div>
-
-              <div class="task">
-                <div class="task-icon">▶️</div>
-                <h4>YouTube Subscribe</h4>
-                <p>Subscribe to a YouTube channel.</p>
-                <button>Start Task</button>
-              </div>
-
-              <div class="task">
-                <div class="task-icon">🎵</div>
-                <h4>TikTok Follow</h4>
-                <p>Follow a TikTok account.</p>
-                <button>Start Task</button>
-              </div>
-
-              <div class="task">
-                <div class="task-icon">🌐</div>
-                <h4>Website Visit</h4>
-                <p>Visit a website and complete the task.</p>
-                <button>Start Task</button>
-              </div>
-
-            </div>
-
+          <div class="transaction-amount">
+            $0.00
           </div>
 
         </div>
-
-
-        <!-- RIGHT -->
-        <div>
-
-          <!-- REFERRAL -->
-          <div class="dashboard-card">
-
-            <h3>👥 Referral</h3>
-
-            <p style="color:#667085; margin-bottom:12px;">
-              Invite friends and earn referral rewards.
-            </p>
-
-            <div class="referral-code">
-              Your referral code: EARNX123
-            </div>
-
-            <button class="copy-btn">
-              Copy Referral Code
-            </button>
-
-          </div>
-
-
-          <!-- TRANSACTIONS -->
-          <div class="dashboard-card">
-
-            <h3>📊 Recent Transactions</h3>
-
-            <div class="transaction">
-
-              <div>
-                <div class="transaction-name">
-                  No transactions yet
-                </div>
-
-                <div class="transaction-date">
-                  Your activity will appear here.
-                </div>
-              </div>
-
-              <div class="transaction-amount">
-                $0.00
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- PUBLIC TASKS -->
-  <section id="tasks">
-
-    <div class="container">
-
-      <div class="section-title">
-
-        <h2>Available Ways to Earn</h2>
-
-        <p>
-          Complete simple tasks and earn rewards.
-        </p>
-
-      </div>
-
-
-      <div class="public-tasks">
-
-        <div class="public-task">
-          <div class="icon">📱</div>
-          <h3>Telegram</h3>
-          <p>Complete Telegram tasks.</p>
-        </div>
-
-        <div class="public-task">
-          <div class="icon">▶️</div>
-          <h3>YouTube</h3>
-          <p>Complete YouTube tasks.</p>
-        </div>
-
-        <div class="public-task">
-          <div class="icon">🎵</div>
-          <h3>TikTok</h3>
-          <p>Complete TikTok tasks.</p>
-        </div>
-
-        <div class="public-task">
-          <div class="icon">🌐</div>
-          <h3>Websites</h3>
-          <p>Visit websites and complete tasks.</p>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- HOW IT WORKS -->
-  <section>
-
-    <div class="container">
-
-      <div class="section-title">
-
-        <h2>How It Works</h2>
-
-        <p>
-          Start earning in three simple steps.
-        </p>
-
-      </div>
-
-
-      <div class="steps">
-
-        <div class="step">
-
-          <div class="step-number">1</div>
-
-          <h3>Create Account</h3>
-
-          <p>
-            Register your free EarnX account.
-          </p>
-
-        </div>
-
-
-        <div class="step">
-
-          <div class="step-number">2</div>
-
-          <h3>Complete Tasks</h3>
-
-          <p>
-            Choose available tasks and complete them.
-          </p>
-
-        </div>
-
-
-        <div class="step">
-
-          <div class="step-number">3</div>
-
-          <h3>Earn & Withdraw</h3>
-
-          <p>
-            Earn rewards and request withdrawals.
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- FOOTER -->
-  <footer>
-
-    <h3 style="margin-bottom:8px;">
-      EarnX
-    </h3>
-
-    <p>
-      Earn rewards by completing online tasks.
-    </p>
-
-  </footer>
-
-
-  <!-- LOGIN / REGISTER MODAL -->
-  <div class="modal" id="authModal">
-
-    <div class="modal-box">
-
-      <button class="close" id="closeModal">
-        ×
-      </button>
-
-      <h2 id="authTitle">
-        Login
-      </h2>
-
-      <p class="modal-subtitle">
-        Login to your EarnX account
-      </p>
-
-
-      <div class="input-group" id="nameGroup" style="display:none;">
-
-        <label>
-          Full Name
-        </label>
-
-        <input
-          type="text"
-          id="name"
-          placeholder="Enter your name"
-        >
-
-      </div>
-
-
-      <div class="input-group">
-
-        <label>
-          Email
-        </label>
-
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter your email"
-        >
-
-      </div>
-
-
-      <div class="input-group">
-
-        <label>
-          Password
-        </label>
-
-        <input
-          type="password"
-          id="password"
-          placeholder="Enter your password"
-        >
-
-      </div>
-
-
-      <button class="continue-btn" id="continueBtn">
-        Continue
-      </button>
-
-
-      <div class="switch-auth">
-
-        <span id="switchText">
-          Don't have an account?
-        </span>
-
-        <button id="switchAuth">
-          Register
-        </button>
 
       </div>
 
@@ -999,132 +790,308 @@
 
   </div>
 
+</div>
 
-  <script>
-
-    let registerMode = false;
-
-    const modal = document.getElementById("authModal");
-
-    const loginBtn = document.getElementById("loginBtn");
-
-    const getStarted = document.getElementById("getStarted");
-
-    const closeModal = document.getElementById("closeModal");
-
-    const switchAuth = document.getElementById("switchAuth");
-
-    const switchText = document.getElementById("switchText");
-
-    const authTitle = document.getElementById("authTitle");
-
-    const nameGroup = document.getElementById("nameGroup");
-
-    const continueBtn = document.getElementById("continueBtn");
-
-    const dashboard = document.getElementById("dashboard");
+</section>
 
 
-    function openModal() {
-      modal.style.display = "flex";
-    }
+<section>
+
+<div class="container">
+
+  <div class="section-title">
+
+    <h2>Available Ways to Earn</h2>
+
+    <p>
+      Complete simple tasks and earn rewards.
+    </p>
+
+  </div>
 
 
-    function updateAuth() {
+  <div class="public-tasks">
 
-      if (registerMode) {
+    <div class="public-task">
+      <div class="icon">📱</div>
+      <h3>Telegram</h3>
+      <p>Telegram tasks.</p>
+    </div>
 
-        authTitle.textContent = "Create Account";
+    <div class="public-task">
+      <div class="icon">▶️</div>
+      <h3>YouTube</h3>
+      <p>YouTube tasks.</p>
+    </div>
 
-        nameGroup.style.display = "block";
+    <div class="public-task">
+      <div class="icon">🎵</div>
+      <h3>TikTok</h3>
+      <p>TikTok tasks.</p>
+    </div>
 
-        switchText.textContent = "Already have an account?";
+    <div class="public-task">
+      <div class="icon">🌐</div>
+      <h3>Website</h3>
+      <p>Website tasks.</p>
+    </div>
 
-        switchAuth.textContent = "Login";
+    <div class="public-task">
+      <div class="icon">🎬</div>
+      <h3>Video</h3>
+      <p>Watch videos.</p>
+    </div>
 
-      } else {
+    <div class="public-task">
+      <div class="icon">📲</div>
+      <h3>Apps</h3>
+      <p>Install apps.</p>
+    </div>
 
-        authTitle.textContent = "Login";
+  </div>
 
-        nameGroup.style.display = "none";
+</div>
 
-        switchText.textContent = "Don't have an account?";
-
-        switchAuth.textContent = "Register";
-
-      }
-
-    }
-
-
-    loginBtn.addEventListener("click", function() {
-
-      registerMode = false;
-
-      updateAuth();
-
-      openModal();
-
-    });
-
-
-    getStarted.addEventListener("click", function() {
-
-      registerMode = true;
-
-      updateAuth();
-
-      openModal();
-
-    });
+</section>
 
 
-    closeModal.addEventListener("click", function() {
+<section>
 
-      modal.style.display = "none";
+<div class="container">
 
-    });
+  <div class="section-title">
 
+    <h2>How It Works</h2>
 
-    switchAuth.addEventListener("click", function() {
+    <p>Start earning in three simple steps.</p>
 
-      registerMode = !registerMode;
-
-      updateAuth();
-
-    });
+  </div>
 
 
-    modal.addEventListener("click", function(e) {
+  <div class="steps">
 
-      if (e.target === modal) {
+    <div class="step">
+      <div class="step-number">1</div>
+      <h3>Create Account</h3>
+      <p>Register your free EarnX account.</p>
+    </div>
 
-        modal.style.display = "none";
+    <div class="step">
+      <div class="step-number">2</div>
+      <h3>Complete Tasks</h3>
+      <p>Complete available tasks.</p>
+    </div>
 
-      }
+    <div class="step">
+      <div class="step-number">3</div>
+      <h3>Earn & Withdraw</h3>
+      <p>Earn rewards and request withdrawals.</p>
+    </div>
 
-    });
+  </div>
+
+</div>
+
+</section>
 
 
-    continueBtn.addEventListener("click", function() {
+<footer>
 
-      /*
-       * Real registration/login will be connected
-       * to Cloudflare D1 in the next step.
-       */
+  <h3>EarnX</h3>
 
-      dashboard.style.display = "block";
+  <p>
+    Earn rewards by completing online tasks.
+  </p>
 
-      modal.style.display = "none";
+</footer>
 
-      document.getElementById("dashboard")
-        .scrollIntoView({
-          behavior: "smooth"
-        });
 
-    });
+<div class="modal" id="authModal">
 
-  </script>
+  <div class="modal-box">
+
+    <button class="close" id="closeModal">
+      ×
+    </button>
+
+    <h2 id="authTitle">Login</h2>
+
+    <p class="modal-subtitle">
+      Login to your EarnX account
+    </p>
+
+
+    <div class="input-group" id="nameGroup" style="display:none;">
+
+      <label>Full Name</label>
+
+      <input
+        type="text"
+        id="name"
+        placeholder="Enter your name"
+      >
+
+    </div>
+
+
+    <div class="input-group">
+
+      <label>Email</label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+      >
+
+    </div>
+
+
+    <div class="input-group">
+
+      <label>Password</label>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter your password"
+      >
+
+    </div>
+
+
+    <button class="continue-btn" id="continueBtn">
+      Continue
+    </button>
+
+
+    <div class="switch-auth">
+
+      <span id="switchText">
+        Don't have an account?
+      </span>
+
+      <button id="switchAuth">
+        Register
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+let registerMode=false;
+
+const modal=document.getElementById("authModal");
+const loginBtn=document.getElementById("loginBtn");
+const getStarted=document.getElementById("getStarted");
+const closeModal=document.getElementById("closeModal");
+const switchAuth=document.getElementById("switchAuth");
+const switchText=document.getElementById("switchText");
+const authTitle=document.getElementById("authTitle");
+const nameGroup=document.getElementById("nameGroup");
+const continueBtn=document.getElementById("continueBtn");
+const dashboard=document.getElementById("dashboard");
+
+
+function openModal(){
+  modal.style.display="flex";
+}
+
+
+function updateAuth(){
+
+  if(registerMode){
+
+    authTitle.textContent="Create Account";
+
+    nameGroup.style.display="block";
+
+    switchText.textContent="Already have an account?";
+
+    switchAuth.textContent="Login";
+
+  }else{
+
+    authTitle.textContent="Login";
+
+    nameGroup.style.display="none";
+
+    switchText.textContent="Don't have an account?";
+
+    switchAuth.textContent="Register";
+
+  }
+
+}
+
+
+loginBtn.addEventListener("click",function(){
+
+  registerMode=false;
+
+  updateAuth();
+
+  openModal();
+
+});
+
+
+getStarted.addEventListener("click",function(){
+
+  registerMode=true;
+
+  updateAuth();
+
+  openModal();
+
+});
+
+
+closeModal.addEventListener("click",function(){
+
+  modal.style.display="none";
+
+});
+
+
+switchAuth.addEventListener("click",function(){
+
+  registerMode=!registerMode;
+
+  updateAuth();
+
+});
+
+
+modal.addEventListener("click",function(e){
+
+  if(e.target===modal){
+
+    modal.style.display="none";
+
+  }
+
+});
+
+
+continueBtn.addEventListener("click",function(){
+
+  dashboard.style.display="block";
+
+  modal.style.display="none";
+
+  dashboard.scrollIntoView({
+    behavior:"smooth"
+  });
+
+});
+
+</script>
 
 </body>
 </html>
