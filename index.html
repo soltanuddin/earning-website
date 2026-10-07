@@ -346,6 +346,7 @@ footer{
 
   <div>
     <button id="loginBtn" class="login-btn">Login</button>
+
     <button id="logoutBtn" class="logout-btn" style="display:none;">
       Logout
     </button>
@@ -353,6 +354,7 @@ footer{
 </header>
 
 <section class="hero">
+
   <h1>Earn Online Easily</h1>
 
   <p>
@@ -362,11 +364,13 @@ footer{
   <button id="getStarted" class="primary-btn">
     Get Started
   </button>
+
 </section>
 
 <section id="dashboard" class="container">
 
   <div class="user-welcome">
+
     <h2>
       Welcome, <span id="userName">User</span> 👋
     </h2>
@@ -374,6 +378,7 @@ footer{
     <p class="user-email" id="userEmail">
       Loading account...
     </p>
+
   </div>
 
   <div class="balance-box">
@@ -612,8 +617,6 @@ footer{
 
 </footer>
 
-<!-- AUTH MODAL -->
-
 <div id="authModal" class="modal">
 
   <div class="modal-box">
@@ -722,6 +725,7 @@ function updateAuth(){
 function showDashboard(user){
 
   userName.textContent = user.name || "User";
+
   userEmail.textContent = user.email || "";
 
   const userBalance = Number(user.balance || 0);
@@ -738,6 +742,7 @@ function showDashboard(user){
   dashboard.style.display = "block";
 
   loginBtn.style.display = "none";
+
   logoutBtn.style.display = "inline-block";
 
 }
@@ -747,6 +752,7 @@ function hideDashboard(){
   dashboard.style.display = "none";
 
   loginBtn.style.display = "inline-block";
+
   logoutBtn.style.display = "none";
 
 }
@@ -790,7 +796,19 @@ loginBtn.addEventListener("click",function(){
 
 });
 
+/* FIXED GET STARTED */
+
 getStarted.addEventListener("click",function(){
+
+  if(logoutBtn.style.display !== "none"){
+
+    dashboard.scrollIntoView({
+      behavior:"smooth"
+    });
+
+    return;
+
+  }
 
   registerMode = true;
 
@@ -852,6 +870,7 @@ continueBtn.addEventListener("click",async function(){
   }
 
   continueBtn.disabled = true;
+
   continueBtn.textContent = "Please wait...";
 
   try{
@@ -900,9 +919,8 @@ continueBtn.addEventListener("click",async function(){
 
       closeAuthModal();
 
-      // Registration does not automatically create a session.
-      // Open login form for the new account.
       document.getElementById("email").value = email;
+
       document.getElementById("password").value = "";
 
       openModal();
