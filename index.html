@@ -1,1 +1,256 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EarnX - Earn Online</title>
 
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #172033;
+    }
+
+    header {
+      background: #ffffff;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2563eb;
+    }
+
+    .login {
+      background: #2563eb;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .hero {
+      padding: 55px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 34px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .start-btn {
+      display: inline-block;
+      background: white;
+      color: #2563eb;
+      padding: 13px 25px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .section {
+      padding: 35px 18px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .section h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 25px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px 15px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+    }
+
+    .icon {
+      font-size: 35px;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #687386;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .how {
+      background: white;
+      padding: 30px 20px;
+      margin-top: 10px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 18px 0;
+    }
+
+    .number {
+      min-width: 40px;
+      height: 40px;
+      background: #2563eb;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    footer {
+      background: #111827;
+      color: #cbd5e1;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 13px;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 500px) {
+      .hero h1 {
+        font-size: 29px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">EarnX</div>
+    <a href="#" class="login">Login</a>
+  </header>
+
+  <section class="hero">
+    <h1>Earn Online Easily</h1>
+    <p>
+      Complete simple tasks, earn rewards and manage your earnings
+      from one place.
+    </p>
+    <a href="#" class="start-btn">Get Started</a>
+  </section>
+
+  <section class="section">
+    <h2>Earn With Simple Tasks</h2>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="icon">📢</div>
+        <h3>Telegram</h3>
+        <p>Complete available Telegram tasks and earn rewards.</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">▶️</div>
+        <h3>YouTube</h3>
+        <p>Complete eligible YouTube tasks and receive rewards.</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🎵</div>
+        <h3>TikTok</h3>
+        <p>Complete available social tasks and earn.</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🌐</div>
+        <h3>Website Visit</h3>
+        <p>Visit eligible websites and complete simple tasks.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="how">
+    <div class="section">
+      <h2>How It Works</h2>
+
+      <div class="step">
+        <div class="number">1</div>
+        <div>
+          <h3>Create Account</h3>
+          <p>Register your account to get started.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="number">2</div>
+        <div>
+          <h3>Complete Tasks</h3>
+          <p>Choose available tasks and complete them.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="number">3</div>
+        <div>
+          <h3>Earn Rewards</h3>
+          <p>Approved tasks add rewards to your account.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="number">4</div>
+        <div>
+          <h3>Request Withdrawal</h3>
+          <p>Request withdrawal when you meet the requirements.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    © 2026 EarnX. All rights reserved.
+  </footer>
+
+</body>
+</html>
