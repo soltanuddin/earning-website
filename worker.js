@@ -17,8 +17,13 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Register
-    if (url.pathname === "/api/register" && request.method === "POST") {
+    // =========================
+    // REGISTER
+    // =========================
+    if (
+      url.pathname === "/api/register" &&
+      request.method === "POST"
+    ) {
       try {
         const body = await request.json();
 
@@ -27,43 +32,59 @@ export default {
         const password = String(body.password || "");
 
         if (!name || !email || !password) {
-          return json({
-            success: false,
-            message: "Name, email and password are required."
-          }, 400);
+          return json(
+            {
+              success: false,
+              message: "Name, email and password are required."
+            },
+            400
+          );
         }
 
         if (password.length < 6) {
-          return json({
-            success: false,
-            message: "Password must be at least 6 characters."
-          }, 400);
+          return json(
+            {
+              success: false,
+              message: "Password must be at least 6 characters."
+            },
+            400
+          );
         }
 
+        // Check existing email
         const existing = await env.DB
-          .prepare("SELECT id FROM users WHERE email = ?")
+          .prepare(
+            "SELECT id FROM users WHERE email = ?"
+          )
           .bind(email)
           .first();
 
         if (existing) {
-          return json({
-            success: false,
-            message: "Email already registered."
-          }, 409);
+          return json(
+            {
+              success: false,
+              message: "Email already registered."
+            },
+            409
+          );
         }
 
+        // Hash password
         const passwordData = await hashPassword(password);
 
         const passwordHash =
           `${passwordData.salt}:${passwordData.hash}`;
 
+        // Generate referral code
         let referralCode;
 
         for (let i = 0; i < 5; i++) {
           const code = generateReferralCode();
 
           const found = await env.DB
-            .prepare("SELECT id FROM users WHERE referral_code = ?")
+            .prepare(
+              "SELECT id FROM users WHERE referral_code = ?"
+            )
             .bind(code)
             .first();
 
@@ -74,19 +95,34 @@ export default {
         }
 
         if (!referralCode) {
-          return json({
-            success: false,
-            message: "Could not create referral code."
-          }, 500);
+          return json(
+            {
+              success: false,
+              message: "Could not create referral code."
+            },
+            500
+          );
         }
 
+        // Create user
         const result = await env.DB
           .prepare(`
             INSERT INTO users
-            (name, email, password_hash, balance, referral_code)
+            (
+              name,
+              email,
+              password_hash,
+              balance,
+              referral_code
+            )
             VALUES (?, ?, ?, 0, ?)
           `)
-          .bind(name, email, passwordHash, referralCode)
+          .bind(
+            name,
+            email,
+            passwordHash,
+            referralCode
+          )
           .run();
 
         return json({
@@ -102,15 +138,20 @@ export default {
         });
 
       } catch (error) {
-        return json({
-          success: false,
-          message: "Registration failed.",
-          error: error.message
-        }, 500);
+        return json(
+          {
+            success: false,
+            message: "Registration failed.",
+            error: error.message
+          },
+          500
+        );
       }
     }
 
-    // Test D1 connection
+    // =========================
+    // TEST DATABASE
+    // =========================
     if (url.pathname === "/api/test-db") {
       try {
         const result = await env.DB
@@ -123,15 +164,33 @@ export default {
           success: true,
           tables: result.results
         });
+
       } catch (error) {
-        return json({
-          success: false,
-          error: error.message
-        }, 500);
+        return json(
+          {
+            success: false,
+            error: error.message
+          },
+          500
+        );
       }
     }
 
-    // Website
+    // =========================
+    // WEBSITE
+    // =========================
+    if (
+      url.pathname === "/" ||
+      url.pathname === "/index.html"
+    ) {
+      return env.ASSETS.fetch(
+        new Request(
+          new URL("/index.html", request.url),
+          request
+        )
+      );
+    }
+
     return env.ASSETS.fetch(request);
   }
 };
