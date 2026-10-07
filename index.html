@@ -19,7 +19,7 @@ body{
 }
 
 header{
-  background:#ffffff;
+  background:#fff;
   padding:16px 20px;
   display:flex;
   justify-content:space-between;
@@ -45,14 +45,20 @@ button{
 
 .login-btn{
   background:#172033;
-  color:white;
+  color:#fff;
+}
+
+.logout-btn{
+  background:#e53935;
+  color:#fff;
+  margin-left:8px;
 }
 
 .hero{
   text-align:center;
   padding:55px 20px;
   background:linear-gradient(135deg,#172033,#3d5afe);
-  color:white;
+  color:#fff;
 }
 
 .hero h1{
@@ -68,7 +74,7 @@ button{
 
 .primary-btn{
   margin-top:25px;
-  background:white;
+  background:#fff;
   color:#172033;
 }
 
@@ -90,7 +96,7 @@ button{
 }
 
 .card{
-  background:white;
+  background:#fff;
   border-radius:15px;
   padding:20px;
   text-align:center;
@@ -115,9 +121,26 @@ button{
   display:none;
 }
 
+.user-welcome{
+  background:#fff;
+  padding:20px;
+  border-radius:16px;
+  margin-bottom:20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
+
+.user-welcome h2{
+  margin-bottom:7px;
+}
+
+.user-email{
+  color:#667085;
+  font-size:14px;
+}
+
 .balance-box{
   background:linear-gradient(135deg,#172033,#3d5afe);
-  color:white;
+  color:#fff;
   border-radius:18px;
   padding:25px;
   margin-bottom:20px;
@@ -133,6 +156,11 @@ button{
   margin:8px 0 18px;
 }
 
+.withdraw-btn{
+  background:#fff;
+  color:#172033;
+}
+
 .stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -141,7 +169,7 @@ button{
 }
 
 .stat{
-  background:white;
+  background:#fff;
   border-radius:14px;
   padding:18px;
   text-align:center;
@@ -155,7 +183,7 @@ button{
 }
 
 .bonus{
-  background:white;
+  background:#fff;
   padding:22px;
   border-radius:16px;
   margin-bottom:20px;
@@ -165,7 +193,7 @@ button{
 .bonus button{
   margin-top:15px;
   background:#172033;
-  color:white;
+  color:#fff;
 }
 
 .task{
@@ -183,15 +211,16 @@ button{
 
 .task button{
   background:#3d5afe;
-  color:white;
+  color:#fff;
   padding:9px 14px;
 }
 
 .referral{
-  background:white;
+  background:#fff;
   padding:22px;
   border-radius:16px;
   margin-top:20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
 }
 
 .ref-code{
@@ -204,7 +233,7 @@ button{
 }
 
 .history{
-  background:white;
+  background:#fff;
   padding:22px;
   border-radius:16px;
   margin-top:20px;
@@ -228,7 +257,7 @@ footer{
 }
 
 .modal-box{
-  background:white;
+  background:#fff;
   width:100%;
   max-width:420px;
   border-radius:18px;
@@ -251,7 +280,7 @@ footer{
 .submit{
   width:100%;
   background:#172033;
-  color:white;
+  color:#fff;
   margin-top:5px;
 }
 
@@ -314,28 +343,51 @@ footer{
 
 <header>
   <div class="logo">EarnX</div>
-  <button id="loginBtn" class="login-btn">Login</button>
+
+  <div>
+    <button id="loginBtn" class="login-btn">Login</button>
+    <button id="logoutBtn" class="logout-btn" style="display:none;">
+      Logout
+    </button>
+  </div>
 </header>
 
 <section class="hero">
   <h1>Earn Online Easily</h1>
+
   <p>
     Complete simple online tasks, earn rewards, and manage your earnings from one place.
   </p>
-  <button id="getStarted" class="primary-btn">Get Started</button>
+
+  <button id="getStarted" class="primary-btn">
+    Get Started
+  </button>
 </section>
 
 <section id="dashboard" class="container">
 
-  <div class="section-title">
-    <h2>My Dashboard</h2>
-    <p>Welcome back! Manage your earnings here.</p>
+  <div class="user-welcome">
+    <h2>
+      Welcome, <span id="userName">User</span> 👋
+    </h2>
+
+    <p class="user-email" id="userEmail">
+      Loading account...
+    </p>
   </div>
 
   <div class="balance-box">
+
     <small>Available Balance</small>
-    <div class="balance" id="balance">$0.00</div>
-    <button>Withdraw</button>
+
+    <div class="balance" id="balance">
+      $0.00
+    </div>
+
+    <button class="withdraw-btn">
+      Withdraw
+    </button>
+
   </div>
 
   <div class="stats">
@@ -361,76 +413,115 @@ footer{
   </div>
 
   <div class="bonus">
+
     <h3>🎁 Daily Bonus</h3>
+
     <p style="margin-top:8px;color:#667085;">
       Claim your daily reward.
     </p>
-    <button id="bonusBtn">Claim Bonus</button>
+
+    <button id="bonusBtn">
+      Claim Bonus
+    </button>
+
   </div>
 
   <div class="card" style="text-align:left;">
+
     <h3>📋 Available Tasks</h3>
 
     <div class="task">
-      <div>📱 <b>Telegram</b><br><small>Join channel</small></div>
+      <div>
+        📱 <b>Telegram</b><br>
+        <small>Join channel</small>
+      </div>
       <button>Start</button>
     </div>
 
     <div class="task">
-      <div>▶️ <b>YouTube</b><br><small>Subscribe</small></div>
+      <div>
+        ▶️ <b>YouTube</b><br>
+        <small>Subscribe</small>
+      </div>
       <button>Start</button>
     </div>
 
     <div class="task">
-      <div>🎵 <b>TikTok</b><br><small>Follow account</small></div>
+      <div>
+        🎵 <b>TikTok</b><br>
+        <small>Follow account</small>
+      </div>
       <button>Start</button>
     </div>
 
     <div class="task">
-      <div>🌐 <b>Website</b><br><small>Visit website</small></div>
+      <div>
+        🌐 <b>Website</b><br>
+        <small>Visit website</small>
+      </div>
       <button>Start</button>
     </div>
 
     <div class="task">
-      <div>🎬 <b>Video</b><br><small>Watch video</small></div>
+      <div>
+        🎬 <b>Video</b><br>
+        <small>Watch video</small>
+      </div>
       <button>Start</button>
     </div>
 
     <div class="task">
-      <div>📲 <b>App</b><br><small>Install app</small></div>
+      <div>
+        📲 <b>App</b><br>
+        <small>Install app</small>
+      </div>
       <button>Start</button>
     </div>
 
   </div>
 
   <div class="referral">
+
     <h3>👥 Referral</h3>
+
     <p style="margin-top:7px;color:#667085;">
       Invite friends and earn rewards.
     </p>
 
     <div class="ref-code" id="refCode">
-      EARNX123
+      Loading...
     </div>
 
-    <button id="copyReferral" style="margin-top:12px;background:#172033;color:white;">
+    <button
+      id="copyReferral"
+      style="margin-top:12px;background:#172033;color:white;">
       Copy Code
     </button>
+
   </div>
 
   <div class="history">
+
     <h3>📊 Transactions</h3>
+
     <p style="margin-top:10px;color:#667085;">
       No transactions
     </p>
+
   </div>
 
 </section>
 
 <section class="container">
+
   <div class="section-title">
+
     <h2>Available Ways to Earn</h2>
-    <p>Complete simple tasks and earn rewards.</p>
+
+    <p>
+      Complete simple tasks and earn rewards.
+    </p>
+
   </div>
 
   <div class="cards">
@@ -472,12 +563,19 @@ footer{
     </div>
 
   </div>
+
 </section>
 
 <section class="container">
+
   <div class="section-title">
+
     <h2>How It Works</h2>
-    <p>Start earning in three simple steps.</p>
+
+    <p>
+      Start earning in three simple steps.
+    </p>
+
   </div>
 
   <div class="cards">
@@ -501,13 +599,17 @@ footer{
     </div>
 
   </div>
+
 </section>
 
 <footer>
+
   <h3>EarnX</h3>
+
   <p style="margin-top:8px;">
     Earn rewards by completing online tasks.
   </p>
+
 </footer>
 
 <!-- AUTH MODAL -->
@@ -516,35 +618,63 @@ footer{
 
   <div class="modal-box">
 
-    <button id="closeModal" class="close">✕</button>
+    <button id="closeModal" class="close">
+      ✕
+    </button>
 
-    <h2 id="authTitle">Login</h2>
+    <h2 id="authTitle">
+      Login
+    </h2>
 
     <div id="nameGroup" style="display:none;">
-      <input id="name" class="input" type="text" placeholder="Full name">
+
+      <input
+        id="name"
+        class="input"
+        type="text"
+        placeholder="Full name">
+
     </div>
 
-    <input id="email" class="input" type="email" placeholder="Email">
+    <input
+      id="email"
+      class="input"
+      type="email"
+      placeholder="Email">
 
-    <input id="password" class="input" type="password" placeholder="Password">
+    <input
+      id="password"
+      class="input"
+      type="password"
+      placeholder="Password">
 
-    <button id="continueBtn" class="submit">Login</button>
+    <button id="continueBtn" class="submit">
+      Login
+    </button>
 
     <div class="switch">
-      <span id="switchText">Don't have an account?</span>
-      <button id="switchAuth">Register</button>
+
+      <span id="switchText">
+        Don't have an account?
+      </span>
+
+      <button id="switchAuth">
+        Register
+      </button>
+
     </div>
 
   </div>
 
 </div>
 
-<script type="module">
+<script>
 
 let registerMode = false;
 
 const modal = document.getElementById("authModal");
 const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
 const getStarted = document.getElementById("getStarted");
 const closeModal = document.getElementById("closeModal");
 const switchAuth = document.getElementById("switchAuth");
@@ -554,8 +684,18 @@ const nameGroup = document.getElementById("nameGroup");
 const continueBtn = document.getElementById("continueBtn");
 const dashboard = document.getElementById("dashboard");
 
+const userName = document.getElementById("userName");
+const userEmail = document.getElementById("userEmail");
+const balance = document.getElementById("balance");
+const totalEarned = document.getElementById("totalEarned");
+const refCode = document.getElementById("refCode");
+
 function openModal(){
   modal.style.display = "flex";
+}
+
+function closeAuthModal(){
+  modal.style.display = "none";
 }
 
 function updateAuth(){
@@ -579,10 +719,73 @@ function updateAuth(){
   }
 }
 
+function showDashboard(user){
+
+  userName.textContent = user.name || "User";
+  userEmail.textContent = user.email || "";
+
+  const userBalance = Number(user.balance || 0);
+
+  balance.textContent =
+    "$" + userBalance.toFixed(2);
+
+  totalEarned.textContent =
+    "$" + userBalance.toFixed(2);
+
+  refCode.textContent =
+    user.referral_code || "N/A";
+
+  dashboard.style.display = "block";
+
+  loginBtn.style.display = "none";
+  logoutBtn.style.display = "inline-block";
+
+}
+
+function hideDashboard(){
+
+  dashboard.style.display = "none";
+
+  loginBtn.style.display = "inline-block";
+  logoutBtn.style.display = "none";
+
+}
+
+async function checkLogin(){
+
+  try{
+
+    const response = await fetch("/api/me", {
+      method:"GET",
+      credentials:"include"
+    });
+
+    const result = await response.json();
+
+    if(response.ok && result.success && result.user){
+
+      showDashboard(result.user);
+
+    }else{
+
+      hideDashboard();
+
+    }
+
+  }catch(error){
+
+    hideDashboard();
+
+  }
+
+}
+
 loginBtn.addEventListener("click",function(){
 
   registerMode = false;
+
   updateAuth();
+
   openModal();
 
 });
@@ -590,20 +793,23 @@ loginBtn.addEventListener("click",function(){
 getStarted.addEventListener("click",function(){
 
   registerMode = true;
+
   updateAuth();
+
   openModal();
 
 });
 
 closeModal.addEventListener("click",function(){
 
-  modal.style.display = "none";
+  closeAuthModal();
 
 });
 
 switchAuth.addEventListener("click",function(){
 
   registerMode = !registerMode;
+
   updateAuth();
 
 });
@@ -611,20 +817,28 @@ switchAuth.addEventListener("click",function(){
 modal.addEventListener("click",function(e){
 
   if(e.target === modal){
-    modal.style.display = "none";
+
+    closeAuthModal();
+
   }
 
 });
 
 continueBtn.addEventListener("click",async function(){
 
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
+  const name =
+    document.getElementById("name").value.trim();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
 
   if(!email || !password){
 
     alert("Please enter your email and password.");
+
     return;
 
   }
@@ -632,6 +846,7 @@ continueBtn.addEventListener("click",async function(){
   if(registerMode && !name){
 
     alert("Please enter your full name.");
+
     return;
 
   }
@@ -641,13 +856,15 @@ continueBtn.addEventListener("click",async function(){
 
   try{
 
-    const endpoint = registerMode
-      ? "/api/register"
-      : "/api/login";
+    const endpoint =
+      registerMode
+        ? "/api/register"
+        : "/api/login";
 
-    const data = registerMode
-      ? {name,email,password}
-      : {email,password};
+    const data =
+      registerMode
+        ? {name,email,password}
+        : {email,password};
 
     const response = await fetch(endpoint,{
 
@@ -656,6 +873,8 @@ continueBtn.addEventListener("click",async function(){
       headers:{
         "Content-Type":"application/json"
       },
+
+      credentials:"include",
 
       body:JSON.stringify(data)
 
@@ -666,6 +885,7 @@ continueBtn.addEventListener("click",async function(){
     if(!response.ok || !result.success){
 
       alert(result.message || "Something went wrong.");
+
       return;
 
     }
@@ -674,27 +894,36 @@ continueBtn.addEventListener("click",async function(){
 
       alert("Account created successfully!");
 
+      registerMode = false;
+
+      updateAuth();
+
+      closeAuthModal();
+
+      // Registration does not automatically create a session.
+      // Open login form for the new account.
+      document.getElementById("email").value = email;
+      document.getElementById("password").value = "";
+
+      openModal();
+
     }else{
 
       alert("Login successful!");
 
-      loginBtn.style.display = "none";
+      closeAuthModal();
 
-      if(result.user && result.user.name){
+      if(result.user){
 
-        loginBtn.textContent = result.user.name;
+        showDashboard(result.user);
+
+      }else{
+
+        await checkLogin();
 
       }
 
     }
-
-    modal.style.display = "none";
-
-    dashboard.style.display = "block";
-
-    dashboard.scrollIntoView({
-      behavior:"smooth"
-    });
 
   }catch(error){
 
@@ -703,29 +932,71 @@ continueBtn.addEventListener("click",async function(){
   }finally{
 
     continueBtn.disabled = false;
+
     updateAuth();
 
   }
 
 });
 
-document.getElementById("copyReferral").addEventListener("click",function(){
+logoutBtn.addEventListener("click",async function(){
 
-  const code = document.getElementById("refCode").textContent.trim();
+  try{
 
-  navigator.clipboard.writeText(code);
+    await fetch("/api/logout",{
 
-  alert("Referral code copied!");
+      method:"POST",
+
+      credentials:"include"
+
+    });
+
+  }catch(error){
+
+  }
+
+  hideDashboard();
+
+  alert("Logged out successfully.");
+
+});
+
+document.getElementById("copyReferral").addEventListener("click",async function(){
+
+  const code =
+    refCode.textContent.trim();
+
+  if(!code || code === "Loading..." || code === "N/A"){
+
+    alert("Referral code is not available.");
+
+    return;
+
+  }
+
+  try{
+
+    await navigator.clipboard.writeText(code);
+
+    alert("Referral code copied!");
+
+  }catch(error){
+
+    alert("Could not copy the referral code.");
+
+  }
 
 });
 
 document.getElementById("bonusBtn").addEventListener("click",function(){
 
-  alert("Daily Bonus system will be connected to your account next.");
+  alert("Daily Bonus will be connected next.");
 
 });
 
 updateAuth();
+
+checkLogin();
 
 </script>
 
