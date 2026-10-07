@@ -19,75 +19,73 @@
     }
 
     header {
-      background: #ffffff;
-      padding: 18px 20px;
+      background: #fff;
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
       position: sticky;
       top: 0;
       z-index: 10;
     }
 
     .logo {
-      font-size: 24px;
+      font-size: 25px;
       font-weight: bold;
       color: #2563eb;
     }
 
-    .login {
+    .login-btn {
       background: #2563eb;
       color: white;
+      border: none;
       padding: 10px 18px;
       border-radius: 10px;
-      text-decoration: none;
-      font-size: 14px;
+      font-weight: bold;
     }
 
     .hero {
-      padding: 55px 20px;
-      text-align: center;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      background: linear-gradient(135deg,#2563eb,#7c3aed);
       color: white;
+      text-align: center;
+      padding: 55px 20px;
     }
 
     .hero h1 {
       font-size: 34px;
-      margin-bottom: 15px;
+      margin-bottom: 14px;
     }
 
     .hero p {
-      font-size: 16px;
       line-height: 1.6;
       margin-bottom: 25px;
     }
 
     .start-btn {
-      display: inline-block;
+      border: none;
       background: white;
       color: #2563eb;
       padding: 13px 25px;
       border-radius: 12px;
-      text-decoration: none;
       font-weight: bold;
+      font-size: 15px;
     }
 
     .section {
-      padding: 35px 18px;
       max-width: 900px;
       margin: auto;
+      padding: 35px 18px;
     }
 
     .section h2 {
       text-align: center;
       margin-bottom: 25px;
-      font-size: 25px;
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 15px;
     }
 
@@ -96,7 +94,7 @@
       padding: 22px 15px;
       border-radius: 16px;
       text-align: center;
-      box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+      box-shadow: 0 5px 18px rgba(0,0,0,.07);
     }
 
     .icon {
@@ -105,7 +103,6 @@
     }
 
     .card h3 {
-      font-size: 17px;
       margin-bottom: 8px;
     }
 
@@ -117,15 +114,13 @@
 
     .how {
       background: white;
-      padding: 30px 20px;
-      margin-top: 10px;
     }
 
     .step {
       display: flex;
-      align-items: center;
       gap: 15px;
-      margin: 18px 0;
+      align-items: center;
+      margin: 20px 0;
     }
 
     .number {
@@ -146,16 +141,73 @@
       text-align: center;
       padding: 25px 15px;
       font-size: 13px;
-      margin-top: 30px;
     }
 
-    @media (max-width: 500px) {
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: white;
+      width: 100%;
+      max-width: 400px;
+      padding: 25px;
+      border-radius: 18px;
+    }
+
+    .modal-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-box input {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .submit {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #2563eb;
+      color: white;
+      font-weight: bold;
+    }
+
+    .close {
+      text-align: right;
+      font-size: 24px;
+      cursor: pointer;
+      color: #555;
+    }
+
+    .switch {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .switch span {
+      color: #2563eb;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @media(max-width:500px) {
       .hero h1 {
         font-size: 29px;
-      }
-
-      .cards {
-        grid-template-columns: 1fr 1fr;
       }
     }
   </style>
@@ -163,94 +215,160 @@
 
 <body>
 
-  <header>
-    <div class="logo">EarnX</div>
-    <a href="#" class="login">Login</a>
-  </header>
+<header>
+  <div class="logo">EarnX</div>
+  <button class="login-btn" onclick="openLogin()">Login</button>
+</header>
 
-  <section class="hero">
-    <h1>Earn Online Easily</h1>
-    <p>
-      Complete simple tasks, earn rewards and manage your earnings
-      from one place.
-    </p>
-    <a href="#" class="start-btn">Get Started</a>
-  </section>
+<section class="hero">
+  <h1>Earn Online Easily</h1>
+  <p>
+    Complete simple tasks, earn rewards and manage your earnings
+    from one place.
+  </p>
+  <button class="start-btn" onclick="openRegister()">Get Started</button>
+</section>
 
-  <section class="section">
-    <h2>Earn With Simple Tasks</h2>
+<section class="section">
+  <h2>Earn With Simple Tasks</h2>
 
-    <div class="cards">
+  <div class="cards">
 
-      <div class="card">
-        <div class="icon">📢</div>
-        <h3>Telegram</h3>
-        <p>Complete available Telegram tasks and earn rewards.</p>
-      </div>
-
-      <div class="card">
-        <div class="icon">▶️</div>
-        <h3>YouTube</h3>
-        <p>Complete eligible YouTube tasks and receive rewards.</p>
-      </div>
-
-      <div class="card">
-        <div class="icon">🎵</div>
-        <h3>TikTok</h3>
-        <p>Complete available social tasks and earn.</p>
-      </div>
-
-      <div class="card">
-        <div class="icon">🌐</div>
-        <h3>Website Visit</h3>
-        <p>Visit eligible websites and complete simple tasks.</p>
-      </div>
-
+    <div class="card">
+      <div class="icon">📢</div>
+      <h3>Telegram</h3>
+      <p>Complete available Telegram tasks and earn rewards.</p>
     </div>
-  </section>
 
-  <section class="how">
-    <div class="section">
-      <h2>How It Works</h2>
-
-      <div class="step">
-        <div class="number">1</div>
-        <div>
-          <h3>Create Account</h3>
-          <p>Register your account to get started.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="number">2</div>
-        <div>
-          <h3>Complete Tasks</h3>
-          <p>Choose available tasks and complete them.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="number">3</div>
-        <div>
-          <h3>Earn Rewards</h3>
-          <p>Approved tasks add rewards to your account.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="number">4</div>
-        <div>
-          <h3>Request Withdrawal</h3>
-          <p>Request withdrawal when you meet the requirements.</p>
-        </div>
-      </div>
-
+    <div class="card">
+      <div class="icon">▶️</div>
+      <h3>YouTube</h3>
+      <p>Complete eligible YouTube tasks and receive rewards.</p>
     </div>
-  </section>
 
-  <footer>
-    © 2026 EarnX. All rights reserved.
-  </footer>
+    <div class="card">
+      <div class="icon">🎵</div>
+      <h3>TikTok</h3>
+      <p>Complete available social tasks and earn.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🌐</div>
+      <h3>Website Visit</h3>
+      <p>Visit eligible websites and complete simple tasks.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="section how">
+  <h2>How It Works</h2>
+
+  <div class="step">
+    <div class="number">1</div>
+    <div>
+      <h3>Create Account</h3>
+      <p>Register your account to get started.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="number">2</div>
+    <div>
+      <h3>Complete Tasks</h3>
+      <p>Choose available tasks and complete them.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="number">3</div>
+    <div>
+      <h3>Earn Rewards</h3>
+      <p>Approved tasks add rewards to your account.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="number">4</div>
+    <div>
+      <h3>Request Withdrawal</h3>
+      <p>Request withdrawal when you meet the requirements.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 EarnX. All rights reserved.
+</footer>
+
+<!-- Login/Register Modal -->
+
+<div class="modal" id="authModal">
+  <div class="modal-box">
+
+    <div class="close" onclick="closeAuth()">×</div>
+
+    <h2 id="authTitle">Login</h2>
+
+    <input type="text" id="nameInput" placeholder="Full Name" style="display:none">
+
+    <input type="email" placeholder="Email">
+
+    <input type="password" placeholder="Password">
+
+    <button class="submit">Continue</button>
+
+    <div class="switch">
+      <span id="switchText">Don't have an account?</span>
+      <span onclick="switchAuth()" id="switchButton"> Register</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+  let registerMode = false;
+
+  function openLogin() {
+    registerMode = false;
+    updateAuth();
+    document.getElementById("authModal").style.display = "flex";
+  }
+
+  function openRegister() {
+    registerMode = true;
+    updateAuth();
+    document.getElementById("authModal").style.display = "flex";
+  }
+
+  function closeAuth() {
+    document.getElementById("authModal").style.display = "none";
+  }
+
+  function switchAuth() {
+    registerMode = !registerMode;
+    updateAuth();
+  }
+
+  function updateAuth() {
+
+    document.getElementById("authTitle").textContent =
+      registerMode ? "Create Account" : "Login";
+
+    document.getElementById("nameInput").style.display =
+      registerMode ? "block" : "none";
+
+    document.getElementById("switchText").textContent =
+      registerMode
+      ? "Already have an account?"
+      : "Don't have an account?";
+
+    document.getElementById("switchButton").textContent =
+      registerMode ? " Login" : " Register";
+  }
+
+</script>
 
 </body>
 </html>
