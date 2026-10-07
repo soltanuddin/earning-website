@@ -37,7 +37,6 @@ function clearSessionCookie() {
 
 function getSessionToken(request) {
   const cookie = request.headers.get("Cookie") || "";
-
   const match = cookie.match(/(?:^|;\s*)session=([^;]+)/);
 
   return match ? match[1] : null;
@@ -145,4 +144,271 @@ export default {
 
         let referralCode = null;
 
-        for (let i = 0; i < 5;
+        for (let i = 0; i < 10; i++) {
+          const candidate = generateReferralCode();
+
+          const exists = await env.DB
+            .prepare("SELECT id FROM users WHERE referral_code = ?")
+            .bind(candidate)
+            .first();
+
+          if (!exists) {
+            referralCode = candidate;
+            break;
+          }
+        }
+
+        if (!referralCode) {
+          return json({
+            success: false,
+            message: "Could not create referral code."
+          }, 500);
+        }
+
+        const result = await env.DB
+          .prepare(`
+            INSERT INTO users
+            (name, email, password_hash, balance, referral_code)
+            VALUES (?, ?, ?, 0, ?)
+          `)
+          .bind(
+            name,
+            email,
+            passwordHash,
+            referralCode
+          )
+          .run();
+
+        if (!result.success) {
+          return json({
+            success: false,
+            message: "Account creation failed."
+          }, 500);
+        }
+
+        return json({
+          success: true,
+          message: "Account created successfully.",
+          user: {
+            name,
+            email,
+            balance: 0,
+            referral_code: referralCode
+          }
+        }, 201);
+
+      } catch (error) {
+        return json({
+          success: false,
+          message: "Server error during registration."
+        }, 500);
+      }
+    }
+
+    // =========================
+    // LOGIN
+    // =========================
+    if (
+      url.pathname === "/api/login" &&
+      request.method === "POST"
+    ) {
+      try {
+        const body = await request.json();
+
+        const email = String(body.email || "")
+          .trim()
+          .toLowerCase();
+
+        const password = String(body.password || "");
+
+        if (!email || !password) {
+          return json({
+            success: false,
+            message: "Email and password are required."
+          }, 400);
+        }
+
+        const user = await env.DB
+          .prepare(`
+            SELECT
+              id,
+              name,
+              email,
+              password_hash,
+              balance,
+              referral_code
+            FROM users
+            WHERE email = ?
+            LIMIT 1
+          `)
+          .bind(email)
+          .first();
+
+        if (!user) {
+          return json({
+            success: false,
+            message: "Invalid email or password."
+          }, 401);
+        }
+
+        const parts = String(user.password_hash).split(":");
+
+        if (parts.length !== 2) {
+          return json({
+            success: false,
+            message: "Invalid account password data."
+          }, 500);
+        }
+
+        const valid = await verifyPassword(
+          password,
+          parts[1],
+          parts[0]
+        );
+
+        if (!valid) {
+          return json({
+            success: false,
+            message: "Invalid email or password."
+          }, 401);
+        }
+
+        const token = generateSessionToken();
+
+        const expiresAt = new Date(
+          Date.now() + 7 * 24 * 60 * 60 * 1000
+        ).toISOString();
+
+        await env.DB
+          .prepare(`
+            INSERT INTO sessions
+            (token, user_id, expires_at)
+            VALUES (?, ?, ?)
+          `)
+          .bind(
+            token,
+            user.id,
+            expiresAt
+          )
+          .run();
+
+        return json({
+          success: true,
+          message: "Login successful.",
+          user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            balance: user.balance,
+            referral_code: user.referral_code
+          }
+        }, 200, {
+          "Set-Cookie": sessionCookie(token)
+        });
+
+      } catch (error) {
+        return json({
+          success: false,
+          message: "Server error during login."
+        }, 500);
+      }
+    }
+
+    // =========================
+    // CURRENT USER
+    // =========================
+    if (
+      url.pathname === "/api/me" &&
+      request.method === "GET"
+    ) {
+      try {
+        const user = await getLoggedInUser(request, env);
+
+        if (!user) {
+          return json({
+            success: false,
+            message: "Not logged in."
+          }, 401);
+        }
+
+        return json({
+          success: true,
+          user
+        });
+
+      } catch (error) {
+        return json({
+          success: false,
+          message: "Could not load account."
+        }, 500);
+      }
+    }
+
+    // =========================
+    // LOGOUT
+    // =========================
+    if (
+      url.pathname === "/api/logout" &&
+      request.method === "POST"
+    ) {
+      try {
+        const token = getSessionToken(request);
+
+        if (token) {
+          await env.DB
+            .prepare("DELETE FROM sessions WHERE token = ?")
+            .bind(token)
+            .run();
+        }
+
+        return json({
+          success: true,
+          message: "Logged out successfully."
+        }, 200, {
+          "Set-Cookie": clearSessionCookie()
+        });
+
+      } catch (error) {
+        return json({
+          success: false,
+          message: "Logout failed."
+        }, 500);
+      }
+    }
+
+    // =========================
+    // DATABASE TEST
+    // =========================
+    if (
+      url.pathname === "/api/test-db" &&
+      request.method === "GET"
+    ) {
+      try {
+        const result = await env.DB
+          .prepare(`
+            SELECT name
+            FROM sqlite_master
+            WHERE type = 'table'
+            ORDER BY name
+          `)
+          .all();
+
+        return json({
+          success: true,
+          tables: result.results
+        });
+
+      } catch (error) {
+        return json({
+          success: false,
+          message: "Database connection failed."
+        }, 500);
+      }
+    }
+
+    // =========================
+    // WEBSITE FILES
+    // =========================
+    return env.ASSETS.fetch(request);
+  }
+};
