@@ -263,853 +263,913 @@
         font-size: 28px;
       }
     }
-
-    @media (max-width: 420px) {
-      .dashboard-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .card {
-        padding: 15px;
-      }
-
-      .balance {
-        font-size: 23px;
-      }
-    }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>EarnX</h1>
-    <button id="logoutBtn" class="logout-btn hidden" onclick="logout()">Logout</button>
-  </header>
+<header>
+  <h1>EarnX</h1>
+  <button
+    id="logoutBtn"
+    class="logout-btn hidden"
+    onclick="logout()">
+    Logout
+  </button>
+</header>
 
-  <section class="hero">
-    <h2>Earn More With EarnX</h2>
-    <p>Complete simple tasks and build your online earnings.</p>
-  </section>
+<section class="hero">
+  <h2>Earn More With EarnX</h2>
+  <p>Complete simple tasks and build your online earnings.</p>
+</section>
 
-  <main class="container">
+<main class="container">
 
-    <!-- DASHBOARD -->
-    <section id="dashboardSection" class="hidden">
+  <section id="dashboardSection" class="hidden">
 
-      <h2 class="section-title">My Dashboard</h2>
+    <h2 class="section-title">My Dashboard</h2>
 
-      <div class="dashboard-grid">
+    <div class="dashboard-grid">
 
-        <div class="card">
-          <div>Available Balance</div>
-          <div id="balance" class="balance">$0.00</div>
-        </div>
-
-        <div class="card">
-          <div>Welcome</div>
-          <div id="userName" class="welcome">User</div>
-        </div>
-
-        <div class="card">
-          <div>Total Earned</div>
-          <div id="totalEarned" class="balance">$0.00</div>
-        </div>
-
-        <div class="card">
-          <div>Referrals</div>
-          <div id="referrals" class="balance">0</div>
-        </div>
-
+      <div class="card">
+        <div>Available Balance</div>
+        <div id="balance" class="balance">$0.00</div>
       </div>
 
-      <!-- DAILY BONUS -->
-      <div class="card bonus-card">
-        <h2>🎁 Daily Bonus</h2>
-        <p style="margin-top:8px;">
-          Claim your daily reward once every day.
-        </p>
-
-        <button
-          id="bonusBtn"
-          class="bonus-btn"
-          onclick="claimBonus()">
-          Claim Bonus
-        </button>
+      <div class="card">
+        <div>Welcome</div>
+        <div id="userName" class="welcome">User</div>
       </div>
 
-      <!-- TASKS -->
-      <h2 class="section-title">Available Tasks</h2>
-
-      <div id="tasksContainer" class="tasks">
-        <div class="empty">
-          ⏳ Loading tasks...
-        </div>
+      <div class="card">
+        <div>Total Earned</div>
+        <div id="totalEarned" class="balance">$0.00</div>
       </div>
 
-      <!-- TRANSACTIONS -->
-      <h2 class="section-title">Transaction History</h2>
-
-      <div id="transactionsContainer">
-        <div class="empty">
-          ⏳ Loading transactions...
-        </div>
-      </div>
-
-      <!-- REFERRAL -->
-      <h2 class="section-title">Referral Program</h2>
-
-      <div class="card referral">
-        <h2>Invite Friends</h2>
-
-        <p style="margin-top:8px;">
-          Share your referral code with friends.
-        </p>
-
-        <div id="referralCode" class="ref-code">
-          --------
-        </div>
-
-        <button
-          class="copy-btn"
-          onclick="copyReferralCode()">
-          Copy Referral Code
-        </button>
-      </div>
-
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <h2 class="section-title">How EarnX Works</h2>
-
-    <div class="steps">
-
-      <div class="card step">
-        <div class="step-icon">1️⃣</div>
-        <h3>Register</h3>
-        <p>Create your free EarnX account.</p>
-      </div>
-
-      <div class="card step">
-        <div class="step-icon">2️⃣</div>
-        <h3>Complete Tasks</h3>
-        <p>Complete available tasks and earn rewards.</p>
-      </div>
-
-      <div class="card step">
-        <div class="step-icon">3️⃣</div>
-        <h3>Withdraw</h3>
-        <p>Withdraw your available balance when the withdrawal system is enabled.</p>
+      <div class="card">
+        <div>Referrals</div>
+        <div id="referrals" class="balance">0</div>
       </div>
 
     </div>
 
-  </main>
 
-  <footer>
-    © 2026 EarnX. All rights reserved.
-  </footer>
+    <div class="card bonus-card">
+
+      <h2>🎁 Daily Bonus</h2>
+
+      <p style="margin-top:8px;">
+        Claim your daily reward once every day.
+      </p>
+
+      <button
+        id="bonusBtn"
+        class="bonus-btn"
+        onclick="claimBonus()">
+        Claim Bonus
+      </button>
+
+    </div>
+
+
+    <h2 class="section-title">
+      Available Tasks
+    </h2>
+
+    <div id="tasksContainer" class="tasks">
+
+      <div class="empty">
+        ⏳ Loading tasks...
+      </div>
+
+    </div>
+
+
+    <h2 class="section-title">
+      Transaction History
+    </h2>
+
+    <div id="transactionsContainer">
+
+      <div class="empty">
+        ⏳ Loading transactions...
+      </div>
+
+    </div>
+
+
+    <h2 class="section-title">
+      Referral Program
+    </h2>
+
+    <div class="card referral">
+
+      <h2>Invite Friends</h2>
+
+      <p style="margin-top:8px;">
+        Share your referral code with friends.
+      </p>
+
+      <div id="referralCode" class="ref-code">
+        --------
+      </div>
+
+      <button
+        class="copy-btn"
+        onclick="copyReferralCode()">
+        Copy Referral Code
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <h2 class="section-title">
+    How EarnX Works
+  </h2>
+
+  <div class="steps">
+
+    <div class="card step">
+      <div class="step-icon">1️⃣</div>
+      <h3>Register</h3>
+      <p>Create your free EarnX account.</p>
+    </div>
+
+    <div class="card step">
+      <div class="step-icon">2️⃣</div>
+      <h3>Complete Tasks</h3>
+      <p>Complete available tasks and earn rewards.</p>
+    </div>
+
+    <div class="card step">
+      <div class="step-icon">3️⃣</div>
+      <h3>Withdraw</h3>
+      <p>
+        Withdraw your available balance when
+        the withdrawal system is enabled.
+      </p>
+    </div>
+
+  </div>
+
+</main>
+
+
+<footer>
+  © 2026 EarnX. All rights reserved.
+</footer>
 
 
 <script>
 
-  let currentUser = null;
+let currentUser = null;
 
 
-  // -----------------------------
-  // HTML ESCAPE
-  // -----------------------------
+/* -----------------------------
+   ESCAPE HTML
+----------------------------- */
 
-  function escapeHtml(value) {
+function escapeHtml(value) {
 
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
+}
+
+
+/* -----------------------------
+   TASK ICON
+----------------------------- */
+
+function getTaskIcon(type) {
+
+  if (type === "telegram") return "📱";
+
+  if (type === "video") return "▶️";
+
+  if (type === "website") return "🌐";
+
+  if (type === "youtube") return "▶️";
+
+  if (type === "tiktok") return "🎵";
+
+  return "💰";
+
+}
+
+
+/* -----------------------------
+   TASK BUTTON TEXT
+----------------------------- */
+
+function getTaskButton(type) {
+
+  if (type === "telegram") {
+    return "Join & Verify";
   }
 
-
-  // -----------------------------
-  // TASK ICON
-  // -----------------------------
-
-  function getTaskIcon(type) {
-
-    if (type === "telegram") return "📱";
-
-    if (type === "video") return "▶️";
-
-    if (type === "website") return "🌐";
-
-    if (type === "youtube") return "▶️";
-
-    if (type === "tiktok") return "🎵";
-
-    return "💰";
-
+  if (type === "video") {
+    return "Watch & Start";
   }
 
-
-  // -----------------------------
-  // TASK BUTTON
-  // -----------------------------
-
-  function getTaskButton(type) {
-
-    if (type === "telegram") {
-      return "Join & Verify";
-    }
-
-    if (type === "video") {
-      return "Watch & Start";
-    }
-
-    if (type === "youtube") {
-      return "Subscribe & Start";
-    }
-
-    if (type === "tiktok") {
-      return "Follow & Start";
-    }
-
-    return "Visit & Start";
-
+  if (type === "youtube") {
+    return "Subscribe & Start";
   }
 
+  if (type === "tiktok") {
+    return "Follow & Start";
+  }
 
-  // -----------------------------
-  // LOAD USER
-  // -----------------------------
+  return "Visit & Start";
 
-  async function loadUser() {
+}
 
-    try {
 
-      const response =
-        await fetch("/api/me", {
-          credentials: "include"
-        });
+/* -----------------------------
+   LOAD USER
+----------------------------- */
 
-      const data =
-        await response.json();
+async function loadUser() {
 
-      if (
-        data.success &&
-        data.user
-      ) {
+  try {
 
-        currentUser = data.user;
-
-        showDashboard(currentUser);
-
-      } else {
-
-        showLoggedOut();
-
+    const response = await fetch(
+      "/api/me",
+      {
+        credentials: "include"
       }
+    );
 
-    } catch (error) {
+    const data = await response.json();
 
-      console.error(error);
+    if (
+      data.success &&
+      data.user
+    ) {
+
+      currentUser = data.user;
+
+      showDashboard(currentUser);
+
+    } else {
 
       showLoggedOut();
 
     }
 
-  }
+  } catch (error) {
 
+    console.error(error);
 
-  // -----------------------------
-  // SHOW DASHBOARD
-  // -----------------------------
-
-  function showDashboard(user) {
-
-    document
-      .getElementById("dashboardSection")
-      .classList.remove("hidden");
-
-    document
-      .getElementById("logoutBtn")
-      .classList.remove("hidden");
-
-
-    document
-      .getElementById("balance")
-      .textContent =
-      "$" + Number(user.balance || 0).toFixed(2);
-
-
-    document
-      .getElementById("userName")
-      .textContent =
-      user.name || "User";
-
-
-    document
-      .getElementById("totalEarned")
-      .textContent =
-      "$" + Number(user.balance || 0).toFixed(2);
-
-
-    document
-      .getElementById("referrals")
-      .textContent =
-      "0";
-
-
-    document
-      .getElementById("referralCode")
-      .textContent =
-      user.referral_code || "--------";
-
-
-    loadTasks();
-
-    loadTransactions();
+    showLoggedOut();
 
   }
 
-
-  // -----------------------------
-  // LOGGED OUT
-  // -----------------------------
-
-  function showLoggedOut() {
-
-    document
-      .getElementById("dashboardSection")
-      .classList.add("hidden");
-
-    document
-      .getElementById("logoutBtn")
-      .classList.add("hidden");
-
-  }
+}
 
 
-  // -----------------------------
-  // LOAD TASKS FROM DATABASE
-  // -----------------------------
+/* -----------------------------
+   SHOW DASHBOARD
+----------------------------- */
 
-  async function loadTasks() {
+function showDashboard(user) {
 
-    const container =
-      document.getElementById("tasksContainer");
+  document
+    .getElementById("dashboardSection")
+    .classList.remove("hidden");
 
+  document
+    .getElementById("logoutBtn")
+    .classList.remove("hidden");
+
+
+  document
+    .getElementById("balance")
+    .textContent =
+    "$" +
+    Number(user.balance || 0).toFixed(2);
+
+
+  document
+    .getElementById("userName")
+    .textContent =
+    user.name || "User";
+
+
+  document
+    .getElementById("totalEarned")
+    .textContent =
+    "$" +
+    Number(user.balance || 0).toFixed(2);
+
+
+  document
+    .getElementById("referrals")
+    .textContent =
+    "0";
+
+
+  document
+    .getElementById("referralCode")
+    .textContent =
+    user.referral_code || "--------";
+
+
+  loadTasks();
+
+  loadTransactions();
+
+}
+
+
+/* -----------------------------
+   LOGGED OUT
+----------------------------- */
+
+function showLoggedOut() {
+
+  document
+    .getElementById("dashboardSection")
+    .classList.add("hidden");
+
+  document
+    .getElementById("logoutBtn")
+    .classList.add("hidden");
+
+}
+
+
+/* -----------------------------
+   LOAD TASKS
+----------------------------- */
+
+async function loadTasks() {
+
+  const container =
+    document.getElementById(
+      "tasksContainer"
+    );
+
+
+  container.innerHTML = `
+    <div class="empty">
+      ⏳ Loading tasks...
+    </div>
+  `;
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/tasks",
+        {
+          method: "GET",
+          credentials: "include"
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !response.ok ||
+      !data.success
+    ) {
+
+      container.innerHTML = `
+        <div class="error">
+          ${escapeHtml(
+            data.message ||
+            "Could not load tasks."
+          )}
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    const tasks =
+      Array.isArray(data.tasks)
+        ? data.tasks
+        : [];
+
+
+    if (tasks.length === 0) {
+
+      container.innerHTML = `
+        <div class="empty">
+          📭 No tasks available right now.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      tasks.map(task => {
+
+        const title =
+          escapeHtml(task.title);
+
+
+        const description =
+          escapeHtml(
+            task.description ||
+            "Complete this task and earn a reward."
+          );
+
+
+        const reward =
+          Number(task.reward || 0)
+            .toFixed(2);
+
+
+        const type =
+          escapeHtml(
+            task.task_type || "task"
+          );
+
+
+        const icon =
+          getTaskIcon(task.task_type);
+
+
+        const buttonText =
+          getTaskButton(task.task_type);
+
+
+        const safeUrl =
+          encodeURIComponent(
+            task.task_url || ""
+          );
+
+
+        return `
+          <div class="task-card">
+
+            <div class="task-icon">
+              ${icon}
+            </div>
+
+            <h3>
+              ${title}
+            </h3>
+
+            <div class="task-description">
+              ${description}
+            </div>
+
+            <div class="reward">
+              Reward: $${reward}
+            </div>
+
+            <div style="
+              font-size:12px;
+              color:#667085;
+              margin-bottom:12px;
+            ">
+              Type: ${type}
+            </div>
+
+            <button
+              class="task-btn"
+              onclick="openTask('${safeUrl}')">
+              ${buttonText}
+            </button>
+
+          </div>
+        `;
+
+      }).join("");
+
+
+  } catch (error) {
+
+    console.error(error);
 
     container.innerHTML = `
-      <div class="empty">
-        ⏳ Loading tasks...
+      <div class="error">
+        ❌ Could not connect to task system.
       </div>
     `;
 
+  }
 
-    try {
-
-      const response =
-        await fetch("/api/tasks", {
-          method: "GET",
-          credentials: "include"
-        });
+}
 
 
-      const data =
-        await response.json();
+/* -----------------------------
+   OPEN TASK
+----------------------------- */
 
+function openTask(encodedUrl) {
 
-      if (!response.ok || !data.success) {
+  let url = "";
 
-        container.innerHTML = `
-          <div class="error">
-            ${escapeHtml(
-              data.message || "Could not load tasks."
-            )}
-          </div>
-        `;
+  try {
 
-        return;
+    url =
+      decodeURIComponent(encodedUrl);
 
-      }
+  } catch (error) {
 
+    alert("Invalid task link.");
 
-      const tasks =
-        Array.isArray(data.tasks)
-          ? data.tasks
-          : [];
-
-
-      if (tasks.length === 0) {
-
-        container.innerHTML = `
-          <div class="empty">
-            📭 No tasks available right now.
-          </div>
-        `;
-
-        return;
-
-      }
-
-
-      container.innerHTML =
-        tasks.map(task => {
-
-          const title =
-            escapeHtml(task.title);
-
-          const description =
-            escapeHtml(
-              task.description ||
-              "Complete this task and earn a reward."
-            );
-
-          const reward =
-            Number(task.reward || 0)
-              .toFixed(2);
-
-          const type =
-            escapeHtml(task.task_type || "task");
-
-          const icon =
-            getTaskIcon(task.task_type);
-
-          const buttonText =
-            getTaskButton(task.task_type);
-
-
-          return `
-            <div class="task-card">
-
-              <div class="task-icon">
-                ${icon}
-              </div>
-
-              <h3>
-                ${title}
-              </h3>
-
-              <div class="task-description">
-                ${description}
-              </div>
-
-              <div class="reward">
-                Reward: $${reward}
-              </div>
-
-              <div style="
-                font-size:12px;
-                color:#667085;
-                margin-bottom:12px;
-              ">
-                Type: ${type}
-              </div>
-
-              <button
-                class="task-btn"
-                onclick="openTask(
-                  '${escapeHtml(task.task_url || "")}'
-                )">
-                ${buttonText}
-              </button>
-
-            </div>
-          `;
-
-        }).join("");
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      container.innerHTML = `
-        <div class="error">
-          ❌ Could not connect to task system.
-        </div>
-      `;
-
-    }
+    return;
 
   }
 
 
-  // -----------------------------
-  // OPEN TASK
-  // -----------------------------
+  if (!url) {
 
-  function openTask(url) {
+    alert(
+      "Task link is not available yet."
+    );
 
-    if (!url) {
+    return;
 
-      alert("Task link is not available yet.");
-
-      return;
-
-    }
+  }
 
 
-    try {
+  try {
 
-      const parsed =
-        new URL(url, window.location.origin);
-
-
-      if (
-        parsed.protocol !== "https:" &&
-        parsed.protocol !== "http:"
-      ) {
-
-        alert("Invalid task link.");
-
-        return;
-
-      }
-
-
-      window.open(
-        parsed.href,
-        "_blank",
-        "noopener,noreferrer"
+    const parsed =
+      new URL(
+        url,
+        window.location.origin
       );
 
 
-    } catch (error) {
+    if (
+      parsed.protocol !== "https:" &&
+      parsed.protocol !== "http:"
+    ) {
 
       alert("Invalid task link.");
 
+      return;
+
     }
+
+
+    window.open(
+      parsed.href,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+
+  } catch (error) {
+
+    alert("Invalid task link.");
 
   }
 
+}
 
-  // -----------------------------
-  // LOAD TRANSACTIONS
-  // -----------------------------
 
-  async function loadTransactions() {
+/* -----------------------------
+   LOAD TRANSACTIONS
+----------------------------- */
 
-    const container =
-      document.getElementById(
-        "transactionsContainer"
+async function loadTransactions() {
+
+  const container =
+    document.getElementById(
+      "transactionsContainer"
+    );
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/transactions",
+        {
+          credentials: "include"
+        }
       );
 
 
-    try {
-
-      const response =
-        await fetch(
-          "/api/transactions",
-          {
-            credentials: "include"
-          }
-        );
+    const data =
+      await response.json();
 
 
-      const data =
-        await response.json();
-
-
-      if (
-        !response.ok ||
-        !data.success
-      ) {
-
-        container.innerHTML = `
-          <div class="error">
-            ${escapeHtml(
-              data.message ||
-              "Could not load transaction history."
-            )}
-          </div>
-        `;
-
-        return;
-
-      }
-
-
-      const transactions =
-        Array.isArray(data.transactions)
-          ? data.transactions
-          : [];
-
-
-      if (
-        transactions.length === 0
-      ) {
-
-        container.innerHTML = `
-          <div class="empty">
-            📭 No transactions yet.
-          </div>
-        `;
-
-        return;
-
-      }
-
-
-      container.innerHTML =
-        transactions.map(transaction => {
-
-          const amount =
-            Number(
-              transaction.amount || 0
-            );
-
-
-          const sign =
-            amount >= 0
-              ? "+"
-              : "";
-
-
-          const date =
-            transaction.created_at
-              ? new Date(
-                  transaction.created_at
-                ).toLocaleString()
-              : "";
-
-
-          return `
-            <div class="transaction">
-
-              <div>
-                <strong>
-                  ${escapeHtml(
-                    transaction.description ||
-                    transaction.type ||
-                    "Transaction"
-                  )}
-                </strong>
-
-                <div style="
-                  color:#667085;
-                  font-size:13px;
-                  margin-top:5px;
-                ">
-                  ${escapeHtml(date)}
-                </div>
-              </div>
-
-              <div class="transaction-amount">
-                ${sign}$${Math.abs(amount).toFixed(2)}
-              </div>
-
-            </div>
-          `;
-
-        }).join("");
-
-
-    } catch (error) {
-
-      console.error(error);
+    if (
+      !response.ok ||
+      !data.success
+    ) {
 
       container.innerHTML = `
         <div class="error">
-          ❌ Could not load transaction history.
+          ${escapeHtml(
+            data.message ||
+            "Could not load transaction history."
+          )}
         </div>
       `;
-
-    }
-
-  }
-
-
-  // -----------------------------
-  // DAILY BONUS
-  // -----------------------------
-
-  async function claimBonus() {
-
-    const button =
-      document.getElementById(
-        "bonusBtn"
-      );
-
-
-    button.disabled = true;
-
-    button.textContent =
-      "Claiming...";
-
-
-    try {
-
-      const response =
-        await fetch(
-          "/api/daily-bonus",
-          {
-            method: "POST",
-            credentials: "include"
-          }
-        );
-
-
-      const data =
-        await response.json();
-
-
-      if (
-        data.success &&
-        data.user
-      ) {
-
-        currentUser =
-          data.user;
-
-
-        document
-          .getElementById("balance")
-          .textContent =
-          "$" +
-          Number(
-            data.user.balance || 0
-          ).toFixed(2);
-
-
-        document
-          .getElementById("totalEarned")
-          .textContent =
-          "$" +
-          Number(
-            data.user.balance || 0
-          ).toFixed(2);
-
-
-        button.textContent =
-          "Bonus Claimed ✓";
-
-
-        alert(
-          "🎉 Daily Bonus claimed successfully!"
-        );
-
-
-        loadTransactions();
-
-
-      } else {
-
-        button.textContent =
-          "Already Claimed";
-
-
-        alert(
-          data.message ||
-          "You cannot claim the bonus right now."
-        );
-
-      }
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      button.disabled = false;
-
-      button.textContent =
-        "Claim Bonus";
-
-
-      alert(
-        "Could not connect to the server."
-      );
-
-    }
-
-  }
-
-
-  // -----------------------------
-  // COPY REFERRAL CODE
-  // -----------------------------
-
-  function copyReferralCode() {
-
-    const code =
-      document
-        .getElementById(
-          "referralCode"
-        )
-        .textContent;
-
-
-    if (!code || code === "--------") {
-
-      alert(
-        "Referral code is not available."
-      );
 
       return;
 
     }
 
 
-    navigator.clipboard
-      .writeText(code)
-      .then(() => {
+    const transactions =
+      Array.isArray(data.transactions)
+        ? data.transactions
+        : [];
 
-        alert(
-          "✅ Referral code copied!"
-        );
 
-      })
-      .catch(() => {
+    if (transactions.length === 0) {
 
-        alert(
-          "Could not copy the referral code."
-        );
+      container.innerHTML = `
+        <div class="empty">
+          📭 No transactions yet.
+        </div>
+      `;
 
-      });
+      return;
+
+    }
+
+
+    container.innerHTML =
+      transactions.map(transaction => {
+
+        const amount =
+          Number(
+            transaction.amount || 0
+          );
+
+
+        const sign =
+          amount >= 0
+            ? "+"
+            : "";
+
+
+        const date =
+          transaction.created_at
+            ? new Date(
+                transaction.created_at
+              ).toLocaleString()
+            : "";
+
+
+        return `
+          <div class="transaction">
+
+            <div>
+
+              <strong>
+                ${escapeHtml(
+                  transaction.description ||
+                  transaction.type ||
+                  "Transaction"
+                )}
+              </strong>
+
+              <div style="
+                color:#667085;
+                font-size:13px;
+                margin-top:5px;
+              ">
+                ${escapeHtml(date)}
+              </div>
+
+            </div>
+
+            <div class="transaction-amount">
+              ${sign}$${Math.abs(amount).toFixed(2)}
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+      <div class="error">
+        ❌ Could not load transaction history.
+      </div>
+    `;
 
   }
 
+}
 
-  // -----------------------------
-  // LOGOUT
-  // -----------------------------
 
-  async function logout() {
+/* -----------------------------
+   DAILY BONUS
+----------------------------- */
 
-    try {
+async function claimBonus() {
 
+  const button =
+    document.getElementById(
+      "bonusBtn"
+    );
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "Claiming...";
+
+
+  try {
+
+    const response =
       await fetch(
-        "/api/logout",
+        "/api/daily-bonus",
         {
           method: "POST",
           credentials: "include"
         }
       );
 
-    } catch (error) {
 
-      console.error(error);
+    const data =
+      await response.json();
+
+
+    if (
+      data.success &&
+      data.user
+    ) {
+
+      currentUser =
+        data.user;
+
+
+      document
+        .getElementById("balance")
+        .textContent =
+        "$" +
+        Number(
+          data.user.balance || 0
+        ).toFixed(2);
+
+
+      document
+        .getElementById("totalEarned")
+        .textContent =
+        "$" +
+        Number(
+          data.user.balance || 0
+        ).toFixed(2);
+
+
+      button.textContent =
+        "Bonus Claimed ✓";
+
+
+      alert(
+        "🎉 Daily Bonus claimed successfully!"
+      );
+
+
+      loadTransactions();
+
+
+    } else {
+
+      button.disabled = false;
+
+      button.textContent =
+        "Already Claimed";
+
+
+      alert(
+        data.message ||
+        "You cannot claim the bonus right now."
+      );
 
     }
 
 
-    currentUser = null;
+  } catch (error) {
 
-    showLoggedOut();
+    console.error(error);
 
-    window.location.reload();
+    button.disabled = false;
+
+    button.textContent =
+      "Claim Bonus";
+
+
+    alert(
+      "Could not connect to the server."
+    );
+
+  }
+
+}
+
+
+/* -----------------------------
+   COPY REFERRAL CODE
+----------------------------- */
+
+function copyReferralCode() {
+
+  const code =
+    document
+      .getElementById(
+        "referralCode"
+      )
+      .textContent;
+
+
+  if (
+    !code ||
+    code === "--------"
+  ) {
+
+    alert(
+      "Referral code is not available."
+    );
+
+    return;
 
   }
 
 
-  // -----------------------------
-  // START
-  // -----------------------------
+  navigator.clipboard
+    .writeText(code)
+    .then(() => {
 
-  loadUser();
+      alert(
+        "✅ Referral code copied!"
+      );
+
+    })
+    .catch(() => {
+
+      alert(
+        "Could not copy the referral code."
+      );
+
+    });
+
+}
+
+
+/* -----------------------------
+   LOGOUT
+----------------------------- */
+
+async function logout() {
+
+  try {
+
+    await fetch(
+      "/api/logout",
+      {
+        method: "POST",
+        credentials: "include"
+      }
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+
+  currentUser = null;
+
+  showLoggedOut();
+
+  window.location.reload();
+
+}
+
+
+/* -----------------------------
+   START
+----------------------------- */
+
+loadUser();
 
 </script>
 
