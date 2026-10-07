@@ -1,1277 +1,1115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EarnX - Earn Online</title>
 
-<title>EarnX - Earn Online</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
 
-<style>
+    body {
+      background: #f5f7fb;
+      color: #172033;
+    }
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
+    header {
+      background: #111827;
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
-body{
-  background:#f5f7fb;
-  color:#172033;
-}
+    header h1 {
+      font-size: 24px;
+    }
 
-header{
-  background:#ffffff;
-  border-bottom:1px solid #e8ebf2;
-  padding:16px 20px;
-  position:sticky;
-  top:0;
-  z-index:10;
-}
+    button {
+      border: none;
+      cursor: pointer;
+    }
 
-.nav{
-  max-width:1100px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
+    .logout-btn {
+      background: #ef4444;
+      color: white;
+      padding: 9px 15px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
 
-.logo{
-  font-size:25px;
-  font-weight:800;
-  color:#2563eb;
-}
+    .hero {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      padding: 55px 20px;
+      text-align: center;
+    }
 
-.nav-buttons{
-  display:flex;
-  gap:8px;
-}
+    .hero h2 {
+      font-size: 34px;
+      margin-bottom: 12px;
+    }
 
-button{
-  border:0;
-  cursor:pointer;
-}
+    .hero p {
+      font-size: 17px;
+      opacity: .95;
+    }
 
-.btn{
-  padding:10px 16px;
-  border-radius:10px;
-  font-weight:700;
-}
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 25px 15px;
+    }
 
-.btn-primary{
-  background:#2563eb;
-  color:white;
-}
+    .section-title {
+      font-size: 25px;
+      margin: 25px 0 15px;
+    }
 
-.btn-light{
-  background:#eef2ff;
-  color:#2563eb;
-}
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
 
-.btn-danger{
-  background:#fee2e2;
-  color:#dc2626;
-}
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 5px 18px rgba(0,0,0,.06);
+    }
 
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:30px 18px;
-}
+    .balance {
+      font-size: 28px;
+      font-weight: bold;
+      color: #16a34a;
+      margin-top: 8px;
+    }
 
-.hero{
-  background:linear-gradient(135deg,#2563eb,#7c3aed);
-  color:white;
-  border-radius:22px;
-  padding:45px 25px;
-  text-align:center;
-  margin-bottom:25px;
-}
+    .welcome {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
 
-.hero h1{
-  font-size:38px;
-  margin-bottom:12px;
-}
+    .bonus-card {
+      margin-top: 20px;
+      text-align: center;
+    }
 
-.hero p{
-  font-size:17px;
-  opacity:.92;
-}
+    .bonus-btn {
+      background: #16a34a;
+      color: white;
+      padding: 12px 22px;
+      border-radius: 9px;
+      font-weight: bold;
+      margin-top: 14px;
+    }
 
-.section-title{
-  font-size:24px;
-  margin:28px 0 15px;
-}
+    .bonus-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-}
+    .tasks {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
 
-.card{
-  background:white;
-  padding:20px;
-  border-radius:18px;
-  border:1px solid #e7eaf0;
-  box-shadow:0 5px 20px rgba(0,0,0,.04);
-}
+    .task-card {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 5px 18px rgba(0,0,0,.06);
+    }
 
-.card h3{
-  margin-bottom:8px;
-}
+    .task-icon {
+      font-size: 35px;
+      margin-bottom: 10px;
+    }
 
-.card p{
-  color:#687386;
-  line-height:1.5;
-}
+    .task-card h3 {
+      margin-bottom: 8px;
+    }
 
-.dashboard{
-  display:none;
-}
+    .task-description {
+      color: #667085;
+      font-size: 14px;
+      min-height: 42px;
+      margin-bottom: 10px;
+    }
 
-.balance-card{
-  background:linear-gradient(135deg,#111827,#1e3a8a);
-  color:white;
-  border-radius:20px;
-  padding:25px;
-  margin-bottom:18px;
-}
+    .reward {
+      color: #16a34a;
+      font-weight: bold;
+      margin: 10px 0;
+    }
 
-.balance-label{
-  opacity:.8;
-  font-size:14px;
-}
+    .task-btn {
+      width: 100%;
+      padding: 11px;
+      background: #2563eb;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+    }
 
-.balance{
-  font-size:36px;
-  font-weight:800;
-  margin-top:8px;
-}
+    .task-btn:hover {
+      opacity: .9;
+    }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  margin-bottom:20px;
-}
+    .empty,
+    .error {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      grid-column: 1 / -1;
+    }
 
-.stat{
-  background:white;
-  border-radius:16px;
-  padding:18px;
-  border:1px solid #e7eaf0;
-}
+    .error {
+      color: #dc2626;
+    }
 
-.stat-title{
-  color:#687386;
-  font-size:13px;
-}
+    .transaction {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
 
-.stat-value{
-  font-size:22px;
-  font-weight:800;
-  margin-top:7px;
-}
+    .transaction-amount {
+      color: #16a34a;
+      font-weight: bold;
+      white-space: nowrap;
+    }
 
-.referral{
-  background:white;
-  padding:20px;
-  border-radius:18px;
-  border:1px solid #e7eaf0;
-}
+    .referral {
+      text-align: center;
+    }
 
-.referral-code{
-  margin-top:10px;
-  background:#f1f5f9;
-  padding:13px;
-  border-radius:10px;
-  font-weight:800;
-  letter-spacing:1px;
-  text-align:center;
-}
+    .ref-code {
+      background: #f1f5f9;
+      padding: 13px;
+      margin: 15px 0;
+      border-radius: 8px;
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
 
-.task{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  padding:15px 0;
-  border-bottom:1px solid #edf0f5;
-}
+    .copy-btn {
+      background: #7c3aed;
+      color: white;
+      padding: 11px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
 
-.task:last-child{
-  border-bottom:0;
-}
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
 
-.task-info strong{
-  display:block;
-  margin-bottom:4px;
-}
+    .step {
+      text-align: center;
+    }
 
-.task-info span{
-  color:#687386;
-  font-size:13px;
-}
+    .step-icon {
+      font-size: 35px;
+      margin-bottom: 10px;
+    }
 
-.history{
-  background:white;
-  border:1px solid #e7eaf0;
-  border-radius:18px;
-  overflow:hidden;
-}
+    footer {
+      margin-top: 40px;
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
 
-.history-item{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  padding:16px 18px;
-  border-bottom:1px solid #edf0f5;
-}
+    .hidden {
+      display: none !important;
+    }
 
-.history-item:last-child{
-  border-bottom:0;
-}
+    @media (max-width: 750px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
 
-.history-left strong{
-  display:block;
-  margin-bottom:5px;
-}
+      .tasks {
+        grid-template-columns: 1fr;
+      }
 
-.history-left small{
-  color:#7b8494;
-}
+      .steps {
+        grid-template-columns: 1fr;
+      }
 
-.amount-positive{
-  color:#16a34a;
-  font-weight:800;
-}
+      .hero h2 {
+        font-size: 28px;
+      }
+    }
 
-.amount-negative{
-  color:#dc2626;
-  font-weight:800;
-}
+    @media (max-width: 420px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr 1fr;
+      }
 
-.empty{
-  padding:25px;
-  text-align:center;
-  color:#7b8494;
-}
+      .card {
+        padding: 15px;
+      }
 
-.auth-box{
-  max-width:430px;
-  margin:40px auto;
-  background:white;
-  padding:25px;
-  border-radius:20px;
-  border:1px solid #e7eaf0;
-  box-shadow:0 8px 30px rgba(0,0,0,.05);
-}
-
-.auth-box h2{
-  margin-bottom:20px;
-}
-
-.input{
-  width:100%;
-  padding:13px;
-  border:1px solid #d9deea;
-  border-radius:10px;
-  margin-bottom:12px;
-  outline:none;
-}
-
-.input:focus{
-  border-color:#2563eb;
-}
-
-.auth-box button{
-  width:100%;
-  margin-top:5px;
-}
-
-.switch{
-  text-align:center;
-  margin-top:15px;
-  color:#687386;
-}
-
-.switch span{
-  color:#2563eb;
-  font-weight:700;
-  cursor:pointer;
-}
-
-footer{
-  text-align:center;
-  padding:35px 15px;
-  color:#7b8494;
-}
-
-@media(max-width:800px){
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .hero h1{
-    font-size:30px;
-  }
-
-  .container{
-    padding:20px 14px;
-  }
-
-}
-
-</style>
+      .balance {
+        font-size: 23px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
+  <header>
+    <h1>EarnX</h1>
+    <button id="logoutBtn" class="logout-btn hidden" onclick="logout()">Logout</button>
+  </header>
 
-  <div class="nav">
+  <section class="hero">
+    <h2>Earn More With EarnX</h2>
+    <p>Complete simple tasks and build your online earnings.</p>
+  </section>
 
-    <div class="logo">EarnX</div>
+  <main class="container">
 
-    <div class="nav-buttons">
+    <!-- DASHBOARD -->
+    <section id="dashboardSection" class="hidden">
 
-      <button
-        id="loginNavBtn"
-        class="btn btn-light"
-        onclick="showLogin()">
-        Login
-      </button>
+      <h2 class="section-title">My Dashboard</h2>
 
-      <button
-        id="registerNavBtn"
-        class="btn btn-primary"
-        onclick="showRegister()">
-        Register
-      </button>
+      <div class="dashboard-grid">
 
-      <button
-        id="logoutBtn"
-        class="btn btn-danger"
-        style="display:none"
-        onclick="logout()">
-        Logout
-      </button>
+        <div class="card">
+          <div>Available Balance</div>
+          <div id="balance" class="balance">$0.00</div>
+        </div>
 
-    </div>
+        <div class="card">
+          <div>Welcome</div>
+          <div id="userName" class="welcome">User</div>
+        </div>
 
-  </div>
+        <div class="card">
+          <div>Total Earned</div>
+          <div id="totalEarned" class="balance">$0.00</div>
+        </div>
 
-</header>
+        <div class="card">
+          <div>Referrals</div>
+          <div id="referrals" class="balance">0</div>
+        </div>
 
-
-<main class="container">
-
-
-<!-- HOME -->
-
-<section id="homeSection">
-
-  <div class="hero">
-
-    <h1>Earn Online with EarnX</h1>
-
-    <p>
-      Complete simple tasks, earn rewards and grow your balance.
-    </p>
-
-  </div>
-
-
-  <h2 class="section-title">
-    Everything You Need
-  </h2>
-
-
-  <div class="grid">
-
-    <div class="card">
-      <h3>💰 Earn Money</h3>
-      <p>
-        Complete available tasks and earn rewards.
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>🎁 Daily Bonus</h3>
-      <p>
-        Claim your daily bonus and increase your balance.
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>👥 Referral</h3>
-      <p>
-        Invite friends and earn referral rewards.
-      </p>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- AUTH -->
-
-<section id="authSection" style="display:none">
-
-  <div class="auth-box">
-
-    <h2 id="authTitle">
-      Login to EarnX
-    </h2>
-
-    <input
-      id="nameInput"
-      class="input"
-      type="text"
-      placeholder="Your Name"
-      style="display:none">
-
-    <input
-      id="emailInput"
-      class="input"
-      type="email"
-      placeholder="Email">
-
-    <input
-      id="passwordInput"
-      class="input"
-      type="password"
-      placeholder="Password">
-
-    <input
-      id="refInput"
-      class="input"
-      type="text"
-      placeholder="Referral Code (optional)"
-      style="display:none">
-
-    <button
-      id="authButton"
-      class="btn btn-primary"
-      onclick="submitAuth()">
-      Login
-    </button>
-
-    <div class="switch" id="switchText">
-      Don't have an account?
-      <span onclick="showRegister()">Register</span>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- DASHBOARD -->
-
-<section
-  id="dashboardSection"
-  class="dashboard">
-
-  <h2 class="section-title">
-    My Dashboard
-  </h2>
-
-
-  <div class="balance-card">
-
-    <div class="balance-label">
-      Available Balance
-    </div>
-
-    <div
-      id="balance"
-      class="balance">
-      $0.00
-    </div>
-
-  </div>
-
-
-  <div class="stats">
-
-    <div class="stat">
-
-      <div class="stat-title">
-        Welcome
       </div>
 
-      <div
-        id="userName"
-        class="stat-value">
-        User
+      <!-- DAILY BONUS -->
+      <div class="card bonus-card">
+        <h2>🎁 Daily Bonus</h2>
+        <p style="margin-top:8px;">
+          Claim your daily reward once every day.
+        </p>
+
+        <button
+          id="bonusBtn"
+          class="bonus-btn"
+          onclick="claimBonus()">
+          Claim Bonus
+        </button>
+      </div>
+
+      <!-- TASKS -->
+      <h2 class="section-title">Available Tasks</h2>
+
+      <div id="tasksContainer" class="tasks">
+        <div class="empty">
+          ⏳ Loading tasks...
+        </div>
+      </div>
+
+      <!-- TRANSACTIONS -->
+      <h2 class="section-title">Transaction History</h2>
+
+      <div id="transactionsContainer">
+        <div class="empty">
+          ⏳ Loading transactions...
+        </div>
+      </div>
+
+      <!-- REFERRAL -->
+      <h2 class="section-title">Referral Program</h2>
+
+      <div class="card referral">
+        <h2>Invite Friends</h2>
+
+        <p style="margin-top:8px;">
+          Share your referral code with friends.
+        </p>
+
+        <div id="referralCode" class="ref-code">
+          --------
+        </div>
+
+        <button
+          class="copy-btn"
+          onclick="copyReferralCode()">
+          Copy Referral Code
+        </button>
+      </div>
+
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <h2 class="section-title">How EarnX Works</h2>
+
+    <div class="steps">
+
+      <div class="card step">
+        <div class="step-icon">1️⃣</div>
+        <h3>Register</h3>
+        <p>Create your free EarnX account.</p>
+      </div>
+
+      <div class="card step">
+        <div class="step-icon">2️⃣</div>
+        <h3>Complete Tasks</h3>
+        <p>Complete available tasks and earn rewards.</p>
+      </div>
+
+      <div class="card step">
+        <div class="step-icon">3️⃣</div>
+        <h3>Withdraw</h3>
+        <p>Withdraw your available balance when the withdrawal system is enabled.</p>
       </div>
 
     </div>
 
-
-    <div class="stat">
-
-      <div class="stat-title">
-        Total Earned
-      </div>
-
-      <div
-        id="statBalance"
-        class="stat-value">
-        $0.00
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-title">
-        Referrals
-      </div>
-
-      <div
-        id="referrals"
-        class="stat-value">
-        0
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- DAILY BONUS -->
-
-  <div class="card">
-
-    <h3>🎁 Daily Bonus</h3>
-
-    <p>
-      Claim your daily reward once every day.
-    </p>
-
-    <br>
-
-    <button
-      id="bonusBtn"
-      class="btn btn-primary">
-      Claim Bonus
-    </button>
-
-  </div>
-
-
-  <!-- TASKS -->
-
-  <h2 class="section-title">
-    Available Tasks
-  </h2>
-
-  <div class="card">
-
-    <div class="task">
-
-      <div class="task-info">
-
-        <strong>📱 Join Telegram</strong>
-
-        <span>
-          Reward: $0.50
-        </span>
-
-      </div>
-
-      <button
-        class="btn btn-primary"
-        onclick="taskComingSoon()">
-        Join & Verify
-      </button>
-
-    </div>
-
-
-    <div class="task">
-
-      <div class="task-info">
-
-        <strong>▶️ Watch Video</strong>
-
-        <span>
-          Reward: $0.25
-        </span>
-
-      </div>
-
-      <button
-        class="btn btn-primary"
-        onclick="taskComingSoon()">
-        Start
-      </button>
-
-    </div>
-
-
-    <div class="task">
-
-      <div class="task-info">
-
-        <strong>🌐 Visit Website</strong>
-
-        <span>
-          Reward: $0.20
-        </span>
-
-      </div>
-
-      <button
-        class="btn btn-primary"
-        onclick="taskComingSoon()">
-        Start
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- TRANSACTION HISTORY -->
-
-  <h2 class="section-title">
-    Transaction History
-  </h2>
-
-  <div
-    id="transactionHistory"
-    class="history">
-
-    <div class="empty">
-      Loading transaction history...
-    </div>
-
-  </div>
-
-
-  <!-- REFERRAL -->
-
-  <h2 class="section-title">
-    Referral Program
-  </h2>
-
-  <div class="referral">
-
-    <h3>
-      Invite Friends
-    </h3>
-
-    <p>
-      Share your referral code with friends.
-    </p>
-
-    <div
-      id="referralCode"
-      class="referral-code">
-      --------
-    </div>
-
-    <br>
-
-    <button
-      class="btn btn-primary"
-      onclick="copyReferral()">
-      Copy Referral Code
-    </button>
-
-  </div>
-
-
-  <!-- HOW IT WORKS -->
-
-  <h2 class="section-title">
-    How EarnX Works
-  </h2>
-
-  <div class="grid">
-
-    <div class="card">
-      <h3>1️⃣ Register</h3>
-      <p>
-        Create your free EarnX account.
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>2️⃣ Complete Tasks</h3>
-      <p>
-        Complete available tasks and earn rewards.
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>3️⃣ Withdraw</h3>
-      <p>
-        Withdraw your available balance when the withdrawal system is enabled.
-      </p>
-    </div>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<footer>
-  © 2026 EarnX. All rights reserved.
-</footer>
+  </main>
+
+  <footer>
+    © 2026 EarnX. All rights reserved.
+  </footer>
 
 
 <script>
 
-let authMode = "login";
+  let currentUser = null;
 
 
-function showLogin(){
+  // -----------------------------
+  // HTML ESCAPE
+  // -----------------------------
 
-  authMode = "login";
+  function escapeHtml(value) {
 
-  document.getElementById("homeSection").style.display="none";
-
-  document.getElementById("dashboardSection").style.display="none";
-
-  document.getElementById("authSection").style.display="block";
-
-  document.getElementById("authTitle").textContent =
-    "Login to EarnX";
-
-  document.getElementById("authButton").textContent =
-    "Login";
-
-  document.getElementById("nameInput").style.display="none";
-
-  document.getElementById("refInput").style.display="none";
-
-  document.getElementById("switchText").innerHTML =
-    'Don\'t have an account? <span onclick="showRegister()">Register</span>';
-
-}
-
-
-function showRegister(){
-
-  authMode = "register";
-
-  document.getElementById("homeSection").style.display="none";
-
-  document.getElementById("dashboardSection").style.display="none";
-
-  document.getElementById("authSection").style.display="block";
-
-  document.getElementById("authTitle").textContent =
-    "Create EarnX Account";
-
-  document.getElementById("authButton").textContent =
-    "Register";
-
-  document.getElementById("nameInput").style.display="block";
-
-  document.getElementById("refInput").style.display="block";
-
-  document.getElementById("switchText").innerHTML =
-    'Already have an account? <span onclick="showLogin()">Login</span>';
-
-}
-
-
-async function submitAuth(){
-
-  const name =
-    document.getElementById("nameInput").value.trim();
-
-  const email =
-    document.getElementById("emailInput").value.trim();
-
-  const password =
-    document.getElementById("passwordInput").value;
-
-  const referralCode =
-    document.getElementById("refInput").value.trim();
-
-
-  if(!email || !password){
-
-    alert("Please enter email and password.");
-
-    return;
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
   }
 
 
-  if(authMode === "register" && !name){
+  // -----------------------------
+  // TASK ICON
+  // -----------------------------
 
-    alert("Please enter your name.");
+  function getTaskIcon(type) {
 
-    return;
+    if (type === "telegram") return "📱";
+
+    if (type === "video") return "▶️";
+
+    if (type === "website") return "🌐";
+
+    if (type === "youtube") return "▶️";
+
+    if (type === "tiktok") return "🎵";
+
+    return "💰";
+
+  }
+
+
+  // -----------------------------
+  // TASK BUTTON
+  // -----------------------------
+
+  function getTaskButton(type) {
+
+    if (type === "telegram") {
+      return "Join & Verify";
+    }
+
+    if (type === "video") {
+      return "Watch & Start";
+    }
+
+    if (type === "youtube") {
+      return "Subscribe & Start";
+    }
+
+    if (type === "tiktok") {
+      return "Follow & Start";
+    }
+
+    return "Visit & Start";
 
   }
 
 
-  const endpoint =
-    authMode === "register"
-      ? "/api/register"
-      : "/api/login";
+  // -----------------------------
+  // LOAD USER
+  // -----------------------------
 
+  async function loadUser() {
 
-  const body =
-    authMode === "register"
-      ? {
-          name,
-          email,
-          password,
-          referral_code: referralCode
-        }
-      : {
-          email,
-          password
-        };
+    try {
 
+      const response =
+        await fetch("/api/me", {
+          credentials: "include"
+        });
 
-  try{
+      const data =
+        await response.json();
 
-    const response =
-      await fetch(endpoint,{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        credentials:"include",
-        body:JSON.stringify(body)
-      });
+      if (
+        data.success &&
+        data.user
+      ) {
 
+        currentUser = data.user;
 
-    const result =
-      await response.json();
+        showDashboard(currentUser);
 
+      } else {
 
-    if(!response.ok || !result.success){
+        showLoggedOut();
 
-      alert(
-        result.message ||
-        "Something went wrong."
-      );
+      }
 
-      return;
+    } catch (error) {
 
-    }
+      console.error(error);
 
-
-    if(result.user){
-
-      showDashboard(result.user);
-
-    }
-
-  }catch(error){
-
-    alert(
-      "Connection error. Please try again."
-    );
-
-  }
-
-}
-
-
-function showDashboard(user){
-
-  document.getElementById("homeSection").style.display="none";
-
-  document.getElementById("authSection").style.display="none";
-
-  document.getElementById("dashboardSection").style.display="block";
-
-
-  document.getElementById("loginNavBtn").style.display="none";
-
-  document.getElementById("registerNavBtn").style.display="none";
-
-  document.getElementById("logoutBtn").style.display="block";
-
-
-  document.getElementById("userName").textContent =
-    user.name || "User";
-
-
-  const balance =
-    Number(user.balance || 0);
-
-
-  document.getElementById("balance").textContent =
-    "$" + balance.toFixed(2);
-
-
-  document.getElementById("statBalance").textContent =
-    "$" + balance.toFixed(2);
-
-
-  document.getElementById("referralCode").textContent =
-    user.referral_code || "--------";
-
-
-  document.getElementById("referrals").textContent =
-    "0";
-
-
-  loadTransactions();
-
-}
-
-
-async function checkLogin(){
-
-  try{
-
-    const response =
-      await fetch("/api/me",{
-        credentials:"include"
-      });
-
-
-    const result =
-      await response.json();
-
-
-    if(result.success && result.user){
-
-      showDashboard(result.user);
-
-    }
-
-  }catch(error){
-
-    console.log(error);
-
-  }
-
-}
-
-
-async function logout(){
-
-  try{
-
-    await fetch("/api/logout",{
-      method:"POST",
-      credentials:"include"
-    });
-
-  }catch(error){
-
-    console.log(error);
-
-  }
-
-
-  document.getElementById("dashboardSection").style.display="none";
-
-  document.getElementById("authSection").style.display="none";
-
-  document.getElementById("homeSection").style.display="block";
-
-
-  document.getElementById("loginNavBtn").style.display="block";
-
-  document.getElementById("registerNavBtn").style.display="block";
-
-  document.getElementById("logoutBtn").style.display="none";
-
-}
-
-
-document
-.getElementById("bonusBtn")
-.addEventListener("click",async function(){
-
-  const bonusBtn =
-    document.getElementById("bonusBtn");
-
-
-  bonusBtn.disabled = true;
-
-  bonusBtn.textContent = "Claiming...";
-
-
-  try{
-
-    const response =
-      await fetch("/api/daily-bonus",{
-        method:"POST",
-        credentials:"include"
-      });
-
-
-    const result =
-      await response.json();
-
-
-    if(!response.ok || !result.success){
-
-      alert(
-        result.message ||
-        "Could not claim bonus."
-      );
-
-      return;
-
-    }
-
-
-    if(result.user){
-
-      showDashboard(result.user);
-
-    }
-
-
-    bonusBtn.textContent =
-      "Claimed ✓";
-
-
-    alert(
-      "🎉 Daily Bonus Claimed!\n\n" +
-      "+$" +
-      Number(result.bonus || 0).toFixed(2) +
-      " added to your balance."
-    );
-
-
-  }catch(error){
-
-    alert(
-      "Connection error. Please try again."
-    );
-
-
-  }finally{
-
-    if(
-      bonusBtn.textContent !==
-      "Claimed ✓"
-    ){
-
-      bonusBtn.disabled = false;
-
-      bonusBtn.textContent =
-        "Claim Bonus";
+      showLoggedOut();
 
     }
 
   }
 
-});
+
+  // -----------------------------
+  // SHOW DASHBOARD
+  // -----------------------------
+
+  function showDashboard(user) {
+
+    document
+      .getElementById("dashboardSection")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("logoutBtn")
+      .classList.remove("hidden");
 
 
-async function loadTransactions(){
-
-  const container =
-    document.getElementById(
-      "transactionHistory"
-    );
+    document
+      .getElementById("balance")
+      .textContent =
+      "$" + Number(user.balance || 0).toFixed(2);
 
 
-  container.innerHTML =
-    '<div class="empty">Loading transaction history...</div>';
+    document
+      .getElementById("userName")
+      .textContent =
+      user.name || "User";
 
 
-  try{
-
-    const response =
-      await fetch("/api/transactions",{
-        method:"GET",
-        credentials:"include"
-      });
+    document
+      .getElementById("totalEarned")
+      .textContent =
+      "$" + Number(user.balance || 0).toFixed(2);
 
 
-    const result =
-      await response.json();
+    document
+      .getElementById("referrals")
+      .textContent =
+      "0";
 
 
-    if(
-      !response.ok ||
-      !result.success
-    ){
-
-      container.innerHTML =
-        '<div class="empty">Could not load transaction history.</div>';
-
-      return;
-
-    }
+    document
+      .getElementById("referralCode")
+      .textContent =
+      user.referral_code || "--------";
 
 
-    const transactions =
-      result.transactions || [];
+    loadTasks();
+
+    loadTransactions();
+
+  }
 
 
-    if(transactions.length === 0){
+  // -----------------------------
+  // LOGGED OUT
+  // -----------------------------
 
-      container.innerHTML =
-        '<div class="empty">No transactions yet.</div>';
+  function showLoggedOut() {
 
-      return;
+    document
+      .getElementById("dashboardSection")
+      .classList.add("hidden");
 
-    }
+    document
+      .getElementById("logoutBtn")
+      .classList.add("hidden");
 
-
-    container.innerHTML =
-      transactions.map(function(transaction){
-
-        const amount =
-          Number(transaction.amount || 0);
-
-
-        const positive =
-          amount >= 0;
+  }
 
 
-        const sign =
-          positive ? "+" : "";
+  // -----------------------------
+  // LOAD TASKS FROM DATABASE
+  // -----------------------------
+
+  async function loadTasks() {
+
+    const container =
+      document.getElementById("tasksContainer");
 
 
-        let title =
-          transaction.description ||
-          transaction.type ||
-          "Transaction";
+    container.innerHTML = `
+      <div class="empty">
+        ⏳ Loading tasks...
+      </div>
+    `;
 
 
-        if(transaction.type === "bonus"){
+    try {
 
-          title = "🎁 Daily Bonus";
-
-        }
-
-
-        const date =
-          transaction.created_at
-            ? new Date(
-                transaction.created_at
-              ).toLocaleString()
-            : "";
+      const response =
+        await fetch("/api/tasks", {
+          method: "GET",
+          credentials: "include"
+        });
 
 
-        return `
+      const data =
+        await response.json();
 
-          <div class="history-item">
 
-            <div class="history-left">
+      if (!response.ok || !data.success) {
 
-              <strong>
-                ${escapeHtml(title)}
-              </strong>
-
-              <small>
-                ${escapeHtml(date)}
-              </small>
-
-            </div>
-
-            <div
-              class="${
-                positive
-                  ? "amount-positive"
-                  : "amount-negative"
-              }">
-
-              ${sign}$${Math.abs(amount).toFixed(2)}
-
-            </div>
-
+        container.innerHTML = `
+          <div class="error">
+            ${escapeHtml(
+              data.message || "Could not load tasks."
+            )}
           </div>
-
         `;
 
-      }).join("");
+        return;
+
+      }
 
 
-  }catch(error){
+      const tasks =
+        Array.isArray(data.tasks)
+          ? data.tasks
+          : [];
 
-    container.innerHTML =
-      '<div class="empty">Connection error. Please try again.</div>';
+
+      if (tasks.length === 0) {
+
+        container.innerHTML = `
+          <div class="empty">
+            📭 No tasks available right now.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        tasks.map(task => {
+
+          const title =
+            escapeHtml(task.title);
+
+          const description =
+            escapeHtml(
+              task.description ||
+              "Complete this task and earn a reward."
+            );
+
+          const reward =
+            Number(task.reward || 0)
+              .toFixed(2);
+
+          const type =
+            escapeHtml(task.task_type || "task");
+
+          const icon =
+            getTaskIcon(task.task_type);
+
+          const buttonText =
+            getTaskButton(task.task_type);
+
+
+          return `
+            <div class="task-card">
+
+              <div class="task-icon">
+                ${icon}
+              </div>
+
+              <h3>
+                ${title}
+              </h3>
+
+              <div class="task-description">
+                ${description}
+              </div>
+
+              <div class="reward">
+                Reward: $${reward}
+              </div>
+
+              <div style="
+                font-size:12px;
+                color:#667085;
+                margin-bottom:12px;
+              ">
+                Type: ${type}
+              </div>
+
+              <button
+                class="task-btn"
+                onclick="openTask(
+                  '${escapeHtml(task.task_url || "")}'
+                )">
+                ${buttonText}
+              </button>
+
+            </div>
+          `;
+
+        }).join("");
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      container.innerHTML = `
+        <div class="error">
+          ❌ Could not connect to task system.
+        </div>
+      `;
+
+    }
 
   }
 
-}
+
+  // -----------------------------
+  // OPEN TASK
+  // -----------------------------
+
+  function openTask(url) {
+
+    if (!url) {
+
+      alert("Task link is not available yet.");
+
+      return;
+
+    }
 
 
-function escapeHtml(value){
+    try {
 
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
+      const parsed =
+        new URL(url, window.location.origin);
 
 
-function copyReferral(){
+      if (
+        parsed.protocol !== "https:" &&
+        parsed.protocol !== "http:"
+      ) {
 
-  const code =
-    document.getElementById(
-      "referralCode"
-    ).textContent;
+        alert("Invalid task link.");
+
+        return;
+
+      }
 
 
-  if(
-    !code ||
-    code === "--------"
-  ){
+      window.open(
+        parsed.href,
+        "_blank",
+        "noopener,noreferrer"
+      );
 
-    return;
+
+    } catch (error) {
+
+      alert("Invalid task link.");
+
+    }
 
   }
 
 
-  navigator.clipboard
-    .writeText(code)
-    .then(function(){
+  // -----------------------------
+  // LOAD TRANSACTIONS
+  // -----------------------------
 
-      alert(
-        "Referral code copied!"
+  async function loadTransactions() {
+
+    const container =
+      document.getElementById(
+        "transactionsContainer"
       );
 
-    })
-    .catch(function(){
 
-      alert(
-        "Could not copy the referral code."
+    try {
+
+      const response =
+        await fetch(
+          "/api/transactions",
+          {
+            credentials: "include"
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if (
+        !response.ok ||
+        !data.success
+      ) {
+
+        container.innerHTML = `
+          <div class="error">
+            ${escapeHtml(
+              data.message ||
+              "Could not load transaction history."
+            )}
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      const transactions =
+        Array.isArray(data.transactions)
+          ? data.transactions
+          : [];
+
+
+      if (
+        transactions.length === 0
+      ) {
+
+        container.innerHTML = `
+          <div class="empty">
+            📭 No transactions yet.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        transactions.map(transaction => {
+
+          const amount =
+            Number(
+              transaction.amount || 0
+            );
+
+
+          const sign =
+            amount >= 0
+              ? "+"
+              : "";
+
+
+          const date =
+            transaction.created_at
+              ? new Date(
+                  transaction.created_at
+                ).toLocaleString()
+              : "";
+
+
+          return `
+            <div class="transaction">
+
+              <div>
+                <strong>
+                  ${escapeHtml(
+                    transaction.description ||
+                    transaction.type ||
+                    "Transaction"
+                  )}
+                </strong>
+
+                <div style="
+                  color:#667085;
+                  font-size:13px;
+                  margin-top:5px;
+                ">
+                  ${escapeHtml(date)}
+                </div>
+              </div>
+
+              <div class="transaction-amount">
+                ${sign}$${Math.abs(amount).toFixed(2)}
+              </div>
+
+            </div>
+          `;
+
+        }).join("");
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      container.innerHTML = `
+        <div class="error">
+          ❌ Could not load transaction history.
+        </div>
+      `;
+
+    }
+
+  }
+
+
+  // -----------------------------
+  // DAILY BONUS
+  // -----------------------------
+
+  async function claimBonus() {
+
+    const button =
+      document.getElementById(
+        "bonusBtn"
       );
 
-    });
 
-}
+    button.disabled = true;
 
-
-function taskComingSoon(){
-
-  alert(
-    "🚀 This task system is coming soon!"
-  );
-
-}
+    button.textContent =
+      "Claiming...";
 
 
-checkLogin();
+    try {
+
+      const response =
+        await fetch(
+          "/api/daily-bonus",
+          {
+            method: "POST",
+            credentials: "include"
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if (
+        data.success &&
+        data.user
+      ) {
+
+        currentUser =
+          data.user;
+
+
+        document
+          .getElementById("balance")
+          .textContent =
+          "$" +
+          Number(
+            data.user.balance || 0
+          ).toFixed(2);
+
+
+        document
+          .getElementById("totalEarned")
+          .textContent =
+          "$" +
+          Number(
+            data.user.balance || 0
+          ).toFixed(2);
+
+
+        button.textContent =
+          "Bonus Claimed ✓";
+
+
+        alert(
+          "🎉 Daily Bonus claimed successfully!"
+        );
+
+
+        loadTransactions();
+
+
+      } else {
+
+        button.textContent =
+          "Already Claimed";
+
+
+        alert(
+          data.message ||
+          "You cannot claim the bonus right now."
+        );
+
+      }
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      button.disabled = false;
+
+      button.textContent =
+        "Claim Bonus";
+
+
+      alert(
+        "Could not connect to the server."
+      );
+
+    }
+
+  }
+
+
+  // -----------------------------
+  // COPY REFERRAL CODE
+  // -----------------------------
+
+  function copyReferralCode() {
+
+    const code =
+      document
+        .getElementById(
+          "referralCode"
+        )
+        .textContent;
+
+
+    if (!code || code === "--------") {
+
+      alert(
+        "Referral code is not available."
+      );
+
+      return;
+
+    }
+
+
+    navigator.clipboard
+      .writeText(code)
+      .then(() => {
+
+        alert(
+          "✅ Referral code copied!"
+        );
+
+      })
+      .catch(() => {
+
+        alert(
+          "Could not copy the referral code."
+        );
+
+      });
+
+  }
+
+
+  // -----------------------------
+  // LOGOUT
+  // -----------------------------
+
+  async function logout() {
+
+    try {
+
+      await fetch(
+        "/api/logout",
+        {
+          method: "POST",
+          credentials: "include"
+        }
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+
+    currentUser = null;
+
+    showLoggedOut();
+
+    window.location.reload();
+
+  }
+
+
+  // -----------------------------
+  // START
+  // -----------------------------
+
+  loadUser();
 
 </script>
 
