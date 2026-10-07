@@ -1,0 +1,15 @@
+{
+  "name": "earning-website",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-07",
+  "assets": {
+    "directory": "."
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "earning-website-db",
+      "database_id": "ef9eb5b9-435a-4a4a-bc35-56dedcb77704"
+    }
+  ]
+}
