@@ -104,11 +104,22 @@ continueBtn.addEventListener("click", async function() {
       return;
     }
 
-    alert(
-      registerMode
-        ? "Account created successfully!"
-        : "Login successful!"
-    );
+    if (registerMode) {
+
+      alert("Account created successfully!");
+
+    } else {
+
+      alert("Login successful!");
+
+      // Hide Login button after login
+      loginBtn.style.display = "none";
+
+      // Show account name if available
+      if (result.user && result.user.name) {
+        loginBtn.textContent = result.user.name;
+      }
+    }
 
     modal.style.display = "none";
     dashboard.style.display = "block";
@@ -118,10 +129,14 @@ continueBtn.addEventListener("click", async function() {
     });
 
   } catch (error) {
+
     alert("Connection error. Please try again.");
+
   } finally {
+
     continueBtn.disabled = false;
     updateAuth();
+
   }
 
 });
