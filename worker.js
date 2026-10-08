@@ -1,10 +1,11 @@
 import { hashPassword, verifyPassword } from "./auth.js";
 
-function json(data, status = 200) {
+function json(data, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      ...extraHeaders
     }
   });
 }
@@ -41,6 +42,19 @@ function clearSessionCookie() {
   return "session=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0";
 }
 
+function adminSessionCookie(token) {
+  return `admin_session=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=86400`;
+}
+
+function clearAdminSessionCookie() {
+  return "admin_session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0";
+}
+
+
+/* =========================
+   USER SESSION
+========================= */
+
 async function getCurrentUser(request, env) {
   const token = getCookie(request, "session");
 
@@ -60,6 +74,111 @@ async function getCurrentUser(request, env) {
     .first();
 
   return result || null;
+}
+
+
+/* =========================
+   ADMIN TABLE
+========================= */
+
+async function ensureAdminTables(env) {
+  await env.DB.prepare(`
+    CREATE TABLE IF NOT EXISTS admin_sessions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      token TEXT NOT NULL UNIQUE,
+      admin_id INTEGER NOT NULL,
+      expires_at DATETIME NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (admin_id) REFERENCES admin_users(id)
+    )
+  `).run();
+}
+
+
+/* =========================
+   ADMIN SETUP
+========================= */
+
+async function ensureAdminAccount(env) {
+  if (!env.ADMIN_PASSWORD) {
+    throw new Error("ADMIN_PASSWORD secret is not configured.");
+  }
+
+  const email = "soltanuddin45@gmail.com";
+
+  const existing = await env.DB.prepare(`
+    SELECT id
+    FROM admin_users
+    WHERE email = ?
+    LIMIT 1
+  `)
+    .bind(email)
+    .first();
+
+  if (existing) {
+    return existing;
+  }
+
+  const passwordData = await hashPassword(env.ADMIN_PASSWORD);
+
+  const result = await env.DB.prepare(`
+    INSERT INTO admin_users (
+      email,
+      password_hash
+    )
+    VALUES (?, ?)
+  `)
+    .bind(
+      email,
+      `${passwordData.salt}:${passwordData.hash}`
+    )
+    .run();
+
+  return {
+    id: result.meta?.last_row_id,
+    email
+  };
+}
+
+
+/* =========================
+   ADMIN SESSION
+========================= */
+
+async function getCurrentAdmin(request, env) {
+  const token = getCookie(request, "admin_session");
+
+  if (!token) {
+    return null;
+  }
+
+  await ensureAdminTables(env);
+
+  const admin = await env.DB.prepare(`
+    SELECT
+      admin_users.id,
+      admin_users.email
+    FROM admin_sessions
+    JOIN admin_users
+      ON admin_users.id = admin_sessions.admin_id
+    WHERE admin_sessions.token = ?
+      AND admin_sessions.expires_at > datetime('now')
+    LIMIT 1
+  `)
+    .bind(token)
+    .first();
+
+  return admin || null;
+}
+
+async function requireAdmin(request, env) {
+  const admin = await getCurrentAdmin(request, env);
+
+  if (!admin) {
+    return null;
+  }
+
+  return admin;
 }
 
 
@@ -91,7 +210,9 @@ async function register(request, env) {
     }
 
     const existing = await env.DB.prepare(`
-      SELECT id FROM users WHERE email = ?
+      SELECT id
+      FROM users
+      WHERE email = ?
     `)
       .bind(email)
       .first();
@@ -124,7 +245,9 @@ async function register(request, env) {
     let newReferralCode = generateReferralCode();
 
     let codeExists = await env.DB.prepare(`
-      SELECT id FROM users WHERE referral_code = ?
+      SELECT id
+      FROM users
+      WHERE referral_code = ?
     `)
       .bind(newReferralCode)
       .first();
@@ -133,7 +256,9 @@ async function register(request, env) {
       newReferralCode = generateReferralCode();
 
       codeExists = await env.DB.prepare(`
-        SELECT id FROM users WHERE referral_code = ?
+        SELECT id
+        FROM users
+        WHERE referral_code = ?
       `)
         .bind(newReferralCode)
         .first();
@@ -175,7 +300,7 @@ async function register(request, env) {
 
 
 /* =========================
-   LOGIN
+   USER LOGIN
 ========================= */
 
 async function login(request, env) {
@@ -248,24 +373,17 @@ async function login(request, env) {
       .bind(token, user.id)
       .run();
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: "Login successful.",
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email
-        }
-      }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Set-Cookie": sessionCookie(token)
-        }
+    return json({
+      success: true,
+      message: "Login successful.",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email
       }
-    );
+    }, 200, {
+      "Set-Cookie": sessionCookie(token)
+    });
 
   } catch (error) {
     return json({
@@ -274,6 +392,164 @@ async function login(request, env) {
       error: error.message
     }, 500);
   }
+}
+
+
+/* =========================
+   ADMIN LOGIN
+========================= */
+
+async function adminLogin(request, env) {
+  try {
+    const body = await request.json();
+
+    const email = String(body.email || "")
+      .trim()
+      .toLowerCase();
+
+    const password = String(body.password || "");
+
+    if (!email || !password) {
+      return json({
+        success: false,
+        message: "Admin email and password are required."
+      }, 400);
+    }
+
+    if (email !== "soltanuddin45@gmail.com") {
+      return json({
+        success: false,
+        message: "Invalid admin credentials."
+      }, 401);
+    }
+
+    await ensureAdminTables(env);
+
+    const admin = await ensureAdminAccount(env);
+
+    const storedAdmin = await env.DB.prepare(`
+      SELECT *
+      FROM admin_users
+      WHERE email = ?
+      LIMIT 1
+    `)
+      .bind(email)
+      .first();
+
+    if (!storedAdmin) {
+      return json({
+        success: false,
+        message: "Admin account not found."
+      }, 401);
+    }
+
+    const stored = String(storedAdmin.password_hash || "");
+    const [salt, storedHash] = stored.split(":");
+
+    if (!salt || !storedHash) {
+      return json({
+        success: false,
+        message: "Invalid admin password data."
+      }, 500);
+    }
+
+    const valid = await verifyPassword(
+      password,
+      storedHash,
+      salt
+    );
+
+    if (!valid) {
+      return json({
+        success: false,
+        message: "Invalid admin credentials."
+      }, 401);
+    }
+
+    const token = generateToken();
+
+    await env.DB.prepare(`
+      INSERT INTO admin_sessions (
+        token,
+        admin_id,
+        expires_at
+      )
+      VALUES (
+        ?,
+        ?,
+        datetime('now', '+1 day')
+      )
+    `)
+      .bind(token, storedAdmin.id)
+      .run();
+
+    return json({
+      success: true,
+      message: "Admin login successful.",
+      admin: {
+        id: storedAdmin.id,
+        email: storedAdmin.email
+      }
+    }, 200, {
+      "Set-Cookie": adminSessionCookie(token)
+    });
+
+  } catch (error) {
+    return json({
+      success: false,
+      message: "Admin login failed.",
+      error: error.message
+    }, 500);
+  }
+}
+
+
+/* =========================
+   ADMIN ME
+========================= */
+
+async function adminMe(request, env) {
+  const admin = await requireAdmin(request, env);
+
+  if (!admin) {
+    return json({
+      success: false,
+      loggedIn: false
+    }, 401);
+  }
+
+  return json({
+    success: true,
+    loggedIn: true,
+    admin
+  });
+}
+
+
+/* =========================
+   ADMIN LOGOUT
+========================= */
+
+async function adminLogout(request, env) {
+  const token = getCookie(request, "admin_session");
+
+  if (token) {
+    await ensureAdminTables(env);
+
+    await env.DB.prepare(`
+      DELETE FROM admin_sessions
+      WHERE token = ?
+    `)
+      .bind(token)
+      .run();
+  }
+
+  return json({
+    success: true,
+    message: "Admin logged out."
+  }, 200, {
+    "Set-Cookie": clearAdminSessionCookie()
+  });
 }
 
 
@@ -625,29 +901,6 @@ async function withdraw(request, env) {
       }, 400);
     }
 
-    const freshUser = await env.DB.prepare(`
-      SELECT id, balance
-      FROM users
-      WHERE id = ?
-      LIMIT 1
-    `)
-      .bind(user.id)
-      .first();
-
-    const balance = Number(freshUser?.balance || 0);
-
-    if (balance < amount) {
-      return json({
-        success: false,
-        message: "Insufficient balance."
-      }, 400);
-    }
-
-    /*
-      First reserve/deduct the balance only if enough
-      balance is available.
-    */
-
     const updateResult = await env.DB.prepare(`
       UPDATE users
       SET balance = balance - ?
@@ -660,7 +913,7 @@ async function withdraw(request, env) {
     if (!updateResult.meta || updateResult.meta.changes !== 1) {
       return json({
         success: false,
-        message: "Balance changed. Please try again."
+        message: "Insufficient balance or balance changed. Please try again."
       }, 400);
     }
 
@@ -698,11 +951,6 @@ async function withdraw(request, env) {
       ]);
 
     } catch (insertError) {
-
-      /*
-        If creating the withdrawal failed,
-        return the reserved balance.
-      */
 
       await env.DB.prepare(`
         UPDATE users
@@ -773,6 +1021,316 @@ async function getWithdrawals(request, env) {
 
 
 /* =========================
+   ADMIN DASHBOARD
+========================= */
+
+async function adminStats(request, env) {
+  const admin = await requireAdmin(request, env);
+
+  if (!admin) {
+    return json({
+      success: false,
+      message: "Admin authentication required."
+    }, 401);
+  }
+
+  const users = await env.DB.prepare(`
+    SELECT COUNT(*) AS count
+    FROM users
+  `).first();
+
+  const balances = await env.DB.prepare(`
+    SELECT COALESCE(SUM(balance), 0) AS total
+    FROM users
+  `).first();
+
+  const pending = await env.DB.prepare(`
+    SELECT COUNT(*) AS count
+    FROM withdrawals
+    WHERE status = 'pending'
+  `).first();
+
+  const approved = await env.DB.prepare(`
+    SELECT COUNT(*) AS count
+    FROM withdrawals
+    WHERE status = 'approved'
+  `).first();
+
+  const rejected = await env.DB.prepare(`
+    SELECT COUNT(*) AS count
+    FROM withdrawals
+    WHERE status = 'rejected'
+  `).first();
+
+  return json({
+    success: true,
+    stats: {
+      users: Number(users?.count || 0),
+      total_balance: Number(balances?.total || 0),
+      pending_withdrawals: Number(pending?.count || 0),
+      approved_withdrawals: Number(approved?.count || 0),
+      rejected_withdrawals: Number(rejected?.count || 0)
+    }
+  });
+}
+
+
+/* =========================
+   ADMIN USERS
+========================= */
+
+async function adminUsers(request, env) {
+  const admin = await requireAdmin(request, env);
+
+  if (!admin) {
+    return json({
+      success: false,
+      message: "Admin authentication required."
+    }, 401);
+  }
+
+  const result = await env.DB.prepare(`
+    SELECT
+      id,
+      name,
+      email,
+      balance,
+      referral_code,
+      referred_by,
+      created_at
+    FROM users
+    ORDER BY id DESC
+    LIMIT 500
+  `).all();
+
+  return json({
+    success: true,
+    users: result.results || []
+  });
+}
+
+
+/* =========================
+   ADMIN WITHDRAWALS
+========================= */
+
+async function adminWithdrawals(request, env) {
+  const admin = await requireAdmin(request, env);
+
+  if (!admin) {
+    return json({
+      success: false,
+      message: "Admin authentication required."
+    }, 401);
+  }
+
+  const result = await env.DB.prepare(`
+    SELECT
+      withdrawals.id,
+      withdrawals.user_id,
+      users.name,
+      users.email,
+      withdrawals.method,
+      withdrawals.account,
+      withdrawals.amount,
+      withdrawals.status,
+      withdrawals.admin_note,
+      withdrawals.created_at,
+      withdrawals.processed_at
+    FROM withdrawals
+    JOIN users
+      ON users.id = withdrawals.user_id
+    ORDER BY withdrawals.id DESC
+    LIMIT 500
+  `).all();
+
+  return json({
+    success: true,
+    withdrawals: result.results || []
+  });
+}
+
+
+/* =========================
+   ADMIN APPROVE WITHDRAWAL
+========================= */
+
+async function approveWithdrawal(request, env, withdrawalId) {
+  const admin = await requireAdmin(request, env);
+
+  if (!admin) {
+    return json({
+      success: false,
+      message: "Admin authentication required."
+    }, 401);
+  }
+
+  const id = Number(withdrawalId);
+
+  if (!Number.isInteger(id)) {
+    return json({
+      success: false,
+      message: "Invalid withdrawal ID."
+    }, 400);
+  }
+
+  const body = await request.json().catch(() => ({}));
+
+  const note = String(body.note || "").trim();
+
+  const withdrawal = await env.DB.prepare(`
+    SELECT *
+    FROM withdrawals
+    WHERE id = ?
+    LIMIT 1
+  `)
+    .bind(id)
+    .first();
+
+  if (!withdrawal) {
+    return json({
+      success: false,
+      message: "Withdrawal not found."
+    }, 404);
+  }
+
+  if (withdrawal.status !== "pending") {
+    return json({
+      success: false,
+      message: "This withdrawal has already been processed."
+    }, 400);
+  }
+
+  await env.DB.prepare(`
+    UPDATE withdrawals
+    SET
+      status = 'approved',
+      admin_note = ?,
+      processed_at = CURRENT_TIMESTAMP
+    WHERE id = ?
+      AND status = 'pending'
+  `)
+    .bind(note || "Approved by admin.", id)
+    .run();
+
+  return json({
+    success: true,
+    message: "Withdrawal approved.",
+    withdrawal_id: id
+  });
+}
+
+
+/* =========================
+   ADMIN REJECT WITHDRAWAL
+========================= */
+
+async function rejectWithdrawal(request, env, withdrawalId) {
+  const admin = await requireAdmin(request, env);
+
+  if (!admin) {
+    return json({
+      success: false,
+      message: "Admin authentication required."
+    }, 401);
+  }
+
+  const id = Number(withdrawalId);
+
+  if (!Number.isInteger(id)) {
+    return json({
+      success: false,
+      message: "Invalid withdrawal ID."
+    }, 400);
+  }
+
+  const body = await request.json().catch(() => ({}));
+
+  const note = String(body.note || "").trim();
+
+  const withdrawal = await env.DB.prepare(`
+    SELECT *
+    FROM withdrawals
+    WHERE id = ?
+    LIMIT 1
+  `)
+    .bind(id)
+    .first();
+
+  if (!withdrawal) {
+    return json({
+      success: false,
+      message: "Withdrawal not found."
+    }, 404);
+  }
+
+  if (withdrawal.status !== "pending") {
+    return json({
+      success: false,
+      message: "This withdrawal has already been processed."
+    }, 400);
+  }
+
+  const amount = Number(withdrawal.amount || 0);
+  const userId = Number(withdrawal.user_id);
+
+  try {
+    await env.DB.batch([
+      env.DB.prepare(`
+        UPDATE withdrawals
+        SET
+          status = 'rejected',
+          admin_note = ?,
+          processed_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+          AND status = 'pending'
+      `).bind(
+        note || "Rejected by admin.",
+        id
+      ),
+
+      env.DB.prepare(`
+        UPDATE users
+        SET balance = balance + ?
+        WHERE id = ?
+      `).bind(
+        amount,
+        userId
+      ),
+
+      env.DB.prepare(`
+        INSERT INTO transactions (
+          user_id,
+          type,
+          amount,
+          description
+        )
+        VALUES (?, 'withdrawal_refund', ?, ?)
+      `).bind(
+        userId,
+        amount,
+        `Withdrawal refund #${id}`
+      )
+    ]);
+
+  } catch (error) {
+    return json({
+      success: false,
+      message: "Withdrawal rejection failed.",
+      error: error.message
+    }, 500);
+  }
+
+  return json({
+    success: true,
+    message: "Withdrawal rejected and balance refunded.",
+    withdrawal_id: id,
+    refunded: amount
+  });
+}
+
+
+/* =========================
    LOGOUT
 ========================= */
 
@@ -788,19 +1346,12 @@ async function logout(request, env) {
       .run();
   }
 
-  return new Response(
-    JSON.stringify({
-      success: true,
-      message: "Logged out."
-    }),
-    {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Set-Cookie": clearSessionCookie()
-      }
-    }
-  );
+  return json({
+    success: true,
+    message: "Logged out."
+  }, 200, {
+    "Set-Cookie": clearSessionCookie()
+  });
 }
 
 
@@ -812,7 +1363,7 @@ async function testDb(env) {
   const result = await env.DB.prepare(`
     SELECT name
     FROM sqlite_master
-    WHERE       type = 'table'
+    WHERE type = 'table'
     ORDER BY name
   `).all();
 
@@ -834,6 +1385,8 @@ export default {
     const method = request.method;
 
     try {
+
+      /* USER */
 
       if (path === "/api/register" && method === "POST") {
         return await register(request, env);
@@ -889,6 +1442,66 @@ export default {
         return await logout(request, env);
       }
 
+
+      /* ADMIN */
+
+      if (path === "/api/admin/login" && method === "POST") {
+        return await adminLogin(request, env);
+      }
+
+      if (path === "/api/admin/me" && method === "GET") {
+        return await adminMe(request, env);
+      }
+
+      if (path === "/api/admin/logout" && method === "POST") {
+        return await adminLogout(request, env);
+      }
+
+      if (path === "/api/admin/stats" && method === "GET") {
+        return await adminStats(request, env);
+      }
+
+      if (path === "/api/admin/users" && method === "GET") {
+        return await adminUsers(request, env);
+      }
+
+      if (path === "/api/admin/withdrawals" && method === "GET") {
+        return await adminWithdrawals(request, env);
+      }
+
+      if (
+        path.startsWith("/api/admin/withdrawals/") &&
+        path.endsWith("/approve") &&
+        method === "POST"
+      ) {
+        const parts = path.split("/");
+        const withdrawalId = Number(parts[4]);
+
+        return await approveWithdrawal(
+          request,
+          env,
+          withdrawalId
+        );
+      }
+
+      if (
+        path.startsWith("/api/admin/withdrawals/") &&
+        path.endsWith("/reject") &&
+        method === "POST"
+      ) {
+        const parts = path.split("/");
+        const withdrawalId = Number(parts[4]);
+
+        return await rejectWithdrawal(
+          request,
+          env,
+          withdrawalId
+        );
+      }
+
+
+      /* TEST */
+
       if (path === "/api/test-db" && method === "GET") {
         return await testDb(env);
       }
@@ -896,6 +1509,7 @@ export default {
       return env.ASSETS.fetch(request);
 
     } catch (error) {
+
       return json({
         success: false,
         message: "Server error.",
