@@ -818,5 +818,25 @@ async function withdrawals(request, env) {
     return json({
       success: false,
       message: "Please login."
-    }, 401);
+    }, 401);export default {
+  async fetch(request, env) {
+    try {
+      const url = new URL(request.url);
+
+      if (url.pathname.startsWith("/api/")) {
+        return handleApi(request, env, url.pathname);
+      }
+
+      return env.ASSETS.fetch(request);
+
+    } catch (error) {
+      console.error(error);
+
+      return json({
+        success: false,
+        message: "Internal server error."
+      }, 500);
+    }
+  }
+};
  
