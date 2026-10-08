@@ -8,713 +8,675 @@
 <title>EarnX — Earn Online</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --bg:#f5f7fb;
-  --white:#ffffff;
-  --text:#172033;
-  --muted:#70798a;
-  --blue:#2867e8;
-  --blue2:#4b8cff;
-  --green:#16a673;
-  --red:#e94b68;
-  --yellow:#f2a900;
-  --border:#e8ebf2;
-  --shadow:0 8px 28px rgba(35,48,80,.08);
-  --radius:24px;
+--bg:#f5f7fb;
+--white:#fff;
+--text:#172033;
+--muted:#70798a;
+--blue:#2867e8;
+--blue2:#4b8cff;
+--green:#16a673;
+--red:#e94b68;
+--yellow:#f2a900;
+--border:#e8ebf2;
+--shadow:0 8px 28px rgba(35,48,80,.08);
+--radius:24px
 }
 
-html{
-  scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth}
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+overflow-x:hidden
 }
 
-button,input,select{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-button:active{
-  transform:scale(.98);
-}
-
-a{
-  color:inherit;
-  text-decoration:none;
-}
-
-/* HEADER */
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
 
 header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:rgba(255,255,255,.96);
-  backdrop-filter:blur(15px);
-  -webkit-backdrop-filter:blur(15px);
-  border-bottom:1px solid var(--border);
+position:sticky;
+top:0;
+z-index:1000;
+background:rgba(255,255,255,.96);
+backdrop-filter:blur(15px);
+-webkit-backdrop-filter:blur(15px);
+border-bottom:1px solid var(--border)
 }
 
 .nav{
-  max-width:1100px;
-  margin:auto;
-  padding:14px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
+max-width:1100px;
+margin:auto;
+padding:14px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px
 }
 
 .logo{
-  font-size:30px;
-  font-weight:900;
-  letter-spacing:-1.5px;
-  color:var(--blue);
-}
-
-.logo span{
-  color:#172033;
+font-size:30px;
+font-weight:900;
+letter-spacing:-1.5px;
+color:var(--blue)
 }
 
 .nav-links{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
+display:flex;
+align-items:center;
+gap:7px;
+flex-wrap:wrap;
+justify-content:flex-end
 }
 
 .nav-links button{
-  border:0;
-  background:transparent;
-  color:#5d6677;
-  padding:10px 12px;
-  border-radius:12px;
-  font-weight:700;
+border:0;
+background:transparent;
+color:#5d6677;
+padding:10px 12px;
+border-radius:12px;
+font-weight:700
 }
 
 .nav-links button:hover{
-  background:#f0f3f9;
-  color:var(--blue);
+background:#f0f3f9;
+color:var(--blue)
 }
 
 #loginNav{
-  color:white;
-  background:var(--blue);
-  padding:12px 23px;
-  border-radius:13px;
-  font-size:16px;
-  box-shadow:0 7px 18px rgba(40,103,232,.22);
+color:#fff;
+background:var(--blue);
+padding:12px 23px;
+border-radius:13px;
+font-size:16px;
+box-shadow:0 7px 18px rgba(40,103,232,.22)
 }
 
-#loginNav:hover{
-  background:#1f5bd3;
-  color:white;
-}
-
-#logoutBtn{
-  color:var(--red);
-}
-
-/* MAIN */
+#logoutBtn{color:var(--red)}
 
 .container{
-  max-width:1100px;
-  margin:auto;
-  padding:25px 16px 55px;
+max-width:1100px;
+margin:auto;
+padding:25px 16px 55px
 }
 
 .page{
-  display:none;
-  animation:pageIn .25s ease;
+display:none;
+animation:pageIn .25s ease
 }
 
-.page.active{
-  display:block;
-}
+.page.active{display:block}
 
 @keyframes pageIn{
-  from{
-    opacity:0;
-    transform:translateY(7px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+from{opacity:0;transform:translateY(7px)}
+to{opacity:1;transform:translateY(0)}
 }
 
 /* HERO */
 
 .hero{
-  background:var(--white);
-  border-radius:28px;
-  padding:55px 22px 42px;
-  text-align:center;
-  box-shadow:var(--shadow);
-  border:1px solid var(--border);
+background:var(--white);
+border-radius:28px;
+padding:55px 22px 42px;
+text-align:center;
+box-shadow:var(--shadow);
+border:1px solid var(--border)
 }
 
 .hero-badge{
-  display:inline-block;
-  background:#edf4ff;
-  color:var(--blue);
-  padding:8px 14px;
-  border-radius:30px;
-  font-size:12px;
-  font-weight:800;
-  margin-bottom:17px;
+display:inline-block;
+background:#edf4ff;
+color:var(--blue);
+padding:8px 14px;
+border-radius:30px;
+font-size:12px;
+font-weight:800;
+margin-bottom:17px
 }
 
 .hero h1{
-  font-size:clamp(38px,8vw,60px);
-  line-height:1.08;
-  letter-spacing:-2px;
-  margin-bottom:17px;
+font-size:clamp(38px,8vw,60px);
+line-height:1.08;
+letter-spacing:-2px;
+margin-bottom:17px
 }
 
-.hero h1 span{
-  color:var(--blue);
-}
+.hero h1 span{color:var(--blue)}
 
 .hero p{
-  max-width:650px;
-  margin:auto;
-  color:var(--muted);
-  font-size:16px;
-  line-height:1.8;
+max-width:650px;
+margin:auto;
+color:var(--muted);
+font-size:16px;
+line-height:1.8
 }
 
 .hero-buttons{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:25px;
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+margin-top:25px
 }
 
 .btn{
-  border:0;
-  padding:13px 22px;
-  border-radius:13px;
-  background:var(--blue);
-  color:white;
-  font-weight:800;
-  box-shadow:0 8px 20px rgba(40,103,232,.2);
-}
-
-.btn:hover{
-  background:#1f5bd3;
+border:0;
+padding:13px 22px;
+border-radius:13px;
+background:var(--blue);
+color:#fff;
+font-weight:800;
+box-shadow:0 8px 20px rgba(40,103,232,.2)
 }
 
 .btn.secondary{
-  background:#eef2f8;
-  color:#273248;
-  box-shadow:none;
+background:#eef2f8;
+color:#273248;
+box-shadow:none
 }
 
 .hero-stats{
-  max-width:700px;
-  margin:30px auto 0;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
+max-width:700px;
+margin:30px auto 0;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px
 }
 
 .hero-stat{
-  background:#f7f9fc;
-  border:1px solid var(--border);
-  padding:14px;
-  border-radius:15px;
+background:#f7f9fc;
+border:1px solid var(--border);
+padding:14px;
+border-radius:15px
 }
 
 .hero-stat strong{
-  display:block;
-  font-size:17px;
-  margin-bottom:4px;
+display:block;
+font-size:17px;
+margin-bottom:4px
 }
 
 .hero-stat span{
-  color:var(--muted);
-  font-size:11px;
+color:var(--muted);
+font-size:11px
 }
 
 /* SECTION */
 
 .section-title{
-  text-align:center;
-  font-size:29px;
-  margin:45px 0 10px;
+text-align:center;
+font-size:29px;
+margin:45px 0 10px
 }
 
 .section-subtitle{
-  text-align:center;
-  color:var(--muted);
-  font-size:14px;
-  margin-bottom:22px;
+text-align:center;
+color:var(--muted);
+font-size:14px;
+margin-bottom:22px
 }
 
-/* FEATURE CARDS */
+/* FEATURES */
 
 .features{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px
 }
 
 .card{
-  background:var(--white);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:22px;
-  box-shadow:var(--shadow);
+background:var(--white);
+border:1px solid var(--border);
+border-radius:var(--radius);
+padding:22px;
+box-shadow:var(--shadow)
 }
 
-.feature{
-  text-align:center;
-}
+.feature{text-align:center}
 
 .feature-icon{
-  width:62px;
-  height:62px;
-  margin:0 auto 15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:18px;
-  background:#f1f5fb;
-  font-size:30px;
+width:62px;
+height:62px;
+margin:0 auto 15px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:18px;
+background:#f1f5fb;
+font-size:30px
 }
 
 .feature h3{
-  font-size:17px;
-  margin-bottom:7px;
+font-size:17px;
+margin-bottom:7px
 }
 
 .feature p{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
+color:var(--muted);
+font-size:13px;
+line-height:1.6
 }
 
-/* TASK CARDS */
+/* HOME TASKS - 3 + 3 */
 
 .tasks{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px
 }
 
 .task{
-  background:var(--white);
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:18px;
-  box-shadow:var(--shadow);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-}
-
-.task-left{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  min-width:0;
+background:var(--white);
+border:1px solid var(--border);
+border-radius:22px;
+padding:20px;
+box-shadow:var(--shadow);
+text-align:center
 }
 
 .task-icon{
-  width:55px;
-  height:55px;
-  flex:0 0 55px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:16px;
-  background:#f1f5fb;
-  font-size:28px;
+width:65px;
+height:65px;
+margin:0 auto 13px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:18px;
+background:#f1f5fb;
+font-size:31px
 }
 
 .task h3{
-  font-size:16px;
-  margin-bottom:5px;
+font-size:17px;
+margin-bottom:6px
 }
 
 .task p{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.5;
+color:var(--muted);
+font-size:13px;
+line-height:1.5;
+min-height:38px
 }
 
 .reward{
-  color:var(--green);
-  font-weight:900;
-  text-align:right;
-  margin-bottom:8px;
+color:var(--green);
+font-weight:900;
+font-size:16px;
+margin:12px 0 9px
 }
 
 .small-btn{
-  border:0;
-  padding:8px 13px;
-  border-radius:10px;
-  color:white;
-  background:var(--blue);
-  font-weight:800;
-}
-
-.small-btn:hover{
-  background:#1f5bd3;
+border:0;
+padding:9px 18px;
+border-radius:10px;
+color:#fff;
+background:var(--blue);
+font-weight:800
 }
 
 /* AUTH */
 
 .auth-box{
-  max-width:470px;
-  margin:35px auto;
+max-width:470px;
+margin:35px auto
 }
 
 .auth-box h2{
-  text-align:center;
-  font-size:29px;
-  margin-bottom:7px;
+text-align:center;
+font-size:29px;
+margin-bottom:7px
 }
 
 .auth-subtitle{
-  text-align:center;
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:20px;
+text-align:center;
+color:var(--muted);
+font-size:13px;
+margin-bottom:20px
 }
 
-.form-group{
-  margin-bottom:16px;
-}
+.form-group{margin-bottom:16px}
 
 .form-group label{
-  display:block;
-  color:#465166;
-  font-size:13px;
-  font-weight:700;
-  margin-bottom:7px;
+display:block;
+color:#465166;
+font-size:13px;
+font-weight:700;
+margin-bottom:7px
 }
 
 input,select{
-  width:100%;
-  padding:13px 14px;
-  border:1px solid #dfe4ed;
-  border-radius:13px;
-  background:#fff;
-  color:var(--text);
-  outline:none;
+width:100%;
+padding:13px 14px;
+border:1px solid #dfe4ed;
+border-radius:13px;
+background:#fff;
+color:var(--text);
+outline:none
 }
 
 input:focus,select:focus{
-  border-color:var(--blue);
-  box-shadow:0 0 0 3px rgba(40,103,232,.08);
+border-color:var(--blue);
+box-shadow:0 0 0 3px rgba(40,103,232,.08)
 }
 
 .form-note{
-  text-align:center;
-  color:var(--muted);
-  font-size:13px;
-  margin-top:17px;
+text-align:center;
+color:var(--muted);
+font-size:13px;
+margin-top:17px
 }
 
 .form-note button{
-  border:0;
-  background:none;
-  color:var(--blue);
-  font-weight:800;
+border:0;
+background:none;
+color:var(--blue);
+font-weight:800
 }
 
 /* DASHBOARD */
 
-.dashboard-title{
-  margin-bottom:20px;
-}
+.dashboard-title{margin-bottom:20px}
 
-.dashboard-title h2{
-  font-size:29px;
-}
+.dashboard-title h2{font-size:29px}
 
 .dashboard-title p{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:5px;
+color:var(--muted);
+font-size:13px;
+margin-top:5px
 }
 
 .stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px
 }
 
 .stat{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:18px;
-  box-shadow:var(--shadow);
+background:#fff;
+border:1px solid var(--border);
+border-radius:20px;
+padding:18px;
+box-shadow:var(--shadow)
 }
 
 .stat small{
-  display:block;
-  color:var(--muted);
-  font-size:12px;
-  margin-bottom:9px;
+display:block;
+color:var(--muted);
+font-size:12px;
+margin-bottom:9px
 }
 
-.stat strong{
-  font-size:23px;
-}
+.stat strong{font-size:23px}
 
 .active-status{
-  display:inline-block;
-  margin-top:9px;
-  padding:5px 9px;
-  border-radius:20px;
-  background:#e9faf4;
-  color:var(--green);
-  font-size:10px;
-  font-weight:900;
+display:inline-block;
+margin-top:9px;
+padding:5px 9px;
+border-radius:20px;
+background:#e9faf4;
+color:var(--green);
+font-size:10px;
+font-weight:900
 }
-
-/* BONUS */
 
 .bonus{
-  margin-top:15px;
-  background:linear-gradient(135deg,#edf4ff,#f7faff);
-  border:1px solid #dce8fb;
-  border-radius:22px;
-  padding:20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
+margin-top:15px;
+background:linear-gradient(135deg,#edf4ff,#f7faff);
+border:1px solid #dce8fb;
+border-radius:22px;
+padding:20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px
 }
 
-.bonus h3{
-  margin-bottom:5px;
-}
+.bonus h3{margin-bottom:5px}
 
 .bonus p{
-  color:var(--muted);
-  font-size:13px;
+color:var(--muted);
+font-size:13px
 }
 
-/* REFERRAL */
-
 .referral{
-  margin-top:15px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  flex-wrap:wrap;
+margin-top:15px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+flex-wrap:wrap
 }
 
 .referral p{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:5px;
+color:var(--muted);
+font-size:13px;
+margin-top:5px
 }
 
 .referral-box{
-  display:flex;
-  gap:7px;
-  align-items:center;
+display:flex;
+gap:7px;
+align-items:center
 }
 
 .ref-code{
-  padding:11px 14px;
-  border-radius:12px;
-  background:#f4f6fa;
-  border:1px dashed #cbd4e3;
-  color:var(--blue);
-  font-weight:900;
+padding:11px 14px;
+border-radius:12px;
+background:#f4f6fa;
+border:1px dashed #cbd4e3;
+color:var(--blue);
+font-weight:900
 }
 
-/* TABLE */
-
 .table-wrap{
-  overflow:auto;
-  margin-top:15px;
+overflow:auto;
+margin-top:15px
 }
 
 table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:600px;
+width:100%;
+border-collapse:collapse;
+min-width:600px
 }
 
 th,td{
-  padding:13px 10px;
-  text-align:left;
-  border-bottom:1px solid #edf0f5;
-  font-size:13px;
+padding:13px 10px;
+text-align:left;
+border-bottom:1px solid #edf0f5;
+font-size:13px
 }
 
 th{
-  color:#687387;
-  font-weight:800;
+color:#687387;
+font-weight:800
 }
 
-td{
-  color:#303b50;
-}
+td{color:#303b50}
 
-.green{
-  color:var(--green);
-}
-
-.red{
-  color:var(--red);
-}
-
-.yellow{
-  color:var(--yellow);
-}
-
-/* ADMIN */
+.green{color:var(--green)}
+.red{color:var(--red)}
+.yellow{color:var(--yellow)}
 
 .admin-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px
 }
 
 .admin-actions{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
+display:flex;
+gap:6px;
+flex-wrap:wrap
 }
 
 .admin-actions button{
-  border:0;
-  padding:7px 9px;
-  border-radius:8px;
-  color:white;
-  font-size:11px;
-  font-weight:800;
+border:0;
+padding:7px 9px;
+border-radius:8px;
+color:#fff;
+font-size:11px;
+font-weight:800
 }
 
-.approve{
-  background:var(--green);
-}
+.approve{background:var(--green)}
+.reject{background:var(--red)}
 
-.reject{
-  background:var(--red);
-}
-
-/* HIDDEN */
-
-.hidden{
-  display:none!important;
-}
+.hidden{display:none!important}
 
 /* MOBILE */
 
 @media(max-width:850px){
 
-  .features{
-    grid-template-columns:repeat(2,1fr);
-  }
+.features{
+grid-template-columns:repeat(2,1fr)
+}
 
-  .stats,
-  .admin-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
+.tasks{
+grid-template-columns:repeat(2,1fr)
+}
+
+.stats,.admin-grid{
+grid-template-columns:repeat(2,1fr)
+}
+
 }
 
 @media(max-width:600px){
 
-  .nav{
-    padding:12px 13px;
-  }
+.nav{
+padding:12px 13px
+}
 
-  .logo{
-    font-size:26px;
-  }
+.logo{font-size:26px}
 
-  .nav-links{
-    gap:3px;
-  }
+.nav-links{gap:3px}
 
-  .nav-links button{
-    font-size:11px;
-    padding:7px 8px;
-  }
+.nav-links button{
+font-size:11px;
+padding:7px 8px
+}
 
-  #loginNav{
-    padding:10px 17px;
-    font-size:14px;
-  }
+#loginNav{
+padding:10px 17px;
+font-size:14px
+}
 
-  .container{
-    padding:16px 12px 40px;
-  }
+.container{
+padding:16px 12px 40px
+}
 
-  .hero{
-    padding:43px 15px 30px;
-    border-radius:23px;
-  }
+.hero{
+padding:43px 15px 30px;
+border-radius:23px
+}
 
-  .hero h1{
-    font-size:39px;
-    letter-spacing:-1.5px;
-  }
+.hero h1{
+font-size:39px;
+letter-spacing:-1.5px
+}
 
-  .hero p{
-    font-size:14px;
-  }
+.hero p{font-size:14px}
 
-  .hero-stats{
-    grid-template-columns:1fr;
-  }
+.hero-stats{
+grid-template-columns:1fr
+}
 
-  .features,
-  .tasks,
-  .stats,
-  .admin-grid{
-    grid-template-columns:1fr;
-  }
+.features,
+.stats,
+.admin-grid{
+grid-template-columns:1fr
+}
 
-  .section-title{
-    font-size:25px;
-  }
+/* Mobile-এও 3 card চাইলে ছোট 3-column */
+.tasks{
+grid-template-columns:repeat(3,1fr);
+gap:7px
+}
 
-  .task{
-    padding:15px;
-  }
+.task{
+padding:11px 5px;
+border-radius:15px
+}
 
-  .bonus{
-    flex-direction:column;
-    align-items:flex-start;
-  }
+.task-icon{
+width:43px;
+height:43px;
+font-size:22px;
+border-radius:13px;
+margin-bottom:8px
+}
 
-  .bonus .btn{
-    width:100%;
-  }
+.task h3{
+font-size:11px;
+margin-bottom:4px
+}
 
-  .auth-box{
-    margin:20px auto;
-  }
+.task p{
+font-size:9px;
+min-height:30px;
+line-height:1.3
+}
+
+.reward{
+font-size:11px;
+margin:7px 0 6px
+}
+
+.small-btn{
+font-size:9px;
+padding:6px 8px;
+border-radius:8px
+}
+
+.section-title{
+font-size:25px
+}
+
+.bonus{
+flex-direction:column;
+align-items:flex-start
+}
+
+.bonus .btn{
+width:100%
+}
+
+.auth-box{
+margin:20px auto
+}
+
+}
+
+/* Very small screens */
+
+@media(max-width:360px){
+
+.tasks{
+gap:5px
+}
+
+.task{
+padding:9px 3px
+}
+
+.task h3{
+font-size:10px
+}
+
+.task p{
+font-size:8px
+}
+
+.small-btn{
+padding:5px 6px;
+font-size:8px
+}
+
 }
 </style>
 </head>
@@ -722,894 +684,1019 @@ td{
 <body>
 
 <header>
-  <div class="nav">
 
-    <div class="logo">
-      EarnX
-    </div>
+<div class="nav">
 
-    <div class="nav-links">
+<div class="logo">
+EarnX
+</div>
 
-      <button onclick="showPage('home')">Home</button>
+<div class="nav-links">
 
-      <button id="loginNav" onclick="showPage('login')">
-        Login
-      </button>
+<button onclick="showPage('home')">
+Home
+</button>
 
-      <button onclick="showPage('register')">
-        Register
-      </button>
+<button id="loginNav"
+onclick="showPage('login')">
+Login
+</button>
 
-      <button id="dashboardBtn"
-              class="hidden"
-              onclick="showPage('dashboard')">
-        Dashboard
-      </button>
+<button onclick="showPage('register')">
+Register
+</button>
 
-      <button onclick="showPage('adminLogin')">
-        Admin
-      </button>
+<button id="dashboardBtn"
+class="hidden"
+onclick="showPage('dashboard')">
+Dashboard
+</button>
 
-      <button id="logoutBtn"
-              class="hidden"
-              onclick="logout()">
-        Logout
-      </button>
+<button onclick="showPage('adminLogin')">
+Admin
+</button>
 
-    </div>
+<button id="logoutBtn"
+class="hidden"
+onclick="logout()">
+Logout
+</button>
 
-  </div>
+</div>
+
+</div>
+
 </header>
 
 
 <main class="container">
 
 
-<!-- ================= HOME ================= -->
+<!-- HOME -->
 
 <section id="home" class="page active">
 
-  <div class="hero">
-
-    <div class="hero-badge">
-      ✦ Simple • Secure • Rewarding
-    </div>
-
-    <h1>
-      Earn With <span>Simple Tasks</span>
-    </h1>
-
-    <p>
-      Complete simple online tasks, earn rewards,
-      build your balance and request withdrawals
-      from one easy platform.
-    </p>
+<div class="hero">
 
-    <div class="hero-buttons">
+<div class="hero-badge">
+✦ Simple • Secure • Rewarding
+</div>
 
-      <button class="btn"
-              onclick="showPage('register')">
-        Get Started
-      </button>
+<h1>
+Earn With <span>Simple Tasks</span>
+</h1>
 
-      <button class="btn secondary"
-              onclick="showPage('login')">
-        Login
-      </button>
+<p>
+Complete simple online tasks, earn rewards,
+build your balance and request withdrawals
+from one easy platform.
+</p>
 
-    </div>
+<div class="hero-buttons">
 
-    <div class="hero-stats">
+<button class="btn"
+onclick="showPage('register')">
+Get Started
+</button>
 
-      <div class="hero-stat">
-        <strong>⚡ Easy</strong>
-        <span>Simple tasks</span>
-      </div>
+<button class="btn secondary"
+onclick="showPage('login')">
+Login
+</button>
 
-      <div class="hero-stat">
-        <strong>💰 Rewards</strong>
-        <span>Earn from tasks</span>
-      </div>
+</div>
 
-      <div class="hero-stat">
-        <strong>🔐 Secure</strong>
-        <span>Protected account</span>
-      </div>
+<div class="hero-stats">
 
-    </div>
+<div class="hero-stat">
+<strong>⚡ Easy</strong>
+<span>Simple tasks</span>
+</div>
 
-  </div>
+<div class="hero-stat">
+<strong>💰 Rewards</strong>
+<span>Earn from tasks</span>
+</div>
 
+<div class="hero-stat">
+<strong>🔐 Secure</strong>
+<span>Protected account</span>
+</div>
 
-  <h2 class="section-title">
-    Why EarnX?
-  </h2>
+</div>
 
-  <p class="section-subtitle">
-    Everything you need in one simple earning platform.
-  </p>
+</div>
 
 
-  <div class="features">
+<h2 class="section-title">
+Why EarnX?
+</h2>
 
-    <div class="card feature">
-      <div class="feature-icon">⚡</div>
-      <h3>Easy Tasks</h3>
-      <p>
-        Complete simple online tasks
-        without complicated steps.
-      </p>
-    </div>
+<p class="section-subtitle">
+Everything you need in one simple earning platform.
+</p>
 
-    <div class="card feature">
-      <div class="feature-icon">💰</div>
-      <h3>Earn Rewards</h3>
-      <p>
-        Get rewards after completing
-        available tasks.
-      </p>
-    </div>
 
-    <div class="card feature">
-      <div class="feature-icon">👥</div>
-      <h3>Referral</h3>
-      <p>
-        Invite friends and grow your
-        earning opportunities.
-      </p>
-    </div>
+<div class="features">
 
-    <div class="card feature">
-      <div class="feature-icon">🔐</div>
-      <h3>Secure</h3>
-      <p>
-        Your account and earning
-        information stay protected.
-      </p>
-    </div>
+<div class="card feature">
 
-  </div>
+<div class="feature-icon">⚡</div>
 
+<h3>Easy Tasks</h3>
 
-  <h2 class="section-title">
-    Available Tasks
-  </h2>
+<p>
+Complete simple online tasks
+without complicated steps.
+</p>
 
-  <p class="section-subtitle">
-    Complete tasks and earn rewards.
-  </p>
+</div>
 
 
-  <div class="tasks">
+<div class="card feature">
 
-    <div class="task">
+<div class="feature-icon">💰</div>
 
-      <div class="task-left">
+<h3>Earn Rewards</h3>
 
-        <div class="task-icon">📢</div>
+<p>
+Get rewards after completing
+available tasks.
+</p>
 
-        <div>
-          <h3>Telegram</h3>
-          <p>
-            Complete available Telegram tasks.
-          </p>
-        </div>
+</div>
 
-      </div>
 
-      <div>
-        <div class="reward">$0.50</div>
+<div class="card feature">
 
-        <button class="small-btn"
-                onclick="showPage('login')">
-          Start
-        </button>
-      </div>
+<div class="feature-icon">👥</div>
 
-    </div>
+<h3>Referral</h3>
 
+<p>
+Invite friends and grow your
+earning opportunities.
+</p>
 
-    <div class="task">
+</div>
 
-      <div class="task-left">
 
-        <div class="task-icon">▶️</div>
+<div class="card feature">
 
-        <div>
-          <h3>YouTube</h3>
-          <p>
-            Complete eligible YouTube tasks.
-          </p>
-        </div>
+<div class="feature-icon">🔐</div>
 
-      </div>
+<h3>Secure</h3>
 
-      <div>
-        <div class="reward">$0.25</div>
+<p>
+Your account and earning
+information stay protected.
+</p>
 
-        <button class="small-btn"
-                onclick="showPage('login')">
-          Start
-        </button>
-      </div>
+</div>
 
-    </div>
+</div>
 
 
-    <div class="task">
+<h2 class="section-title">
+Available Tasks
+</h2>
 
-      <div class="task-left">
+<p class="section-subtitle">
+Complete tasks and earn rewards.
+</p>
 
-        <div class="task-icon">🎵</div>
 
-        <div>
-          <h3>TikTok</h3>
-          <p>
-            Complete social tasks and earn.
-          </p>
-        </div>
+<!-- 3 + 3 TASKS -->
 
-      </div>
+<div class="tasks">
 
-      <div>
-        <div class="reward">$0.20</div>
 
-        <button class="small-btn"
-                onclick="showPage('login')">
-          Start
-        </button>
-      </div>
+<!-- 1 Telegram -->
 
-    </div>
+<div class="task">
 
+<div class="task-icon">
+📢
+</div>
 
-    <div class="task">
+<h3>
+Telegram
+</h3>
 
-      <div class="task-left">
+<p>
+Join Telegram tasks
+and earn rewards.
+</p>
 
-        <div class="task-icon">🌐</div>
+<div class="reward">
+$0.50
+</div>
 
-        <div>
-          <h3>Website Visit</h3>
-          <p>
-            Visit eligible websites and complete tasks.
-          </p>
-        </div>
+<button class="small-btn"
+onclick="showPage('login')">
+Start
+</button>
 
-      </div>
+</div>
 
-      <div>
-        <div class="reward">$0.15</div>
 
-        <button class="small-btn"
-                onclick="showPage('login')">
-          Start
-        </button>
-      </div>
+<!-- 2 Instagram -->
 
-    </div>
+<div class="task">
 
-  </div>
+<div class="task-icon">
+📷
+</div>
+
+<h3>
+Instagram
+</h3>
+
+<p>
+Complete Instagram
+tasks and earn.
+</p>
+
+<div class="reward">
+$0.30
+</div>
+
+<button class="small-btn"
+onclick="showPage('login')">
+Start
+</button>
+
+</div>
+
+
+<!-- 3 TikTok -->
+
+<div class="task">
+
+<div class="task-icon">
+🎵
+</div>
+
+<h3>
+TikTok
+</h3>
+
+<p>
+Complete TikTok
+tasks and earn.
+</p>
+
+<div class="reward">
+$0.20
+</div>
+
+<button class="small-btn"
+onclick="showPage('login')">
+Start
+</button>
+
+</div>
+
+
+<!-- 4 YouTube -->
+
+<div class="task">
+
+<div class="task-icon">
+▶️
+</div>
+
+<h3>
+YouTube
+</h3>
+
+<p>
+Complete YouTube
+tasks and earn.
+</p>
+
+<div class="reward">
+$0.25
+</div>
+
+<button class="small-btn"
+onclick="showPage('login')">
+Start
+</button>
+
+</div>
+
+
+<!-- 5 Website -->
+
+<div class="task">
+
+<div class="task-icon">
+🌐
+</div>
+
+<h3>
+Website
+</h3>
+
+<p>
+Visit websites and
+complete tasks.
+</p>
+
+<div class="reward">
+$0.15
+</div>
+
+<button class="small-btn"
+onclick="showPage('login')">
+Start
+</button>
+
+</div>
+
+
+<!-- 6 Referral -->
+
+<div class="task">
+
+<div class="task-icon">
+👥
+</div>
+
+<h3>
+Referral
+</h3>
+
+<p>
+Invite friends and
+earn rewards.
+</p>
+
+<div class="reward">
+$1.00
+</div>
+
+<button class="small-btn"
+onclick="showPage('register')">
+Join
+</button>
+
+</div>
+
+</div>
 
 </section>
 
 
-<!-- ================= REGISTER ================= -->
+<!-- REGISTER -->
 
 <section id="register" class="page">
 
-  <div class="auth-box card">
+<div class="auth-box card">
 
-    <h2>Create Account</h2>
+<h2>
+Create Account
+</h2>
 
-    <p class="auth-subtitle">
-      Join EarnX and start completing tasks.
-    </p>
+<p class="auth-subtitle">
+Join EarnX and start completing tasks.
+</p>
 
+<div class="form-group">
 
-    <div class="form-group">
+<label>
+Full Name
+</label>
 
-      <label>Full Name</label>
+<input id="regName"
+type="text"
+placeholder="Enter your full name">
 
-      <input id="regName"
-             type="text"
-             placeholder="Enter your full name">
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label>Email</label>
-
-      <input id="regEmail"
-             type="email"
-             placeholder="Enter your email">
-
-    </div>
+</div>
 
 
-    <div class="form-group">
+<div class="form-group">
 
-      <label>Password</label>
+<label>
+Email
+</label>
 
-      <input id="regPassword"
-             type="password"
-             placeholder="Create a password">
+<input id="regEmail"
+type="email"
+placeholder="Enter your email">
 
-    </div>
-
-
-    <div class="form-group">
-
-      <label>Referral Code (Optional)</label>
-
-      <input id="regReferral"
-             type="text"
-             placeholder="Enter referral code">
-
-    </div>
+</div>
 
 
-    <button class="btn"
-            style="width:100%"
-            onclick="register()">
-      Create Account
-    </button>
+<div class="form-group">
+
+<label>
+Password
+</label>
+
+<input id="regPassword"
+type="password"
+placeholder="Create a password">
+
+</div>
 
 
-    <div class="form-note">
+<div class="form-group">
 
-      Already have an account?
+<label>
+Referral Code (Optional)
+</label>
 
-      <button onclick="showPage('login')">
-        Login
-      </button>
+<input id="regReferral"
+type="text"
+placeholder="Enter referral code">
 
-    </div>
+</div>
 
-  </div>
+
+<button class="btn"
+style="width:100%"
+onclick="register()">
+
+Create Account
+
+</button>
+
+
+<div class="form-note">
+
+Already have an account?
+
+<button onclick="showPage('login')">
+Login
+</button>
+
+</div>
+
+</div>
 
 </section>
 
 
-<!-- ================= LOGIN ================= -->
+<!-- LOGIN -->
 
 <section id="login" class="page">
 
-  <div class="auth-box card">
+<div class="auth-box card">
 
-    <h2>Welcome Back</h2>
+<h2>
+Welcome Back
+</h2>
 
-    <p class="auth-subtitle">
-      Login to continue earning.
-    </p>
+<p class="auth-subtitle">
+Login to continue earning.
+</p>
 
+<div class="form-group">
 
-    <div class="form-group">
+<label>
+Email
+</label>
 
-      <label>Email</label>
+<input id="loginEmail"
+type="email"
+placeholder="Enter your email">
 
-      <input id="loginEmail"
-             type="email"
-             placeholder="Enter your email">
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label>Password</label>
-
-      <input id="loginPassword"
-             type="password"
-             placeholder="Enter your password">
-
-    </div>
+</div>
 
 
-    <button class="btn"
-            style="width:100%"
-            onclick="login()">
-      Login
-    </button>
+<div class="form-group">
+
+<label>
+Password
+</label>
+
+<input id="loginPassword"
+type="password"
+placeholder="Enter your password">
+
+</div>
 
 
-    <div class="form-note">
+<button class="btn"
+style="width:100%"
+onclick="login()">
 
-      Don't have an account?
+Login
 
-      <button onclick="showPage('register')">
-        Register
-      </button>
+</button>
 
-    </div>
 
-  </div>
+<div class="form-note">
+
+Don't have an account?
+
+<button onclick="showPage('register')">
+Register
+</button>
+
+</div>
+
+</div>
 
 </section>
 
 
-<!-- ================= DASHBOARD ================= -->
+<!-- DASHBOARD -->
 
 <section id="dashboard" class="page">
 
-  <div class="dashboard-title">
+<div class="dashboard-title">
 
-    <h2>My Dashboard</h2>
+<h2>
+My Dashboard
+</h2>
 
-    <p>
-      Manage your tasks, earnings and withdrawals.
-    </p>
+<p>
+Manage your tasks, earnings and withdrawals.
+</p>
 
-  </div>
+</div>
 
 
-  <div class="stats">
+<div class="stats">
 
-    <div class="stat">
+<div class="stat">
 
-      <small>Available Balance</small>
+<small>
+Available Balance
+</small>
 
-      <strong id="balance">
-        $0.00
-      </strong>
+<strong id="balance">
+$0.00
+</strong>
 
-    </div>
+</div>
 
 
-    <div class="stat">
+<div class="stat">
 
-      <small>Total Earned</small>
+<small>
+Total Earned
+</small>
 
-      <strong id="totalEarned">
-        $0.00
-      </strong>
+<strong id="totalEarned">
+$0.00
+</strong>
 
-    </div>
+</div>
 
 
-    <div class="stat">
+<div class="stat">
 
-      <small>Referrals</small>
+<small>
+Referrals
+</small>
 
-      <strong id="referrals">
-        0
-      </strong>
+<strong id="referrals">
+0
+</strong>
 
-    </div>
+</div>
 
 
-    <div class="stat">
+<div class="stat">
 
-      <small>Account</small>
+<small>
+Account
+</small>
 
-      <strong style="color:var(--green)">
-        Active
-      </strong>
+<strong style="color:var(--green)">
+Active
+</strong>
 
-      <div class="active-status">
-        ● ACTIVE
-      </div>
+<div class="active-status">
+● ACTIVE
+</div>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
 
-  <!-- BONUS -->
+<div class="bonus">
 
-  <div class="bonus">
+<div>
 
-    <div>
+<h3>
+🎁 Daily Bonus
+</h3>
 
-      <h3>
-        🎁 Daily Bonus
-      </h3>
+<p>
+Claim your daily reward when available.
+</p>
 
-      <p>
-        Claim your daily reward when available.
-      </p>
+</div>
 
-    </div>
+<button class="btn"
+onclick="claimBonus()">
+Claim $1
+</button>
 
-    <button class="btn"
-            onclick="claimBonus()">
-      Claim $1
-    </button>
+</div>
 
-  </div>
 
+<div class="card referral">
 
-  <!-- REFERRAL -->
+<div>
 
-  <div class="card referral">
+<h3>
+👥 Referral Program
+</h3>
 
-    <div>
+<p>
+Share your referral code with friends.
+</p>
 
-      <h3>
-        👥 Referral Program
-      </h3>
+</div>
 
-      <p>
-        Share your referral code with friends.
-      </p>
 
-    </div>
+<div class="referral-box">
 
+<div id="refCode"
+class="ref-code">
+---
+</div>
 
-    <div class="referral-box">
+<button class="small-btn"
+onclick="copyReferral()">
+Copy
+</button>
 
-      <div id="refCode"
-           class="ref-code">
-        ---
-      </div>
+</div>
 
-      <button class="small-btn"
-              onclick="copyReferral()">
-        Copy
-      </button>
+</div>
 
-    </div>
 
-  </div>
+<h2 class="section-title">
+Available Tasks
+</h2>
 
+<div id="dashboardTasks"
+class="tasks">
 
-  <!-- TASKS -->
+<p style="color:var(--muted)">
+Loading tasks...
+</p>
 
-  <h2 class="section-title">
-    Available Tasks
-  </h2>
+</div>
 
-  <div id="dashboardTasks"
-       class="tasks">
 
-    <p style="color:var(--muted)">
-      Loading tasks...
-    </p>
+<div class="card"
+style="margin-top:20px">
 
-  </div>
+<h2 style="margin-bottom:18px">
+💸 Withdraw Earnings
+</h2>
 
+<div class="form-group">
 
-  <!-- WITHDRAW -->
+<label>
+Withdrawal Method
+</label>
 
-  <div class="card"
-       style="margin-top:20px">
+<select id="withdrawMethod">
 
-    <h2 style="margin-bottom:18px">
-      💸 Withdraw Earnings
-    </h2>
+<option value="bkash">
+bKash
+</option>
 
+<option value="nagad">
+Nagad
+</option>
 
-    <div class="form-group">
+<option value="usdt">
+USDT
+</option>
 
-      <label>Withdrawal Method</label>
+</select>
 
-      <select id="withdrawMethod">
+</div>
 
-        <option value="bkash">
-          bKash
-        </option>
 
-        <option value="nagad">
-          Nagad
-        </option>
+<div class="form-group">
 
-        <option value="usdt">
-          USDT
-        </option>
+<label>
+Account / Wallet
+</label>
 
-      </select>
+<input id="withdrawAccount"
+type="text"
+placeholder="Enter number or wallet">
 
-    </div>
+</div>
 
 
-    <div class="form-group">
+<div class="form-group">
 
-      <label>
-        Account / Wallet
-      </label>
+<label>
+Amount — Minimum $1
+</label>
 
-      <input id="withdrawAccount"
-             type="text"
-             placeholder="Enter number or wallet">
+<input id="withdrawAmount"
+type="number"
+min="1"
+step="0.01"
+placeholder="1.00">
 
-    </div>
+</div>
 
 
-    <div class="form-group">
+<button class="btn"
+onclick="withdraw()">
+Request Withdrawal
+</button>
 
-      <label>
-        Amount — Minimum $1
-      </label>
+</div>
 
-      <input id="withdrawAmount"
-             type="number"
-             min="1"
-             step="0.01"
-             placeholder="1.00">
 
-    </div>
+<div class="card"
+style="margin-top:20px">
 
+<h2>
+📜 Transaction History
+</h2>
 
-    <button class="btn"
-            onclick="withdraw()">
-      Request Withdrawal
-    </button>
+<div class="table-wrap">
 
-  </div>
+<table>
 
+<thead>
 
-  <!-- TRANSACTIONS -->
+<tr>
+<th>Date</th>
+<th>Type</th>
+<th>Amount</th>
+</tr>
 
-  <div class="card"
-       style="margin-top:20px">
+</thead>
 
-    <h2>
-      📜 Transaction History
-    </h2>
+<tbody id="transactions">
 
-    <div class="table-wrap">
+<tr>
+<td colspan="3">
+Loading...
+</td>
+</tr>
 
-      <table>
+</tbody>
 
-        <thead>
+</table>
 
-          <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Amount</th>
-          </tr>
+</div>
 
-        </thead>
+</div>
 
-        <tbody id="transactions">
 
-          <tr>
-            <td colspan="3">
-              Loading...
-            </td>
-          </tr>
+<div class="card"
+style="margin-top:20px">
 
-        </tbody>
+<h2>
+💳 Withdrawal History
+</h2>
 
-      </table>
+<div class="table-wrap">
 
-    </div>
+<table>
 
-  </div>
+<thead>
 
+<tr>
+<th>Date</th>
+<th>Method</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>
 
-  <!-- WITHDRAWAL HISTORY -->
+</thead>
 
-  <div class="card"
-       style="margin-top:20px">
+<tbody id="withdrawals">
 
-    <h2>
-      💳 Withdrawal History
-    </h2>
+<tr>
+<td colspan="4">
+Loading...
+</td>
+</tr>
 
-    <div class="table-wrap">
+</tbody>
 
-      <table>
+</table>
 
-        <thead>
+</div>
 
-          <tr>
-            <th>Date</th>
-            <th>Method</th>
-            <th>Amount</th>
-            <th>Status</th>
-          </tr>
-
-        </thead>
-
-        <tbody id="withdrawals">
-
-          <tr>
-            <td colspan="4">
-              Loading...
-            </td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
 
-<!-- ================= ADMIN LOGIN ================= -->
+<!-- ADMIN LOGIN -->
 
 <section id="adminLogin" class="page">
 
-  <div class="auth-box card">
+<div class="auth-box card">
 
-    <h2>Admin Login</h2>
+<h2>
+Admin Login
+</h2>
 
-    <p class="auth-subtitle">
-      Secure administrator access.
-    </p>
+<p class="auth-subtitle">
+Secure administrator access.
+</p>
 
+<div class="form-group">
 
-    <div class="form-group">
+<label>
+Admin Email
+</label>
 
-      <label>Admin Email</label>
+<input id="adminEmail"
+type="email"
+placeholder="Enter admin email">
 
-      <input id="adminEmail"
-             type="email"
-             placeholder="Enter admin email">
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label>Password</label>
-
-      <input id="adminPassword"
-             type="password"
-             placeholder="Enter admin password">
-
-    </div>
+</div>
 
 
-    <button class="btn"
-            style="width:100%"
-            onclick="adminLogin()">
-      Admin Login
-    </button>
+<div class="form-group">
 
-  </div>
+<label>
+Password
+</label>
+
+<input id="adminPassword"
+type="password"
+placeholder="Enter admin password">
+
+</div>
+
+
+<button class="btn"
+style="width:100%"
+onclick="adminLogin()">
+Admin Login
+</button>
+
+</div>
 
 </section>
 
 
-<!-- ================= ADMIN ================= -->
+<!-- ADMIN -->
 
 <section id="admin" class="page">
 
-  <div class="dashboard-title">
+<div class="dashboard-title">
 
-    <h2>Admin Panel</h2>
+<h2>
+Admin Panel
+</h2>
 
-    <p>
-      Manage users and withdrawal requests.
-    </p>
+<p>
+Manage users and withdrawal requests.
+</p>
 
-  </div>
-
-
-  <div class="admin-grid">
-
-    <div class="stat">
-
-      <small>Total Users</small>
-
-      <strong id="adminUsers">
-        0
-      </strong>
-
-    </div>
+</div>
 
 
-    <div class="stat">
+<div class="admin-grid">
 
-      <small>Total Balance</small>
+<div class="stat">
 
-      <strong id="adminBalance">
-        $0.00
-      </strong>
+<small>
+Total Users
+</small>
 
-    </div>
+<strong id="adminUsers">
+0
+</strong>
 
-
-    <div class="stat">
-
-      <small>Pending Withdrawals</small>
-
-      <strong id="adminPending">
-        0
-      </strong>
-
-    </div>
+</div>
 
 
-    <div class="stat">
+<div class="stat">
 
-      <small>Approved Withdrawals</small>
+<small>
+Total Balance
+</small>
 
-      <strong id="adminApproved">
-        0
-      </strong>
+<strong id="adminBalance">
+$0.00
+</strong>
 
-    </div>
-
-  </div>
-
-
-  <div class="card"
-       style="margin-top:20px">
-
-    <h2>
-      👥 Users
-    </h2>
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Balance</th>
-            <th>Joined</th>
-          </tr>
-
-        </thead>
-
-        <tbody id="adminUsersTable">
-
-          <tr>
-            <td colspan="4">
-              Loading...
-            </td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="card"
-       style="margin-top:20px">
+<div class="stat">
 
-    <h2>
-      💸 Withdrawal Requests
-    </h2>
+<small>
+Pending Withdrawals
+</small>
 
-    <div class="table-wrap">
+<strong id="adminPending">
+0
+</strong>
 
-      <table>
+</div>
 
-        <thead>
 
-          <tr>
-            <th>User</th>
-            <th>Method</th>
-            <th>Account</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
+<div class="stat">
 
-        </thead>
+<small>
+Approved Withdrawals
+</small>
 
-        <tbody id="adminWithdrawals">
+<strong id="adminApproved">
+0
+</strong>
 
-          <tr>
-            <td colspan="6">
-              Loading...
-            </td>
-          </tr>
+</div>
 
-        </tbody>
+</div>
 
-      </table>
 
-    </div>
+<div class="card"
+style="margin-top:20px">
 
-  </div>
+<h2>
+👥 Users
+</h2>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Balance</th>
+<th>Joined</th>
+</tr>
+
+</thead>
+
+<tbody id="adminUsersTable">
+
+<tr>
+<td colspan="4">
+Loading...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<div class="card"
+style="margin-top:20px">
+
+<h2>
+💸 Withdrawal Requests
+</h2>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>User</th>
+<th>Method</th>
+<th>Account</th>
+<th>Amount</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody id="adminWithdrawals">
+
+<tr>
+<td colspan="6">
+Loading...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
 
 </section>
 
@@ -1620,55 +1707,53 @@ td{
 
 const API="/api";
 
-
 async function api(path,options={}){
 
-  const res=await fetch(API+path,{
-    credentials:"include",
-    headers:{
-      "Content-Type":"application/json",
-      ...(options.headers||{})
-    },
-    ...options
-  });
+const res=await fetch(API+path,{
+credentials:"include",
+headers:{
+"Content-Type":"application/json",
+...(options.headers||{})
+},
+...options
+});
 
-  const data=await res.json().catch(()=>({}));
+const data=await res.json().catch(()=>({}));
 
-  if(!res.ok){
-    throw new Error(
-      data.error ||
-      data.message ||
-      "Something went wrong"
-    );
-  }
+if(!res.ok){
+throw new Error(
+data.error ||
+data.message ||
+"Something went wrong"
+);
+}
 
-  return data;
+return data;
 }
 
 
 function showPage(id){
 
-  document
-    .querySelectorAll(".page")
-    .forEach(p=>p.classList.remove("active"));
+document
+.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
 
-  const page=document.getElementById(id);
+const page=document.getElementById(id);
 
-  if(page){
-    page.classList.add("active");
-  }
+if(page){
+page.classList.add("active");
+}
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 }
 
 
 function money(value){
 
-  return "$"+
-    Number(value||0).toFixed(2);
+return "$"+Number(value||0).toFixed(2);
 
 }
 
@@ -1677,57 +1762,51 @@ function money(value){
 
 async function register(){
 
-  const name=
-    document.getElementById("regName").value.trim();
+const name=
+document.getElementById("regName").value.trim();
 
-  const email=
-    document.getElementById("regEmail").value.trim();
+const email=
+document.getElementById("regEmail").value.trim();
 
-  const password=
-    document.getElementById("regPassword").value;
+const password=
+document.getElementById("regPassword").value;
 
-  const referralCode=
-    document.getElementById("regReferral").value.trim();
+const referralCode=
+document.getElementById("regReferral").value.trim();
 
+if(!name||!email||!password){
 
-  if(!name || !email || !password){
+alert("Please fill in all required fields.");
 
-    alert("Please fill in all required fields.");
+return;
+}
 
-    return;
-  }
+try{
 
+await api("/register",{
+method:"POST",
+body:JSON.stringify({
+name,
+email,
+password,
+referral_code:referralCode
+})
+});
 
-  try{
+alert("Account created successfully!");
 
-    await api("/register",{
-      method:"POST",
-      body:JSON.stringify({
-        name,
-        email,
-        password,
-        referral_code:referralCode
-      })
-    });
+document.getElementById("regName").value="";
+document.getElementById("regEmail").value="";
+document.getElementById("regPassword").value="";
+document.getElementById("regReferral").value="";
 
+showPage("login");
 
-    alert("Account created successfully!");
+}catch(e){
 
+alert(e.message);
 
-    document.getElementById("regName").value="";
-    document.getElementById("regEmail").value="";
-    document.getElementById("regPassword").value="";
-    document.getElementById("regReferral").value="";
-
-
-    showPage("login");
-
-
-  }catch(e){
-
-    alert(e.message);
-
-  }
+}
 
 }
 
@@ -1736,51 +1815,46 @@ async function register(){
 
 async function login(){
 
-  const email=
-    document.getElementById("loginEmail").value.trim();
+const email=
+document.getElementById("loginEmail").value.trim();
 
-  const password=
-    document.getElementById("loginPassword").value;
+const password=
+document.getElementById("loginPassword").value;
 
+if(!email||!password){
 
-  if(!email || !password){
+alert("Enter email and password.");
 
-    alert("Enter email and password.");
+return;
+}
 
-    return;
-  }
+try{
 
+await api("/login",{
+method:"POST",
+body:JSON.stringify({
+email,
+password
+})
+});
 
-  try{
+document
+.getElementById("dashboardBtn")
+.classList.remove("hidden");
 
-    await api("/login",{
-      method:"POST",
-      body:JSON.stringify({
-        email,
-        password
-      })
-    });
+document
+.getElementById("logoutBtn")
+.classList.remove("hidden");
 
+await loadDashboard();
 
-    document
-      .getElementById("dashboardBtn")
-      .classList.remove("hidden");
+showPage("dashboard");
 
-    document
-      .getElementById("logoutBtn")
-      .classList.remove("hidden");
+}catch(e){
 
+alert(e.message);
 
-    await loadDashboard();
-
-    showPage("dashboard");
-
-
-  }catch(e){
-
-    alert(e.message);
-
-  }
+}
 
 }
 
@@ -1789,43 +1863,39 @@ async function login(){
 
 async function loadDashboard(){
 
-  try{
+try{
 
-    const me=await api("/me");
+const me=await api("/me");
 
-    const user=me.user||me;
+const user=me.user||me;
 
+document.getElementById("balance")
+.textContent=money(user.balance);
 
-    document.getElementById("balance")
-      .textContent=money(user.balance);
+document.getElementById("totalEarned")
+.textContent=money(user.total_earned);
 
-    document.getElementById("totalEarned")
-      .textContent=money(user.total_earned);
+document.getElementById("referrals")
+.textContent=
+user.referrals_count||
+user.referrals||
+0;
 
-    document.getElementById("referrals")
-      .textContent=
-      user.referrals_count ||
-      user.referrals ||
-      0;
+document.getElementById("refCode")
+.textContent=
+user.referral_code||
+user.referralCode||
+"---";
 
+await loadTasks();
+await loadTransactions();
+await loadWithdrawals();
 
-    document.getElementById("refCode")
-      .textContent=
-      user.referral_code ||
-      user.referralCode ||
-      "---";
+}catch(e){
 
+console.log(e);
 
-    await loadTasks();
-    await loadTransactions();
-    await loadWithdrawals();
-
-
-  }catch(e){
-
-    console.log(e);
-
-  }
+}
 
 }
 
@@ -1834,123 +1904,102 @@ async function loadDashboard(){
 
 async function loadTasks(){
 
-  const box=
-    document.getElementById("dashboardTasks");
+const box=
+document.getElementById("dashboardTasks");
 
+try{
 
-  try{
+const data=await api("/tasks");
 
-    const data=await api("/tasks");
+const tasks=
+data.tasks||
+data||
+[];
 
-    const tasks=
-      data.tasks ||
-      data ||
-      [];
+if(!tasks.length){
 
+box.innerHTML=
+'<p style="color:var(--muted)">No tasks available right now.</p>';
 
-    if(!tasks.length){
+return;
+}
 
-      box.innerHTML=
-        '<p style="color:var(--muted)">No tasks available right now.</p>';
+box.innerHTML=
+tasks.map(task=>`
 
-      return;
-    }
+<div class="task">
 
+<div class="task-icon">
 
-    box.innerHTML=
-      tasks.map(task=>`
+${
+task.type==="telegram"?"📢":
+task.type==="youtube"?"▶️":
+task.type==="instagram"?"📷":
+task.type==="tiktok"?"🎵":
+"🌐"
+}
 
-        <div class="task">
+</div>
 
-          <div class="task-left">
+<h3>
+${escapeHtml(
+task.title||
+task.name||
+"Task"
+)}
+</h3>
 
-            <div class="task-icon">
+<p>
+${escapeHtml(
+task.description||
+"Complete this task and earn rewards."
+)}
+</p>
 
-              ${
-                task.type==="telegram" ? "📢" :
-                task.type==="youtube" ? "▶️" :
-                task.type==="instagram" ? "📷" :
-                task.type==="tiktok" ? "🎵" :
-                "🌐"
-              }
+<div class="reward">
+${money(task.reward)}
+</div>
 
-            </div>
+<button class="small-btn"
+onclick="completeTask(${task.id})">
+Complete
+</button>
 
-            <div>
+</div>
 
-              <h3>
-                ${escapeHtml(
-                  task.title ||
-                  task.name ||
-                  "Task"
-                )}
-              </h3>
+`).join("");
 
-              <p>
-                ${escapeHtml(
-                  task.description ||
-                  "Complete this task and earn rewards."
-                )}
-              </p>
+}catch(e){
 
-            </div>
+box.innerHTML=
+'<p style="color:var(--muted)">Unable to load tasks.</p>';
 
-          </div>
-
-          <div>
-
-            <div class="reward">
-              ${money(task.reward)}
-            </div>
-
-            <button class="small-btn"
-                    onclick="completeTask(${task.id})">
-              Complete
-            </button>
-
-          </div>
-
-        </div>
-
-      `).join("");
-
-
-  }catch(e){
-
-    box.innerHTML=
-      '<p style="color:var(--muted)">Unable to load tasks.</p>';
-
-  }
+}
 
 }
 
 
-/* COMPLETE TASK */
-
 async function completeTask(id){
 
-  try{
+try{
 
-    const result=
-      await api("/tasks/"+id+"/complete",{
-        method:"POST"
-      });
+const result=
+await api("/tasks/"+id+"/complete",{
+method:"POST"
+});
 
+alert(
+result.message||
+"Task completed!"
+);
 
-    alert(
-      result.message ||
-      "Task completed!"
-    );
+await loadDashboard();
 
+}catch(e){
 
-    await loadDashboard();
+alert(e.message);
 
-
-  }catch(e){
-
-    alert(e.message);
-
-  }
+}
 
 }
 
@@ -1959,28 +2008,25 @@ async function completeTask(id){
 
 async function claimBonus(){
 
-  try{
+try{
 
-    const result=
-      await api("/daily-bonus",{
-        method:"POST"
-      });
+const result=
+await api("/daily-bonus",{
+method:"POST"
+});
 
+alert(
+result.message||
+"Daily bonus claimed!"
+);
 
-    alert(
-      result.message ||
-      "Daily bonus claimed!"
-    );
+await loadDashboard();
 
+}catch(e){
 
-    await loadDashboard();
+alert(e.message);
 
-
-  }catch(e){
-
-    alert(e.message);
-
-  }
+}
 
 }
 
@@ -1989,27 +2035,23 @@ async function claimBonus(){
 
 async function copyReferral(){
 
-  const code=
-    document.getElementById("refCode")
-    .textContent;
+const code=
+document.getElementById("refCode")
+.textContent;
 
+if(code==="---")return;
 
-  if(code==="---"){
-    return;
-  }
+try{
 
+await navigator.clipboard.writeText(code);
 
-  try{
+alert("Referral code copied!");
 
-    await navigator.clipboard.writeText(code);
+}catch(e){
 
-    alert("Referral code copied!");
+alert("Copy failed.");
 
-  }catch(e){
-
-    alert("Copy failed.");
-
-  }
+}
 
 }
 
@@ -2018,64 +2060,60 @@ async function copyReferral(){
 
 async function loadTransactions(){
 
-  const body=
-    document.getElementById("transactions");
+const body=
+document.getElementById("transactions");
 
+try{
 
-  try{
+const data=
+await api("/transactions");
 
-    const data=
-      await api("/transactions");
+const list=
+data.transactions||
+data||
+[];
 
-    const list=
-      data.transactions ||
-      data ||
-      [];
+if(!list.length){
 
+body.innerHTML=
+'<tr><td colspan="3">No transactions yet.</td></tr>';
 
-    if(!list.length){
+return;
+}
 
-      body.innerHTML=
-        '<tr><td colspan="3">No transactions yet.</td></tr>';
+body.innerHTML=
+list.map(x=>`
 
-      return;
-    }
+<tr>
 
+<td>
+${formatDate(
+x.created_at||
+x.date
+)}
+</td>
 
-    body.innerHTML=
-      list.map(x=>`
+<td>
+${escapeHtml(
+x.type||
+"Earning"
+)}
+</td>
 
-        <tr>
+<td class="green">
++${money(x.amount)}
+</td>
 
-          <td>
-            ${formatDate(
-              x.created_at ||
-              x.date
-            )}
-          </td>
+</tr>
 
-          <td>
-            ${escapeHtml(
-              x.type ||
-              "Earning"
-            )}
-          </td>
+`).join("");
 
-          <td class="green">
-            +${money(x.amount)}
-          </td>
+}catch(e){
 
-        </tr>
+body.innerHTML=
+'<tr><td colspan="3">Unable to load.</td></tr>';
 
-      `).join("");
-
-
-  }catch(e){
-
-    body.innerHTML=
-      '<tr><td colspan="3">Unable to load.</td></tr>';
-
-  }
+}
 
 }
 
@@ -2084,58 +2122,52 @@ async function loadTransactions(){
 
 async function withdraw(){
 
-  const method=
-    document.getElementById("withdrawMethod").value;
+const method=
+document.getElementById("withdrawMethod").value;
 
-  const account=
-    document.getElementById("withdrawAccount")
-    .value.trim();
+const account=
+document.getElementById("withdrawAccount")
+.value.trim();
 
-  const amount=
-    Number(
-      document.getElementById("withdrawAmount").value
-    );
+const amount=
+Number(
+document.getElementById("withdrawAmount").value
+);
 
+if(!account||!amount||amount<1){
 
-  if(!account || !amount || amount<1){
+alert("Minimum withdrawal is $1.");
 
-    alert("Minimum withdrawal is $1.");
+return;
+}
 
-    return;
-  }
+try{
 
+const result=
+await api("/withdraw",{
+method:"POST",
+body:JSON.stringify({
+method,
+account,
+amount
+})
+});
 
-  try{
+alert(
+result.message||
+"Withdrawal request submitted!"
+);
 
-    const result=
-      await api("/withdraw",{
-        method:"POST",
-        body:JSON.stringify({
-          method,
-          account,
-          amount
-        })
-      });
+document.getElementById("withdrawAccount").value="";
+document.getElementById("withdrawAmount").value="";
 
+await loadDashboard();
 
-    alert(
-      result.message ||
-      "Withdrawal request submitted!"
-    );
+}catch(e){
 
+alert(e.message);
 
-    document.getElementById("withdrawAccount").value="";
-    document.getElementById("withdrawAmount").value="";
-
-
-    await loadDashboard();
-
-
-  }catch(e){
-
-    alert(e.message);
-
-  }
+}
 
 }
 
@@ -2144,78 +2176,75 @@ async function withdraw(){
 
 async function loadWithdrawals(){
 
-  const body=
-    document.getElementById("withdrawals");
+const body=
+document.getElementById("withdrawals");
 
+try{
 
-  try{
+const data=
+await api("/withdrawals");
 
-    const data=
-      await api("/withdrawals");
+const list=
+data.withdrawals||
+data||
+[];
 
-    const list=
-      data.withdrawals ||
-      data ||
-      [];
+if(!list.length){
 
+body.innerHTML=
+'<tr><td colspan="4">No withdrawal requests.</td></tr>';
 
-    if(!list.length){
+return;
+}
 
-      body.innerHTML=
-        '<tr><td colspan="4">No withdrawal requests.</td></tr>';
+body.innerHTML=
+list.map(x=>`
 
-      return;
-    }
+<tr>
 
+<td>
+${formatDate(
+x.created_at||
+x.date
+)}
+</td>
 
-    body.innerHTML=
-      list.map(x=>`
+<td>
+${escapeHtml(
+x.method||
+""
+)}
+</td>
 
-        <tr>
+<td>
+${money(x.amount)}
+</td>
 
-          <td>
-            ${formatDate(
-              x.created_at ||
-              x.date
-            )}
-          </td>
+<td class="${
+x.status==="Approved"
+?"green":
+x.status==="Rejected"
+?"red":
+"yellow"
+}">
 
-          <td>
-            ${escapeHtml(
-              x.method || ""
-            )}
-          </td>
+${escapeHtml(
+x.status||
+"Pending"
+)}
 
-          <td>
-            ${money(x.amount)}
-          </td>
+</td>
 
-          <td class="${
-            x.status==="Approved"
-              ? "green"
-              : x.status==="Rejected"
-              ? "red"
-              : "yellow"
-          }">
+</tr>
 
-            ${escapeHtml(
-              x.status ||
-              "Pending"
-            )}
+`).join("");
 
-          </td>
+}catch(e){
 
-        </tr>
+body.innerHTML=
+'<tr><td colspan="4">Unable to load.</td></tr>';
 
-      `).join("");
-
-
-  }catch(e){
-
-    body.innerHTML=
-      '<tr><td colspan="4">Unable to load.</td></tr>';
-
-  }
+}
 
 }
 
@@ -2224,25 +2253,23 @@ async function loadWithdrawals(){
 
 async function logout(){
 
-  try{
+try{
 
-    await api("/logout",{
-      method:"POST"
-    });
+await api("/logout",{
+method:"POST"
+});
 
-  }catch(e){}
+}catch(e){}
 
+document
+.getElementById("dashboardBtn")
+.classList.add("hidden");
 
-  document
-    .getElementById("dashboardBtn")
-    .classList.add("hidden");
+document
+.getElementById("logoutBtn")
+.classList.add("hidden");
 
-  document
-    .getElementById("logoutBtn")
-    .classList.add("hidden");
-
-
-  showPage("home");
+showPage("home");
 
 }
 
@@ -2251,44 +2278,40 @@ async function logout(){
 
 async function adminLogin(){
 
-  const email=
-    document.getElementById("adminEmail")
-    .value.trim();
+const email=
+document.getElementById("adminEmail")
+.value.trim();
 
-  const password=
-    document.getElementById("adminPassword")
-    .value;
+const password=
+document.getElementById("adminPassword")
+.value;
 
+if(!email||!password){
 
-  if(!email || !password){
+alert("Enter admin email and password.");
 
-    alert("Enter admin email and password.");
+return;
+}
 
-    return;
-  }
+try{
 
+await api("/admin/login",{
+method:"POST",
+body:JSON.stringify({
+email,
+password
+})
+});
 
-  try{
+await loadAdmin();
 
-    await api("/admin/login",{
-      method:"POST",
-      body:JSON.stringify({
-        email,
-        password
-      })
-    });
+showPage("admin");
 
+}catch(e){
 
-    await loadAdmin();
+alert(e.message);
 
-    showPage("admin");
-
-
-  }catch(e){
-
-    alert(e.message);
-
-  }
+}
 
 }
 
@@ -2297,289 +2320,254 @@ async function adminLogin(){
 
 async function loadAdmin(){
 
-  try{
+try{
 
-    const data=
-      await api("/admin");
+const data=await api("/admin");
 
-    const stats=
-      data.stats ||
-      data;
+const stats=
+data.stats||
+data;
 
+document.getElementById("adminUsers")
+.textContent=
+stats.total_users||
+stats.users||
+0;
 
-    document.getElementById("adminUsers")
-      .textContent=
-      stats.total_users ||
-      stats.users ||
-      0;
+document.getElementById("adminBalance")
+.textContent=
+money(
+stats.total_balance||
+stats.balance
+);
 
+document.getElementById("adminPending")
+.textContent=
+stats.pending_withdrawals||
+stats.pending||
+0;
 
-    document.getElementById("adminBalance")
-      .textContent=
-      money(
-        stats.total_balance ||
-        stats.balance
-      );
+document.getElementById("adminApproved")
+.textContent=
+stats.approved_withdrawals||
+stats.approved||
+0;
 
+}catch(e){}
 
-    document.getElementById("adminPending")
-      .textContent=
-      stats.pending_withdrawals ||
-      stats.pending ||
-      0;
 
+try{
 
-    document.getElementById("adminApproved")
-      .textContent=
-      stats.approved_withdrawals ||
-      stats.approved ||
-      0;
+const data=
+await api("/admin/users");
 
+const users=
+data.users||
+data||
+[];
 
-  }catch(e){}
+const body=
+document.getElementById("adminUsersTable");
 
+if(!users.length){
 
-  /* USERS */
+body.innerHTML=
+'<tr><td colspan="4">No users found.</td></tr>';
 
-  try{
+}else{
 
-    const data=
-      await api("/admin/users");
+body.innerHTML=
+users.map(u=>`
 
-    const users=
-      data.users ||
-      data ||
-      [];
+<tr>
 
+<td>
+${escapeHtml(u.name||"")}
+</td>
 
-    const body=
-      document.getElementById("adminUsersTable");
+<td>
+${escapeHtml(u.email||"")}
+</td>
 
+<td>
+${money(u.balance)}
+</td>
 
-    if(!users.length){
+<td>
+${formatDate(u.created_at)}
+</td>
 
-      body.innerHTML=
-        '<tr><td colspan="4">No users found.</td></tr>';
+</tr>
 
-    }else{
-
-      body.innerHTML=
-        users.map(u=>`
-
-          <tr>
-
-            <td>
-              ${escapeHtml(
-                u.name || ""
-              )}
-            </td>
-
-            <td>
-              ${escapeHtml(
-                u.email || ""
-              )}
-            </td>
-
-            <td>
-              ${money(u.balance)}
-            </td>
-
-            <td>
-              ${formatDate(
-                u.created_at
-              )}
-            </td>
-
-          </tr>
-
-        `).join("");
-
-    }
-
-
-  }catch(e){}
-
-
-  /* WITHDRAWALS */
-
-  try{
-
-    const data=
-      await api("/admin/withdrawals");
-
-    const list=
-      data.withdrawals ||
-      data ||
-      [];
-
-
-    const body=
-      document.getElementById("adminWithdrawals");
-
-
-    if(!list.length){
-
-      body.innerHTML=
-        '<tr><td colspan="6">No withdrawal requests.</td></tr>';
-
-    }else{
-
-      body.innerHTML=
-        list.map(x=>`
-
-          <tr>
-
-            <td>
-              ${escapeHtml(
-                x.user_name ||
-                x.name ||
-                x.email ||
-                "User"
-              )}
-            </td>
-
-            <td>
-              ${escapeHtml(
-                x.method || ""
-              )}
-            </td>
-
-            <td>
-              ${escapeHtml(
-                x.account ||
-                x.wallet ||
-                ""
-              )}
-            </td>
-
-            <td>
-              ${money(x.amount)}
-            </td>
-
-            <td>
-              ${escapeHtml(
-                x.status ||
-                "Pending"
-              )}
-            </td>
-
-            <td>
-
-              ${
-                String(x.status||"")
-                .toLowerCase()==="pending"
-
-                ?
-
-                `
-                <div class="admin-actions">
-
-                  <button class="approve"
-                          onclick="updateWithdrawal(${x.id},'approve')">
-                    Approve
-                  </button>
-
-                  <button class="reject"
-                          onclick="updateWithdrawal(${x.id},'reject')">
-                    Reject
-                  </button>
-
-                </div>
-                `
-
-                :
-
-                "—"
-              }
-
-            </td>
-
-          </tr>
-
-        `).join("");
-
-    }
-
-
-  }catch(e){}
+`).join("");
 
 }
 
+}catch(e){}
 
-/* UPDATE WITHDRAWAL */
+
+try{
+
+const data=
+await api("/admin/withdrawals");
+
+const list=
+data.withdrawals||
+data||
+[];
+
+const body=
+document.getElementById("adminWithdrawals");
+
+if(!list.length){
+
+body.innerHTML=
+'<tr><td colspan="6">No withdrawal requests.</td></tr>';
+
+}else{
+
+body.innerHTML=
+list.map(x=>`
+
+<tr>
+
+<td>
+${escapeHtml(
+x.user_name||
+x.name||
+x.email||
+"User"
+)}
+</td>
+
+<td>
+${escapeHtml(x.method||"")}
+</td>
+
+<td>
+${escapeHtml(
+x.account||
+x.wallet||
+""
+)}
+</td>
+
+<td>
+${money(x.amount)}
+</td>
+
+<td>
+${escapeHtml(
+x.status||
+"Pending"
+)}
+</td>
+
+<td>
+
+${
+String(x.status||"")
+.toLowerCase()==="pending"
+
+?
+
+`
+
+<div class="admin-actions">
+
+<button class="approve"
+onclick="updateWithdrawal(${x.id},'approve')">
+Approve
+</button>
+
+<button class="reject"
+onclick="updateWithdrawal(${x.id},'reject')">
+Reject
+</button>
+
+</div>
+
+`
+
+:
+
+"—"
+}
+
+</td>
+
+</tr>
+
+`).join("");
+
+}
+
+}catch(e){}
+
+}
+
 
 async function updateWithdrawal(id,action){
 
-  if(!confirm("Are you sure?")){
-    return;
-  }
+if(!confirm("Are you sure?")){
+return;
+}
 
+try{
 
-  try{
+const result=
+await api(
+"/admin/withdrawals/"+id,
+{
+method:"POST",
+body:JSON.stringify({
+action
+})
+}
+);
 
-    const result=
-      await api(
-        "/admin/withdrawals/"+id,
-        {
-          method:"POST",
-          body:JSON.stringify({
-            action
-          })
-        }
-      );
+alert(
+result.message||
+"Updated."
+);
 
+await loadAdmin();
 
-    alert(
-      result.message ||
-      "Updated."
-    );
+}catch(e){
 
-
-    await loadAdmin();
-
-
-  }catch(e){
-
-    alert(e.message);
-
-  }
+alert(e.message);
 
 }
 
+}
 
-/* DATE */
 
 function formatDate(value){
 
-  if(!value){
-    return "-";
-  }
+if(!value)return "-";
 
+try{
 
-  try{
+return new Date(value)
+.toLocaleDateString();
 
-    return new Date(value)
-      .toLocaleDateString();
+}catch(e){
 
-  }catch(e){
+return value;
 
-    return value;
-
-  }
+}
 
 }
 
 
-/* HTML SECURITY */
-
 function escapeHtml(value){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
@@ -2588,32 +2576,30 @@ function escapeHtml(value){
 
 (async function(){
 
-  try{
+try{
 
-    const result=
-      await api("/me");
+const result=await api("/me");
 
+if(
+result &&
+(
+result.user||
+result.email||
+result.id
+)
+){
 
-    if(
-      result &&
-      (
-        result.user ||
-        result.email ||
-        result.id
-      )
-    ){
+document
+.getElementById("dashboardBtn")
+.classList.remove("hidden");
 
-      document
-        .getElementById("dashboardBtn")
-        .classList.remove("hidden");
+document
+.getElementById("logoutBtn")
+.classList.remove("hidden");
 
-      document
-        .getElementById("logoutBtn")
-        .classList.remove("hidden");
+}
 
-    }
-
-  }catch(e){}
+}catch(e){}
 
 })();
 
