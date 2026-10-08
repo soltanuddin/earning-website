@@ -6,7 +6,11 @@
 <title>EarnX - Earn More. Live Smarter.</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 body{
   font-family:Arial,sans-serif;
@@ -15,9 +19,17 @@ body{
   line-height:1.5;
 }
 
-button,input,select{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
+button,input,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
 
 .container{
   width:min(1100px,92%);
@@ -28,7 +40,7 @@ header{
   position:sticky;
   top:0;
   z-index:100;
-  background:rgba(5,11,22,.88);
+  background:rgba(5,11,22,.94);
   backdrop-filter:blur(18px);
   border-bottom:1px solid rgba(255,255,255,.08);
 }
@@ -43,11 +55,12 @@ header{
 .logo{
   font-size:27px;
   font-weight:900;
-  letter-spacing:-1px;
   color:#35e58c;
 }
 
-.logo span{color:#fff}
+.logo span{
+  color:#fff;
+}
 
 .nav-buttons{
   display:flex;
@@ -64,7 +77,6 @@ header{
 .btn-primary{
   background:#35e58c;
   color:#04130b;
-  box-shadow:0 8px 25px rgba(53,229,140,.18);
 }
 
 .btn-dark{
@@ -74,28 +86,11 @@ header{
 }
 
 .hero{
-  position:relative;
-  overflow:hidden;
-  padding:85px 0 55px;
+  padding:80px 0 45px;
   text-align:center;
 }
 
-.hero:before{
-  content:"";
-  position:absolute;
-  width:420px;
-  height:420px;
-  background:#35e58c;
-  opacity:.08;
-  filter:blur(100px);
-  border-radius:50%;
-  top:-180px;
-  left:50%;
-  transform:translateX(-50%);
-}
-
 .badge{
-  position:relative;
   display:inline-block;
   padding:8px 15px;
   border-radius:30px;
@@ -107,25 +102,22 @@ header{
 }
 
 .hero h1{
-  position:relative;
   font-size:clamp(42px,8vw,76px);
   line-height:1.02;
   margin:22px 0 16px;
-  letter-spacing:-2px;
 }
 
-.hero h1 span{color:#35e58c}
+.hero h1 span{
+  color:#35e58c;
+}
 
 .hero p{
-  position:relative;
   color:#93a3b8;
   max-width:650px;
   margin:auto;
-  font-size:16px;
 }
 
 .hero-actions{
-  position:relative;
   display:flex;
   justify-content:center;
   gap:12px;
@@ -137,11 +129,11 @@ header{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:15px;
-  margin:30px 0 15px;
+  margin:30px 0;
 }
 
 .stat{
-  background:linear-gradient(145deg,#0c1728,#091322);
+  background:#0c1728;
   border:1px solid rgba(255,255,255,.07);
   padding:20px;
   border-radius:20px;
@@ -159,7 +151,9 @@ header{
   font-size:13px;
 }
 
-section{padding:50px 0}
+section{
+  padding:45px 0;
+}
 
 .section-title{
   text-align:center;
@@ -171,7 +165,9 @@ section{padding:50px 0}
   margin-bottom:6px;
 }
 
-.section-title p{color:#8998ad}
+.section-title p{
+  color:#8998ad;
+}
 
 .earning-grid{
   display:grid;
@@ -180,7 +176,7 @@ section{padding:50px 0}
 }
 
 .earning-card{
-  background:linear-gradient(145deg,#0d1a2b,#091423);
+  background:#0d1a2b;
   border:1px solid rgba(255,255,255,.08);
   border-radius:23px;
   padding:23px 16px;
@@ -188,18 +184,14 @@ section{padding:50px 0}
 }
 
 .earning-icon{
-  width:70px;
-  height:70px;
+  width:65px;
+  height:65px;
   border-radius:20px;
   margin:0 auto 15px;
   display:flex;
   align-items:center;
   justify-content:center;
-}
-
-.earning-icon svg{
-  width:40px;
-  height:40px;
+  font-size:30px;
 }
 
 .youtube-bg{background:#ff0000}
@@ -218,7 +210,6 @@ section{padding:50px 0}
 .earning-card p{
   color:#8998ad;
   font-size:12px;
-  min-height:38px;
 }
 
 .earning-tag{
@@ -264,9 +255,7 @@ section{padding:50px 0}
 }
 
 .cta{
-  background:
-    radial-gradient(circle at 50% 0,rgba(53,229,140,.15),transparent 50%),
-    #0b1727;
+  background:#0b1727;
   border:1px solid rgba(53,229,140,.15);
   border-radius:28px;
   padding:45px 25px;
@@ -292,7 +281,9 @@ section{padding:50px 0}
   padding:25px;
 }
 
-.auth-box h2{margin-bottom:18px}
+.auth-box h2{
+  margin-bottom:18px;
+}
 
 .input{
   width:100%;
@@ -305,11 +296,17 @@ section{padding:50px 0}
   outline:none;
 }
 
-.input:focus{border-color:#35e58c}
+.input:focus{
+  border-color:#35e58c;
+}
 
-.auth-box .btn{width:100%}
+.auth-box .btn{
+  width:100%;
+}
 
-.dashboard{padding-top:25px}
+.dashboard{
+  padding-top:25px;
+}
 
 .balance-card{
   background:linear-gradient(135deg,#0f3b2a,#0d1a2b);
@@ -318,7 +315,9 @@ section{padding:50px 0}
   padding:28px;
 }
 
-.balance-label{color:#9eb1c7}
+.balance-label{
+  color:#9eb1c7;
+}
 
 .balance{
   font-size:42px;
@@ -326,8 +325,6 @@ section{padding:50px 0}
   color:#35e58c;
   margin:5px 0;
 }
-
-.user-name{color:#fff}
 
 .dash-stats{
   display:grid;
@@ -343,7 +340,9 @@ section{padding:50px 0}
   padding:18px;
 }
 
-.dash-stat small{color:#8d9db1}
+.dash-stat small{
+  color:#8d9db1;
+}
 
 .dash-stat strong{
   display:block;
@@ -357,13 +356,6 @@ section{padding:50px 0}
   border-radius:20px;
   padding:22px;
   margin-bottom:25px;
-}
-
-.bonus-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
 }
 
 .task-grid{
@@ -381,13 +373,14 @@ section{padding:50px 0}
 }
 
 .task-icon{
-  width:62px;
-  height:62px;
+  width:55px;
+  height:55px;
   border-radius:18px;
   margin:0 auto 12px;
   display:flex;
   align-items:center;
   justify-content:center;
+  font-size:25px;
 }
 
 .telegram-icon{background:#229ed9}
@@ -397,7 +390,6 @@ section{padding:50px 0}
 
 .task-card h3{
   font-size:16px;
-  margin-bottom:4px;
 }
 
 .task-card p{
@@ -423,11 +415,12 @@ section{padding:50px 0}
   font-weight:800;
 }
 
-.referral-card{
+.referral-card,
+.transactions{
   background:#0d1a2b;
   border:1px solid rgba(255,255,255,.07);
   border-radius:20px;
-  padding:22px;
+  padding:20px;
 }
 
 .referral-code{
@@ -441,13 +434,6 @@ section{padding:50px 0}
   margin:0;
 }
 
-.transactions{
-  background:#0d1a2b;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:20px;
-  padding:20px;
-}
-
 .transaction{
   display:flex;
   justify-content:space-between;
@@ -455,10 +441,17 @@ section{padding:50px 0}
   border-bottom:1px solid rgba(255,255,255,.06);
 }
 
-.transaction:last-child{border-bottom:0}
+.transaction:last-child{
+  border-bottom:0;
+}
 
-.positive{color:#35e58c}
-.negative{color:#ff6b6b}
+.positive{
+  color:#35e58c;
+}
+
+.negative{
+  color:#ff6b6b;
+}
 
 .empty{
   text-align:center;
@@ -475,127 +468,1064 @@ footer{
 }
 
 @media(max-width:800px){
-  .earning-grid{grid-template-columns:repeat(2,1fr)}
-  .how-grid{grid-template-columns:1fr}
+  .earning-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .how-grid{
+    grid-template-columns:1fr;
+  }
 }
 
 @media(max-width:700px){
 
-  .nav{min-height:62px}
+  .nav{
+    min-height:62px;
+  }
 
-  .logo{font-size:21px}
+  .logo{
+    font-size:21px;
+  }
 
   .nav-buttons .btn{
     padding:8px 10px;
     font-size:12px;
   }
 
-  .hero{padding:60px 0 30px}
+  .hero{
+    padding:60px 0 30px;
+  }
 
-  .hero h1{font-size:45px}
-
-  .hero p{font-size:14px}
+  .hero h1{
+    font-size:45px;
+  }
 
   .stats{
-    grid-template-columns:repeat(3,1fr);
     gap:8px;
   }
 
   .stat{
     padding:14px 5px;
-    border-radius:15px;
   }
 
-  .stat strong{font-size:20px}
-  .stat span{font-size:10px}
+  .stat strong{
+    font-size:20px;
+  }
+
+  .stat span{
+    font-size:10px;
+  }
 
   .earning-grid{
-    grid-template-columns:repeat(2,1fr);
     gap:10px;
   }
 
   .earning-card{
     padding:17px 8px;
-    border-radius:18px;
   }
 
-  .earning-icon{
-    width:55px;
-    height:55px;
-    border-radius:16px;
+  .earning-card h3{
+    font-size:13px;
   }
-
-  .earning-icon svg{
-    width:31px;
-    height:31px;
-  }
-
-  .earning-card h3{font-size:13px}
 
   .earning-card p{
     font-size:10px;
-    min-height:31px;
   }
-
-  .earning-tag{
-    font-size:9px;
-    margin-top:8px;
-  }
-
-  .dash-stats{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .dash-stat{
-    padding:12px 6px;
-    text-align:center;
-  }
-
-  .dash-stat strong{font-size:16px}
-  .dash-stat small{font-size:10px}
 
   .task-grid{
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
+    grid-template-columns:repeat(2,1fr);
   }
 
-  .task-card{
-    padding:12px 5px;
-    border-radius:15px;
+  .task-card h3{
+    font-size:12px;
   }
 
-  .task-icon{
-    width:48px;
-    height:48px;
-    border-radius:14px;
+  .balance{
+    font-size:35px;
   }
+}
+</style>
+</head>
 
-  .task-card h3{font-size:11px}
+<body>
 
-  .task-card p{
-    font-size:9px;
-    min-height:32px;
-  }
+<header>
+<div class="container nav">
 
-  .task-reward{
-    font-size:11px;
-    margin:7px 0;
-  }
+<div class="logo">
+Earn<span>X</span>
+</div>
 
-  .task-card button{
-    font-size:9px;
-    padding:8px 2px;
-  }
+<div class="nav-buttons">
+<button id="loginNav" class="btn btn-dark" onclick="showAuth('login')">Login</button>
+<button id="registerNav" class="btn btn-primary" onclick="showAuth('register')">Register</button>
+<button id="logoutNav" class="btn btn-dark hidden" onclick="logout()">Logout</button>
+</div>
 
-  .balance{font-size:35px}
+</div>
+</header>
 
-  .bonus-row{
-    align-items:flex-start;
-    flex-direction:column;
-  }
+<main>
 
-  .cta{
-    padding:35px 18px;
-  }
+<div id="homePage">
 
-  .cta h2{font-size:27
+<section class="hero">
+<div class="container">
+
+<div class="badge">🚀 EarnX — Smart Online Earning</div>
+
+<h1>
+Earn More.<br>
+<span>Live Smarter.</span>
+</h1>
+
+<p>
+Complete simple online tasks, earn rewards, collect your daily bonus and build your balance.
+</p>
+
+<div class="hero-actions">
+<button class="btn btn-primary" onclick="showAuth('register')">
+🚀 Get Started
+</button>
+
+<button class="btn btn-dark" onclick="showAuth('login')">
+Login
+</button>
+</div>
+
+</div>
+</section>
+
+<section>
+<div class="container">
+
+<div class="stats">
+
+<div class="stat">
+<strong>7+</strong>
+<span>Earning Features</span>
+</div>
+
+<div class="stat">
+<strong>$1</strong>
+<span>Daily Bonus</span>
+</div>
+
+<div class="stat">
+<strong>24/7</strong>
+<span>Online Access</span>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<section>
+<div class="container">
+
+<div class="section-title">
+<h2>Ways To Earn</h2>
+<p>Simple tasks. Simple rewards.</p>
+</div>
+
+<div class="earning-grid">
+
+<div class="earning-card">
+<div class="earning-icon telegram-bg">✈️</div>
+<h3>Telegram</h3>
+<p>Join selected Telegram channels.</p>
+<span class="earning-tag">Earn $0.50</span>
+</div>
+
+<div class="earning-card">
+<div class="earning-icon youtube-bg">▶️</div>
+<h3>YouTube</h3>
+<p>Subscribe to selected channels.</p>
+<span class="earning-tag">Earn $0.25</span>
+</div>
+
+<div class="earning-card">
+<div class="earning-icon tiktok-bg">♪</div>
+<h3>TikTok</h3>
+<p>Follow selected TikTok accounts.</p>
+<span class="earning-tag">Earn $0.20</span>
+</div>
+
+<div class="earning-card">
+<div class="earning-icon website-bg">🌐</div>
+<h3>Website</h3>
+<p>Visit websites and complete tasks.</p>
+<span class="earning-tag">Earn $0.20</span>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<section>
+<div class="container">
+
+<div class="section-title">
+<h2>How It Works</h2>
+<p>Start earning in three simple steps.</p>
+</div>
+
+<div class="how-grid">
+
+<div class="how-card">
+<div class="how-number">1</div>
+<h3>Create Account</h3>
+<p>Register your free EarnX account.</p>
+</div>
+
+<div class="how-card">
+<div class="how-number">2</div>
+<h3>Complete Tasks</h3>
+<p>Choose available tasks and earn rewards.</p>
+</div>
+
+<div class="how-card">
+<div class="how-number">3</div>
+<h3>Withdraw</h3>
+<p>Request withdrawal when your balance reaches the minimum.</p>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<section>
+<div class="container">
+
+<div class="cta">
+<h2>Ready To Start Earning?</h2>
+<p>Create your free account today.</p>
+
+<button class="btn btn-primary" onclick="showAuth('register')">
+Create Free Account
+</button>
+
+</div>
+
+</div>
+</section>
+
+</div>
+
+
+<div id="authPage" class="hidden">
+
+<section>
+<div class="container">
+
+<div class="auth-box">
+
+<div id="registerBox">
+
+<h2>Create Account</h2>
+
+<input id="registerName" class="input" placeholder="Full name">
+
+<input id="registerEmail" class="input" type="email" placeholder="Email">
+
+<input id="registerPassword" class="input" type="password" placeholder="Password">
+
+<button class="btn btn-primary" onclick="register()">
+Create Account
+</button>
+
+<p id="registerMessage" style="margin-top:12px;color:#9aa9bd"></p>
+
+<p style="margin-top:15px;color:#8998ad;text-align:center">
+Already have an account?
+<button class="btn-dark" style="border:0;background:none;color:#35e58c;padding:0" onclick="showAuth('login')">
+Login
+</button>
+</p>
+
+</div>
+
+
+<div id="loginBox" class="hidden">
+
+<h2>Welcome Back</h2>
+
+<input id="loginEmail" class="input" type="email" placeholder="Email">
+
+<input id="loginPassword" class="input" type="password" placeholder="Password">
+
+<button class="btn btn-primary" onclick="login()">
+Login
+</button>
+
+<p id="loginMessage" style="margin-top:12px;color:#9aa9bd"></p>
+
+<p style="margin-top:15px;color:#8998ad;text-align:center">
+Don't have an account?
+<button class="btn-dark" style="border:0;background:none;color:#35e58c;padding:0" onclick="showAuth('register')">
+Register
+</button>
+</p>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+</div>
+
+
+<div id="dashboardPage" class="hidden">
+
+<section class="dashboard">
+
+<div class="container">
+
+<div class="balance-card">
+
+<div class="balance-label">Available Balance</div>
+
+<div id="balance" class="balance">$0.00</div>
+
+<div>
+Welcome, <strong id="userName">User</strong>
+</div>
+
+</div>
+
+
+<div class="dash-stats">
+
+<div class="dash-stat">
+<small>Total Earned</small>
+<strong id="totalEarned">$0.00</strong>
+</div>
+
+<div class="dash-stat">
+<small>Referrals</small>
+<strong id="referrals">0</strong>
+</div>
+
+<div class="dash-stat">
+<small>Status</small>
+<strong>Active</strong>
+</div>
+
+</div>
+
+
+<section>
+
+<div class="section-title">
+<h2>Daily Bonus</h2>
+<p>Claim your daily reward once per day.</p>
+</div>
+
+<div class="bonus-card">
+
+<div style="display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap">
+
+<div>
+<h3>🎁 Daily Bonus</h3>
+<p style="color:#8998ad;margin-top:5px">
+Claim $1.00 every day.
+</p>
+</div>
+
+<button class="btn btn-primary" onclick="claimBonus()">
+Claim $1
+</button>
+
+</div>
+
+<p id="bonusMessage" style="margin-top:12px;color:#9aa9bd"></p>
+
+</div>
+
+</section>
+
+
+<section>
+
+<div class="section-title">
+<h2>Available Tasks</h2>
+<p>Complete tasks to increase your balance.</p>
+</div>
+
+<div id="taskList" class="task-grid">
+<div class="empty">Loading tasks...</div>
+</div>
+
+</section>
+
+
+<section>
+
+<div class="section-title">
+<h2>Referral Program</h2>
+<p>Invite friends and grow your earnings.</p>
+</div>
+
+<div class="referral-card">
+
+<p style="color:#8998ad">
+Your referral code
+</p>
+
+<div class="referral-code">
+
+<input id="referralCode" class="input" readonly>
+
+<button class="btn btn-primary" onclick="copyReferral()">
+Copy
+</button>
+
+</div>
+
+<p id="referralMessage" style="margin-top:10px;color:#35e58c"></p>
+
+</div>
+
+</section>
+
+
+<section>
+
+<div class="section-title">
+<h2>Withdraw Earnings</h2>
+<p>Minimum withdrawal: $1.00</p>
+</div>
+
+<div class="bonus-card">
+
+<select id="withdrawMethod" class="input">
+
+<option value="bkash">bKash</option>
+<option value="nagad">Nagad</option>
+<option value="usdt">USDT</option>
+
+</select>
+
+<input
+id="withdrawAccount"
+class="input"
+type="text"
+placeholder="bKash / Nagad number or USDT address">
+
+<input
+id="withdrawAmount"
+class="input"
+type="number"
+min="1"
+step="0.01"
+placeholder="Amount (USD)">
+
+<button
+class="btn btn-primary"
+style="width:100%"
+onclick="requestWithdraw()">
+
+💸 Request Withdrawal
+
+</button>
+
+<p id="withdrawMessage" style="margin-top:12px;color:#9aa9bd"></p>
+
+</div>
+
+</section>
+
+
+<section>
+
+<div class="section-title">
+<h2>Transaction History</h2>
+<p>Your latest earnings and withdrawals.</p>
+</div>
+
+<div id="transactions" class="transactions">
+<div class="empty">Loading...</div>
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+
+<footer>
+<div class="container">
+© 2026 EarnX. All rights reserved.
+</div>
+</footer>
+
+
+<script>
+
+let currentUser=null;
+
+
+function showAuth(type){
+
+document.getElementById("homePage").classList.add("hidden");
+document.getElementById("dashboardPage").classList.add("hidden");
+document.getElementById("authPage").classList.remove("hidden");
+
+if(type==="login"){
+
+document.getElementById("loginBox").classList.remove("hidden");
+document.getElementById("registerBox").classList.add("hidden");
+
+}else{
+
+document.getElementById("registerBox").classList.remove("hidden");
+document.getElementById("loginBox").classList.add("hidden");
+
+}
+
+window.scrollTo(0,0);
+
+}
+
+
+function showDashboard(){
+
+document.getElementById("homePage").classList.add("hidden");
+document.getElementById("authPage").classList.add("hidden");
+document.getElementById("dashboardPage").classList.remove("hidden");
+
+document.getElementById("loginNav").classList.add("hidden");
+document.getElementById("registerNav").classList.add("hidden");
+document.getElementById("logoutNav").classList.remove("hidden");
+
+window.scrollTo(0,0);
+
+}
+
+
+async function register(){
+
+const name=document.getElementById("registerName").value.trim();
+const email=document.getElementById("registerEmail").value.trim();
+const password=document.getElementById("registerPassword").value;
+
+const message=document.getElementById("registerMessage");
+
+if(!name || !email || !password){
+
+message.textContent="Please fill in all fields.";
+return;
+
+}
+
+message.textContent="Creating account...";
+
+try{
+
+const response=await fetch("/api/register",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+name,
+email,
+password
+})
+
+});
+
+const data=await response.json();
+
+if(!response.ok || !data.success){
+
+message.textContent=data.message || "Registration failed.";
+return;
+
+}
+
+message.textContent="Account created successfully!";
+
+setTimeout(()=>{
+
+showAuth("login");
+
+document.getElementById("loginEmail").value=email;
+
+},700);
+
+}catch(error){
+
+message.textContent="Something went wrong.";
+
+}
+
+}
+
+
+async function login(){
+
+const email=document.getElementById("loginEmail").value.trim();
+const password=document.getElementById("loginPassword").value;
+
+const message=document.getElementById("loginMessage");
+
+if(!email || !password){
+
+message.textContent="Please enter email and password.";
+return;
+
+}
+
+message.textContent="Logging in...";
+
+try{
+
+const response=await fetch("/api/login",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+email,
+password
+})
+
+});
+
+const data=await response.json();
+
+if(!response.ok || !data.success){
+
+message.textContent=data.message || "Login failed.";
+return;
+
+}
+
+await loadUser();
+
+}catch(error){
+
+message.textContent="Something went wrong.";
+
+}
+
+}
+
+
+async function loadUser(){
+
+try{
+
+const response=await fetch("/api/me");
+
+if(!response.ok){
+
+currentUser=null;
+return;
+
+}
+
+const data=await response.json();
+
+if(!data.success || !data.user){
+
+currentUser=null;
+return;
+
+}
+
+currentUser=data.user;
+
+document.getElementById("balance").textContent="$"+Number(currentUser.balance||0).toFixed(2);
+
+document.getElementById("userName").textContent=currentUser.name || "User";
+
+document.getElementById("totalEarned").textContent="$"+Number(currentUser.totalEarned||0).toFixed(2);
+
+document.getElementById("referrals").textContent=currentUser.referrals || 0;
+
+document.getElementById("referralCode").value=currentUser.referral_code || "";
+
+showDashboard();
+
+loadTasks();
+loadTransactions();
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+
+
+async function loadTasks(){
+
+const box=document.getElementById("taskList");
+
+try{
+
+const response=await fetch("/api/tasks");
+const data=await response.json();
+
+if(!data.success || !data.tasks || data.tasks.length===0){
+
+box.innerHTML='<div class="empty">No tasks available.</div>';
+return;
+
+}
+
+box.innerHTML="";
+
+data.tasks.forEach(task=>{
+
+const iconClass=
+task.task_type==="telegram" ? "telegram-icon" :
+task.task_type==="youtube" ? "youtube-icon" :
+task.task_type==="tiktok" ? "tiktok-icon" :
+"website-icon";
+
+const icon=
+task.task_type==="telegram" ? "✈️" :
+task.task_type==="youtube" ? "▶️" :
+task.task_type==="tiktok" ? "♪" :
+"🌐";
+
+box.innerHTML+=`
+
+<div class="task-card">
+
+<div class="task-icon ${iconClass}">
+${icon}
+</div>
+
+<h3>${escapeHtml(task.title)}</h3>
+
+<p>${escapeHtml(task.description || "Complete this task.")}</p>
+
+<span class="task-reward">
++$${Number(task.reward).toFixed(2)}
+</span>
+
+<button onclick="completeTask(${task.id},'${escapeHtml(task.task_url || "")}')">
+Complete Task
+</button>
+
+</div>
+
+`;
+
+});
+
+}catch(error){
+
+box.innerHTML='<div class="empty">Could not load tasks.</div>';
+
+}
+
+}
+
+
+async function completeTask(id,url){
+
+if(url){
+
+window.open(url,"_blank");
+
+}
+
+const confirmed=confirm(
+"After completing the external task, press OK to claim the reward."
+);
+
+if(!confirmed)return;
+
+try{
+
+const response=await fetch(
+"/api/tasks/"+id+"/complete",
+{
+method:"POST"
+}
+);
+
+const data=await response.json();
+
+if(!response.ok || !data.success){
+
+alert(data.message || "Task could not be completed.");
+return;
+
+}
+
+alert("Task completed! Reward added.");
+
+await loadUser();
+
+}catch(error){
+
+alert("Something went wrong.");
+
+}
+
+}
+
+
+async function claimBonus(){
+
+const message=document.getElementById("bonusMessage");
+
+message.textContent="Claiming...";
+
+try{
+
+const response=await fetch(
+"/api/daily-bonus",
+{
+method:"POST"
+}
+);
+
+const data=await response.json();
+
+if(!response.ok || !data.success){
+
+message.textContent=data.message || "Bonus could not be claimed.";
+return;
+
+}
+
+message.textContent="Daily bonus claimed successfully!";
+
+await loadUser();
+
+}catch(error){
+
+message.textContent="Something went wrong.";
+
+}
+
+}
+
+
+async function loadTransactions(){
+
+const box=document.getElementById("transactions");
+
+try{
+
+const response=await fetch("/api/transactions");
+
+const data=await response.json();
+
+if(!data.success || !data.transactions || data.transactions.length===0){
+
+box.innerHTML='<div class="empty">No transactions yet.</div>';
+return;
+
+}
+
+box.innerHTML="";
+
+data.transactions.forEach(tx=>{
+
+const amount=Number(tx.amount||0);
+
+box.innerHTML+=`
+
+<div class="transaction">
+
+<div>
+<strong>${escapeHtml(tx.description || tx.type || "Transaction")}</strong>
+</div>
+
+<div class="${amount>=0?'positive':'negative'}">
+${amount>=0?'+':''}$${amount.toFixed(2)}
+</div>
+
+</div>
+
+`;
+
+});
+
+}catch(error){
+
+box.innerHTML='<div class="empty">Could not load transactions.</div>';
+
+}
+
+}
+
+
+async function requestWithdraw(){
+
+const method=document.getElementById("withdrawMethod").value;
+
+const account=document
+.getElementById("withdrawAccount")
+.value.trim();
+
+const amount=Number(
+document.getElementById("withdrawAmount").value
+);
+
+const message=document.getElementById("withdrawMessage");
+
+if(!account){
+
+message.textContent="Please enter your payment account.";
+return;
+
+}
+
+if(!amount || amount<1){
+
+message.textContent="Minimum withdrawal is $1.00.";
+return;
+
+}
+
+message.textContent="Submitting withdrawal request...";
+
+try{
+
+const response=await fetch(
+"/api/withdraw",
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+method,
+account,
+amount
+})
+
+}
+);
+
+const data=await response.json();
+
+if(!response.ok || !data.success){
+
+message.textContent=data.message || "Withdrawal request failed.";
+return;
+
+}
+
+message.textContent="Withdrawal request submitted successfully!";
+
+document.getElementById("withdrawAccount").value="";
+document.getElementById("withdrawAmount").value="";
+
+await loadUser();
+loadTransactions();
+
+}catch(error){
+
+message.textContent="Something went wrong. Please try again.";
+
+}
+
+}
+
+
+function copyReferral(){
+
+const input=document.getElementById("referralCode");
+
+if(!input.value)return;
+
+navigator.clipboard.writeText(input.value)
+.then(()=>{
+
+document.getElementById("referralMessage").textContent=
+"Referral code copied!";
+
+})
+.catch(()=>{
+
+input.select();
+document.execCommand("copy");
+
+document.getElementById("referralMessage").textContent=
+"Referral code copied!";
+
+});
+
+}
+
+
+async function logout(){
+
+try{
+
+await fetch(
+"/api/logout",
+{
+method:"POST"
+}
+);
+
+}catch(error){}
+
+currentUser=null;
+
+document.getElementById("dashboardPage").classList.add("hidden");
+document.getElementById("authPage").classList.add("hidden");
+document.getElementById("homePage").classList.remove("hidden");
+
+document.getElementById("loginNav").classList.remove("hidden");
+document.getElementById("registerNav").classList.remove("hidden");
+document.getElementById("logoutNav").classList.add("hidden");
+
+window.scrollTo(0,0);
+
+}
+
+
+function escapeHtml(value){
+
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+window.addEventListener("load",()=>{
+
+loadUser();
+
+});
+
+</script>
+
+</body>
+</html>
