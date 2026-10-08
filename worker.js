@@ -2,6 +2,7 @@ import { hashPassword, verifyPassword } from "./auth.js";
 
 const SESSION_DAYS = 7;
 const ADMIN_SESSION_DAYS = 1;
+const ADMIN_EMAIL = "soltanuddin45@gmail.com";
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -24,9 +25,7 @@ function clearCookie(name) {
 function getCookie(request, name) {
   const header = request.headers.get("Cookie") || "";
 
-  const cookies = header.split(";");
-
-  for (const item of cookies) {
+  for (const item of header.split(";")) {
     const [key, ...rest] = item.trim().split("=");
 
     if (key === name) {
@@ -56,12 +55,11 @@ async function getUser(request, env) {
     return null;
   }
 
-  const session = await env.DB.prepare(`
+  return await env.DB.prepare(`
     SELECT
-      sessions.id,
       sessions.user_id,
       sessions.expires_at,
-      users.id AS id,
+      users.id,
       users.name,
       users.email,
       users.balance,
@@ -75,8 +73,6 @@ async function getUser(request, env) {
   `)
     .bind(token)
     .first();
-
-  return session || null;
 }
 
 async function getAdmin(request, env) {
@@ -86,7 +82,7 @@ async function getAdmin(request, env) {
     return null;
   }
 
-  const admin = await env.DB.prepare(`
+  return await env.DB.prepare(`
     SELECT
       admin_sessions.id,
       admin_sessions.admin_id,
@@ -100,8 +96,6 @@ async function getAdmin(request, env) {
   `)
     .bind(token)
     .first();
-
-  return admin || null;
 }
 
 async function createUserSession(env, userId) {
@@ -119,7 +113,24 @@ async function createUserSession(env, userId) {
   return token;
 }
 
+async function ensureAdminTable(env) {
+  await env.DB.prepare(`
+    CREATE TABLE IF NOT EXISTS admin_sessions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      token TEXT NOT NULL UNIQUE,
+      admin_id INTEGER NOT NULL,
+      expires_at DATETIME NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (admin_id)
+        REFERENCES admin_users(id)
+    )
+  `)
+    .run();
+}
+
 async function createAdminSession(env, adminId) {
+  await ensureAdminTable(env);
+
   const token = randomToken(32);
 
   await env.DB.prepare(`
@@ -134,20 +145,6 @@ async function createAdminSession(env, adminId) {
   return token;
 }
 
-async function ensureAdminTable(env) {
-  await env.DB.prepare(`
-    CREATE TABLE IF NOT EXISTS admin_sessions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      token TEXT NOT NULL UNIQUE,
-      admin_id INTEGER NOT NULL,
-      expires_at DATETIME NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (admin_id)
-        REFERENCES admin_users(id)
-    )
-  `).run();
-}
-
 async function ensureAdmin(env) {
   await ensureAdminTable(env);
 
@@ -156,20 +153,16 @@ async function ensureAdmin(env) {
     FROM admin_users
     WHERE email = ?
   `)
-    .bind("soltanuddin45@gmail.com")
+    .bind(ADMIN_EMAIL)
     .first();
 
-  if (existing) {
+  if (existing || !env.ADMIN_PASSWORD) {
     return;
   }
 
-  const password = env.ADMIN_PASSWORD;
-
-  if (!password) {
-    return;
-  }
-
-  const result = await hashPassword(password);
+  const result = await hashPassword(
+    env.ADMIN_PASSWORD
+  );
 
   await env.DB.prepare(`
     INSERT INTO admin_users
@@ -178,18 +171,14 @@ async function ensureAdmin(env) {
       (?, ?, datetime('now'))
   `)
     .bind(
-      "soltanuddin45@gmail.com",
+      ADMIN_EMAIL,
       `${result.hash}:${result.salt}`
     )
     .run();
 }
 
 function parseStoredPassword(value) {
-  if (!value) {
-    return null;
-  }
-
-  const parts = String(value).split(":");
+  const parts = String(value || "").split(":");
 
   if (parts.length !== 2) {
     return null;
@@ -227,9 +216,17 @@ async function register(request, env) {
     }, 400);
   }
 
-  const name = String(body.name || "").trim();
-  const email = String(body.email || "").trim().toLowerCase();
-  const password = String(body.password || "");
+  const name = String(
+    body.name || ""
+  ).trim();
+
+  const email = String(
+    body.email || ""
+  ).trim().toLowerCase();
+
+  const password = String(
+    body.password || ""
+  );
 
   const referralCode = String(
     body.referralCode ??
@@ -270,7 +267,7 @@ async function register(request, env) {
 
   if (referralCode) {
     const referrer = await env.DB.prepare(`
-      SELECT id, referral_code
+      SELECT referral_code
       FROM users
       WHERE referral_code = ?
     `)
@@ -287,7 +284,7 @@ async function register(request, env) {
     referredBy = referrer.referral_code;
   }
 
-  let newReferralCode;
+  let newReferralCode = null;
 
   for (let i = 0; i < 10; i++) {
     const candidate = randomReferralCode();
@@ -313,10 +310,9 @@ async function register(request, env) {
     }, 500);
   }
 
-  const passwordData = await hashPassword(password);
-
-  const passwordHash =
-    `${passwordData.hash}:${passwordData.salt}`;
+  const passwordData = await hashPassword(
+    password
+  );
 
   const result = await env.DB.prepare(`
     INSERT INTO users
@@ -335,7 +331,7 @@ async function register(request, env) {
     .bind(
       name,
       email,
-      passwordHash,
+      `${passwordData.hash}:${passwordData.salt}`,
       newReferralCode,
       referredBy
     )
@@ -360,11 +356,13 @@ async function login(request, env) {
     }, 400);
   }
 
-  const email = String(body.email || "")
-    .trim()
-    .toLowerCase();
+  const email = String(
+    body.email || ""
+  ).trim().toLowerCase();
 
-  const password = String(body.password || "");
+  const password = String(
+    body.password || ""
+  );
 
   if (!email || !password) {
     return json({
@@ -381,19 +379,13 @@ async function login(request, env) {
     .bind(email)
     .first();
 
-  if (!user) {
-    return json({
-      success: false,
-      message: "Invalid email or password."
-    }, 401);
-  }
-
-  const valid = await verifyStoredPassword(
-    password,
-    user.password_hash
-  );
-
-  if (!valid) {
+  if (
+    !user ||
+    !(await verifyStoredPassword(
+      password,
+      user.password_hash
+    ))
+  ) {
     return json({
       success: false,
       message: "Invalid email or password."
@@ -431,7 +423,10 @@ async function login(request, env) {
 }
 
 async function logout(request, env) {
-  const token = getCookie(request, "session");
+  const token = getCookie(
+    request,
+    "session"
+  );
 
   if (token) {
     await env.DB.prepare(`
@@ -458,7 +453,10 @@ async function logout(request, env) {
 }
 
 async function me(request, env) {
-  const user = await getUser(request, env);
+  const user = await getUser(
+    request,
+    env
+  );
 
   if (!user) {
     return json({
@@ -468,12 +466,15 @@ async function me(request, env) {
   }
 
   const earned = await env.DB.prepare(`
-    SELECT COALESCE(SUM(
-      CASE
-        WHEN amount > 0 THEN amount
-        ELSE 0
-      END
-    ), 0) AS total
+    SELECT COALESCE(
+      SUM(
+        CASE
+          WHEN amount > 0 THEN amount
+          ELSE 0
+        END
+      ),
+      0
+    ) AS total
     FROM transactions
     WHERE user_id = ?
   `)
@@ -495,8 +496,12 @@ async function me(request, env) {
       name: user.name,
       email: user.email,
       balance: Number(user.balance || 0),
-      total_earned: Number(earned?.total || 0),
-      referrals: Number(referrals?.total || 0),
+      total_earned: Number(
+        earned?.total || 0
+      ),
+      referrals: Number(
+        referrals?.total || 0
+      ),
       referral_code: user.referral_code,
       status: "Active"
     }
@@ -504,7 +509,10 @@ async function me(request, env) {
 }
 
 async function tasks(request, env) {
-  const user = await getUser(request, env);
+  const user = await getUser(
+    request,
+    env
+  );
 
   if (!user) {
     return json({
@@ -537,8 +545,15 @@ async function tasks(request, env) {
   });
 }
 
-async function completeTask(request, env, taskId) {
-  const user = await getUser(request, env);
+async function completeTask(
+  request,
+  env,
+  taskId
+) {
+  const user = await getUser(
+    request,
+    env
+  );
 
   if (!user) {
     return json({
@@ -569,7 +584,10 @@ async function completeTask(request, env, taskId) {
     WHERE user_id = ?
       AND task_id = ?
   `)
-    .bind(user.id, taskId)
+    .bind(
+      user.id,
+      taskId
+    )
     .first();
 
   if (already) {
@@ -579,7 +597,9 @@ async function completeTask(request, env, taskId) {
     }, 400);
   }
 
-  const reward = Number(task.reward || 0);
+  const reward = Number(
+    task.reward || 0
+  );
 
   await env.DB.prepare(`
     INSERT INTO task_completions
@@ -587,7 +607,11 @@ async function completeTask(request, env, taskId) {
     VALUES
       (?, ?, ?)
   `)
-    .bind(user.id, taskId, reward)
+    .bind(
+      user.id,
+      taskId,
+      reward
+    )
     .run();
 
   await env.DB.prepare(`
@@ -595,7 +619,10 @@ async function completeTask(request, env, taskId) {
     SET balance = balance + ?
     WHERE id = ?
   `)
-    .bind(reward, user.id)
+    .bind(
+      reward,
+      user.id
+    )
     .run();
 
   await env.DB.prepare(`
@@ -618,8 +645,14 @@ async function completeTask(request, env, taskId) {
   });
 }
 
-async function dailyBonus(request, env) {
-  const user = await getUser(request, env);
+async function dailyBonus(
+  request,
+  env
+) {
+  const user = await getUser(
+    request,
+    env
+  );
 
   if (!user) {
     return json({
@@ -638,7 +671,10 @@ async function dailyBonus(request, env) {
     WHERE user_id = ?
       AND claim_date = ?
   `)
-    .bind(user.id, today)
+    .bind(
+      user.id,
+      today
+    )
     .first();
 
   if (already) {
@@ -656,7 +692,11 @@ async function dailyBonus(request, env) {
     VALUES
       (?, ?, ?)
   `)
-    .bind(user.id, amount, today)
+    .bind(
+      user.id,
+      amount,
+      today
+    )
     .run();
 
   await env.DB.prepare(`
@@ -664,7 +704,10 @@ async function dailyBonus(request, env) {
     SET balance = balance + ?
     WHERE id = ?
   `)
-    .bind(amount, user.id)
+    .bind(
+      amount,
+      user.id
+    )
     .run();
 
   await env.DB.prepare(`
@@ -673,7 +716,10 @@ async function dailyBonus(request, env) {
     VALUES
       (?, 'bonus', ?, 'Daily Bonus')
   `)
-    .bind(user.id, amount)
+    .bind(
+      user.id,
+      amount
+    )
     .run();
 
   return json({
@@ -682,8 +728,14 @@ async function dailyBonus(request, env) {
   });
 }
 
-async function transactions(request, env) {
-  const user = await getUser(request, env);
+async function transactions(
+  request,
+  env
+) {
+  const user = await getUser(
+    request,
+    env
+  );
 
   if (!user) {
     return json({
@@ -708,8 +760,14 @@ async function transactions(request, env) {
   });
 }
 
-async function withdraw(request, env) {
-  const user = await getUser(request, env);
+async function withdraw(
+  request,
+  env
+) {
+  const user = await getUser(
+    request,
+    env
+  );
 
   if (!user) {
     return json({
@@ -729,11 +787,23 @@ async function withdraw(request, env) {
     }, 400);
   }
 
-  const method = String(body.method || "").trim();
-  const account = String(body.account || "").trim();
-  const amount = Number(body.amount);
+  const method = String(
+    body.method || ""
+  ).trim();
 
-  if (!method || !account || !Number.isFinite(amount)) {
+  const account = String(
+    body.account || ""
+  ).trim();
+
+  const amount = Number(
+    body.amount
+  );
+
+  if (
+    !method ||
+    !account ||
+    !Number.isFinite(amount)
+  ) {
     return json({
       success: false,
       message: "All withdrawal fields are required."
@@ -747,35 +817,27 @@ async function withdraw(request, env) {
     }, 400);
   }
 
-  if (amount > Number(user.balance || 0)) {
-    return json({
-      success: false,
-      message: "Insufficient balance."
-    }, 400);
-  }
-
-  await env.DB.prepare(`
+  const result = await env.DB.prepare(`
     UPDATE users
     SET balance = balance - ?
     WHERE id = ?
       AND balance >= ?
   `)
-    .bind(amount, user.id, amount)
+    .bind(
+      amount,
+      user.id,
+      amount
+    )
     .run();
 
-  const check = await env.DB.prepare(`
-    SELECT balance
-    FROM users
-    WHERE id = ?
-  `)
-    .bind(user.id)
-    .first();
-
-  if (!check) {
+  if (
+    !result.meta ||
+    result.meta.changes !== 1
+  ) {
     return json({
       success: false,
-      message: "Unable to process withdrawal."
-    }, 500);
+      message: "Insufficient balance."
+    }, 400);
   }
 
   await env.DB.prepare(`
@@ -811,27 +873,36 @@ async function withdraw(request, env) {
   });
 }
 
-async function withdrawals(request, env) {
-  const user = await getUser(request, env);
+async function withdrawals(
+  request,
+  env
+) {
+  const user = await getUser(
+    request,
+    env
+  );
 
   if (!user) {
     return json({
       success: false,
       message: "Please login."
-    }, 401);  const result = await env.DB.prepare(`
-    SELECT *
-    FROM withdrawals
-    WHERE user_id = ?
-    ORDER BY id DESC
-    LIMIT 100
-  `)
-    .bind(user.id)
-    .all();
+    }, 401);
+  }
 
-  return json({
-    success: true,
-    withdrawals: result.results || []
-  });
+  const result = await env.DB.prepare(`
+  SELECT *
+  FROM withdrawals
+  WHERE user_id = ?
+  ORDER BY id DESC
+  LIMIT 100
+`)
+  .bind(user.id)
+  .all();
+
+return json({
+  success: true,
+  withdrawals: result.results || []
+});
 }
 
 async function adminLogin(request, env) {
@@ -869,19 +940,13 @@ async function adminLogin(request, env) {
     .bind(email)
     .first();
 
-  if (!admin) {
-    return json({
-      success: false,
-      message: "Invalid admin login."
-    }, 401);
-  }
-
-  const valid = await verifyStoredPassword(
-    password,
-    admin.password_hash
-  );
-
-  if (!valid) {
+  if (
+    !admin ||
+    !(await verifyStoredPassword(
+      password,
+      admin.password_hash
+    ))
+  ) {
     return json({
       success: false,
       message: "Invalid admin login."
@@ -962,403 +1027,4 @@ async function adminMe(request, env) {
       email: admin.email
     }
   });
-}async function adminStats(request, env) {
-  const admin = await getAdmin(request, env);
-
-  if (!admin) {
-    return json({
-      success: false,
-      message: "Admin not logged in."
-    }, 401);
-  }
-
-  const users = await env.DB.prepare(`
-    SELECT COUNT(*) AS total
-    FROM users
-  `).first();
-
-  const balance = await env.DB.prepare(`
-    SELECT COALESCE(SUM(balance), 0) AS total
-    FROM users
-  `).first();
-
-  const pending = await env.DB.prepare(`
-    SELECT COUNT(*) AS total
-    FROM withdrawals
-    WHERE status = 'pending'
-  `).first();
-
-  const approved = await env.DB.prepare(`
-    SELECT COALESCE(SUM(amount), 0) AS total
-    FROM withdrawals
-    WHERE status = 'approved'
-  `).first();
-
-  const rejected = await env.DB.prepare(`
-    SELECT COALESCE(SUM(amount), 0) AS total
-    FROM withdrawals
-    WHERE status = 'rejected'
-  `).first();
-
-  return json({
-    success: true,
-    stats: {
-      users: Number(users?.total || 0),
-      total_balance: Number(balance?.total || 0),
-      pending_withdrawals: Number(pending?.total || 0),
-      approved_withdrawals: Number(approved?.total || 0),
-      rejected_withdrawals: Number(rejected?.total || 0)
-    }
-  });
 }
-
-async function adminUsers(request, env) {
-  const admin = await getAdmin(request, env);
-
-  if (!admin) {
-    return json({
-      success: false,
-      message: "Admin not logged in."
-    }, 401);
-  }
-
-  const result = await env.DB.prepare(`
-    SELECT
-      id,
-      name,
-      email,
-      balance,
-      referral_code,
-      referred_by,
-      created_at
-    FROM users
-    ORDER BY id DESC
-    LIMIT 500
-  `).all();
-
-  return json({
-    success: true,
-    users: result.results || []
-  });
-}
-
-async function adminWithdrawals(request, env) {
-  const admin = await getAdmin(request, env);
-
-  if (!admin) {
-    return json({
-      success: false,
-      message: "Admin not logged in."
-    }, 401);
-  }
-
-  const result = await env.DB.prepare(`
-    SELECT
-      withdrawals.*,
-      users.name,
-      users.email
-    FROM withdrawals
-    JOIN users
-      ON users.id = withdrawals.user_id
-    ORDER BY withdrawals.id DESC
-    LIMIT 500
-  `).all();
-
-  return json({
-    success: true,
-    withdrawals: result.results || []
-  });
-}
-
-async function approveWithdrawal(request, env, withdrawalId) {
-  const admin = await getAdmin(request, env);
-
-  if (!admin) {
-    return json({
-      success: false,
-      message: "Admin not logged in."
-    }, 401);
-  }
-
-  const withdrawal = await env.DB.prepare(`
-    SELECT *
-    FROM withdrawals
-    WHERE id = ?
-  `)
-    .bind(withdrawalId)
-    .first();
-
-  if (!withdrawal) {
-    return json({
-      success: false,
-      message: "Withdrawal not found."
-    }, 404);
-  }
-
-  if (withdrawal.status !== "pending") {
-    return json({
-      success: false,
-      message: "Withdrawal already processed."
-    }, 400);
-  }
-
-  await env.DB.prepare(`
-    UPDATE withdrawals
-    SET
-      status = 'approved',
-      processed_at = datetime('now')
-    WHERE id = ?
-  `)
-    .bind(withdrawalId)
-    .run();
-
-  return json({
-    success: true,
-    message: "Withdrawal approved."
-  });
-}
-
-async function rejectWithdrawal(request, env, withdrawalId) {
-  const admin = await getAdmin(request, env);
-
-  if (!admin) {
-    return json({
-      success: false,
-      message: "Admin not logged in."
-    }, 401);
-  }
-
-  const withdrawal = await env.DB.prepare(`
-    SELECT *
-    FROM withdrawals
-    WHERE id = ?
-  `)
-    .bind(withdrawalId)
-    .first();
-
-  if (!withdrawal) {
-    return json({
-      success: false,
-      message: "Withdrawal not found."
-    }, 404);
-  }
-
-  if (withdrawal.status !== "pending") {
-    return json({
-      success: false,
-      message: "Withdrawal already processed."
-    }, 400);
-  }
-
-  await env.DB.prepare(`
-    UPDATE withdrawals
-    SET
-      status = 'rejected',
-      processed_at = datetime('now')
-    WHERE id = ?
-  `)
-    .bind(withdrawalId)
-    .run();
-
-  await env.DB.prepare(`
-    UPDATE users
-    SET balance = balance + ?
-    WHERE id = ?
-  `)
-    .bind(
-      Number(withdrawal.amount),
-      withdrawal.user_id
-    )
-    .run();
-
-  await env.DB.prepare(`
-    INSERT INTO transactions
-      (user_id, type, amount, description)
-    VALUES
-      (?, 'refund', ?, 'Withdrawal rejected - balance refunded')
-  `)
-    .bind(
-      withdrawal.user_id,
-      Number(withdrawal.amount)
-    )
-    .run();
-
-  return json({
-    success: true,
-    message: "Withdrawal rejected and balance refunded."
-  });
-}async function handleApi(request, env, pathname) {
-
-  if (request.method === "OPTIONS") {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type"
-      }
-    });
-  }
-
-  if (pathname === "/api/register" && request.method === "POST") {
-    return register(request, env);
-  }
-
-  if (pathname === "/api/login" && request.method === "POST") {
-    return login(request, env);
-  }
-
-  if (pathname === "/api/logout" && request.method === "POST") {
-    return logout(request, env);
-  }
-
-  if (pathname === "/api/me" && request.method === "GET") {
-    return me(request, env);
-  }
-
-  if (pathname === "/api/tasks" && request.method === "GET") {
-    return tasks(request, env);
-  }
-
-  if (
-    pathname.startsWith("/api/tasks/") &&
-    pathname.endsWith("/complete") &&
-    request.method === "POST"
-  ) {
-    const taskId = pathname.split("/")[3];
-    return completeTask(request, env, taskId);
-  }
-
-  if (
-    pathname === "/api/daily-bonus" &&
-    request.method === "POST"
-  ) {
-    return dailyBonus(request, env);
-  }
-
-  if (
-    pathname === "/api/transactions" &&
-    request.method === "GET"
-  ) {
-    return transactions(request, env);
-  }
-
-  if (
-    pathname === "/api/withdraw" &&
-    request.method === "POST"
-  ) {
-    return withdraw(request, env);
-  }
-
-  if (
-    pathname === "/api/withdrawals" &&
-    request.method === "GET"
-  ) {
-    return withdrawals(request, env);
-  }
-
-  if (
-    pathname === "/api/admin/login" &&
-    request.method === "POST"
-  ) {
-    return adminLogin(request, env);
-  }
-
-  if (
-    pathname === "/api/admin/logout" &&
-    request.method === "POST"
-  ) {
-    return adminLogout(request, env);
-  }
-
-  if (
-    pathname === "/api/admin/me" &&
-    request.method === "GET"
-  ) {
-    return adminMe(request, env);
-  }
-
-  if (
-    pathname === "/api/admin/stats" &&
-    request.method === "GET"
-  ) {
-    return adminStats(request, env);
-  }
-
-  if (
-    pathname === "/api/admin/users" &&
-    request.method === "GET"
-  ) {
-    return adminUsers(request, env);
-  }
-
-  if (
-    pathname === "/api/admin/withdrawals" &&
-    request.method === "GET"
-  ) {
-    return adminWithdrawals(request, env);
-  }
-
-  const approveMatch =
-    pathname.match(/^\/api\/admin\/withdrawals\/(\d+)\/approve$/);
-
-  if (
-    approveMatch &&
-    request.method === "POST"
-  ) {
-    return approveWithdrawal(
-      request,
-      env,
-      approveMatch[1]
-    );
-  }
-
-  const rejectMatch =
-    pathname.match(/^\/api\/admin\/withdrawals\/(\d+)\/reject$/);
-
-  if (
-    rejectMatch &&
-    request.method === "POST"
-  ) {
-    return rejectWithdrawal(
-      request,
-      env,
-      rejectMatch[1]
-    );
-  }
-
-  return json({
-    success: false,
-    message: "API endpoint not found."
-  }, 404);
-}
-
-export default {
-  async fetch(request, env) {
-
-    try {
-
-      const url = new URL(request.url);
-
-      if (url.pathname.startsWith("/api/")) {
-        return handleApi(
-          request,
-          env,
-          url.pathname
-        );
-      }
-
-      return env.ASSETS.fetch(request);
-
-    } catch (error) {
-
-      console.error(error);
-
-      return json({
-        success: false,
-        message: "Internal server error."
-      }, 500);
-    }
-  }
-};
- 
