@@ -3,531 +3,1246 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#080b16">
+<meta name="theme-color" content="#070b16">
 <meta name="description" content="EarnX - Complete tasks, earn rewards and withdraw your earnings.">
 <title>EarnX — Earn Online</title>
 
 <style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 :root{
---bg:#060912;
---bg2:#0a1020;
---card:#10182a;
---card2:#151f34;
---border:rgba(255,255,255,.09);
---border2:#263653;
---text:#f5f7ff;
---muted:#8f9db7;
---primary:#7c5cff;
---primary2:#438cff;
---green:#20d99b;
---red:#ff5577;
---yellow:#ffc857;
---cyan:#35cfff;
---shadow:0 20px 60px rgba(0,0,0,.35);
---radius:20px
+--bg:#070b16;--bg2:#0d1424;--card:#111a2c;--card2:#17233a;
+--border:rgba(255,255,255,.09);--text:#f4f7ff;--muted:#91a0ba;
+--primary:#7c5cff;--primary2:#438cff;--green:#20d99b;
+--red:#ff5577;--yellow:#ffc857;--cyan:#35cfff;
+--shadow:0 20px 60px rgba(0,0,0,.35);--radius:20px
 }
-
-html{
-scroll-behavior:smooth
-}
-
+html{scroll-behavior:smooth}
 body{
 font-family:Arial,Helvetica,sans-serif;
 background:
-radial-gradient(circle at 5% -5%,rgba(124,92,255,.20),transparent 28%),
-radial-gradient(circle at 100% 5%,rgba(67,140,255,.15),transparent 25%),
-radial-gradient(circle at 50% 100%,rgba(32,217,155,.05),transparent 30%),
+radial-gradient(circle at 0% 0%,rgba(124,92,255,.18),transparent 30%),
+radial-gradient(circle at 100% 5%,rgba(67,140,255,.13),transparent 28%),
 var(--bg);
-color:var(--text);
-min-height:100vh;
-overflow-x:hidden
+color:var(--text);min-height:100vh;overflow-x:hidden
 }
-
-body:before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-background-image:
-linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
-linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
-background-size:40px 40px;
-mask-image:linear-gradient(to bottom,#000,transparent 80%);
-z-index:-1
-}
-
-button,
-input,
-select{
-font:inherit
-}
-
-button{
-cursor:pointer
-}
-
-a{
-color:inherit;
-text-decoration:none
-}
-
-/* HEADER */
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
 
 header{
-position:sticky;
-top:0;
-z-index:1000;
-background:rgba(6,9,18,.82);
-backdrop-filter:blur(20px);
--webkit-backdrop-filter:blur(20px);
+position:sticky;top:0;z-index:1000;
+background:rgba(7,11,22,.88);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
 border-bottom:1px solid rgba(255,255,255,.07)
 }
-
 .nav{
-max-width:1200px;
-margin:auto;
-padding:13px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px
+max-width:1200px;margin:auto;padding:13px 16px;
+display:flex;align-items:center;justify-content:space-between;gap:12px
 }
-
 .logo{
-display:flex;
-align-items:center;
-gap:9px;
-font-size:25px;
-font-weight:1000;
-letter-spacing:-1px;
+display:flex;align-items:center;gap:9px;font-size:24px;font-weight:900;
 background:linear-gradient(135deg,#a68cff,#5ba8ff);
--webkit-background-clip:text;
-background-clip:text;
-color:transparent;
-white-space:nowrap
+-webkit-background-clip:text;background-clip:text;color:transparent
 }
-
 .logo:before{
-content:"✦";
-display:flex;
-align-items:center;
-justify-content:center;
-width:34px;
-height:34px;
-border-radius:11px;
-font-size:17px;
-color:#fff;
-background:linear-gradient(135deg,#7c5cff,#438cff);
-box-shadow:0 8px 25px rgba(108,86,255,.35)
+content:"✦";width:34px;height:34px;border-radius:11px;
+display:flex;align-items:center;justify-content:center;color:white;
+background:linear-gradient(135deg,var(--primary),var(--primary2))
 }
-
-.nav-links{
-display:flex;
-gap:6px;
-flex-wrap:wrap;
-justify-content:flex-end
-}
-
+.nav-links{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
 .nav-links button{
-background:transparent;
-border:1px solid transparent;
-color:#aab6cc;
-padding:9px 12px;
-border-radius:11px;
-font-weight:700;
-transition:.2s
+background:transparent;border:1px solid transparent;color:#aab6cc;
+padding:9px 11px;border-radius:11px;font-weight:700
 }
+.nav-links button:hover{color:white;background:rgba(255,255,255,.06)}
+.nav-links button:last-child{color:#ff718d}
 
-.nav-links button:hover{
-color:#fff;
-background:rgba(255,255,255,.06);
-border-color:rgba(255,255,255,.08)
-}
-
-.nav-links button:last-child{
-color:#ff718d
-}
-
-/* MAIN */
-
-.container{
-width:100%;
-max-width:1200px;
-margin:auto;
-padding:25px 18px 55px
-}
-
-.page{
-display:none;
-animation:pageIn .3s ease
-}
-
-.page.active{
-display:block
-}
-
-@keyframes pageIn{
-from{
-opacity:0;
-transform:translateY(8px)
-}
-to{
-opacity:1;
-transform:translateY(0)
-}
-}
-
-/* HERO */
+.container{max-width:1200px;margin:auto;padding:24px 16px 55px}
+.page{display:none;animation:in .25s ease}
+.page.active{display:block}
+@keyframes in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 
 .hero{
-position:relative;
-overflow:hidden;
-margin-top:5px;
-padding:78px 25px 72px;
-text-align:center;
-border:1px solid rgba(255,255,255,.10);
-border-radius:30px;
-background:
-radial-gradient(circle at 50% 0%,rgba(124,92,255,.28),transparent 38%),
-radial-gradient(circle at 10% 100%,rgba(67,140,255,.12),transparent 30%),
-linear-gradient(145deg,#10182b,#090f1d);
-box-shadow:var(--shadow)
+position:relative;overflow:hidden;margin-top:5px;padding:70px 20px;
+text-align:center;border:1px solid var(--border);border-radius:30px;
+background:linear-gradient(145deg,#111b30,#09101e);box-shadow:var(--shadow)
 }
-
-.hero:before{
-content:"";
-position:absolute;
-width:300px;
-height:300px;
-right:-140px;
-top:-150px;
-border-radius:50%;
-background:rgba(124,92,255,.12);
-filter:blur(5px)
-}
-
-.hero:after{
-content:"";
-position:absolute;
-width:220px;
-height:220px;
-left:-110px;
-bottom:-120px;
-border-radius:50%;
-background:rgba(67,140,255,.09);
-filter:blur(4px)
-}
-
-.hero-content{
-position:relative;
-z-index:2
-}
-
-.hero-badge{
-display:inline-flex;
-align-items:center;
-gap:7px;
-padding:8px 13px;
-border:1px solid rgba(124,92,255,.28);
-border-radius:999px;
-background:rgba(124,92,255,.09);
-color:#b7a6ff;
-font-size:12px;
-font-weight:800;
+.hero-content{position:relative;z-index:2}
+.badge{
+display:inline-block;padding:8px 13px;border-radius:999px;
+font-size:12px;font-weight:800;color:#b9aaff;
+background:rgba(124,92,255,.1);border:1px solid rgba(124,92,255,.25);
 margin-bottom:18px
 }
-
-.hero-badge span{
-width:7px;
-height:7px;
-border-radius:50%;
-background:var(--green);
-box-shadow:0 0 12px var(--green)
-}
-
-.hero h1{
-position:relative;
-font-size:clamp(38px,7vw,64px);
-line-height:1.05;
-margin-bottom:18px;
-font-weight:1000;
-letter-spacing:-2px
-}
-
+.hero h1{font-size:clamp(38px,7vw,64px);line-height:1.05;margin-bottom:18px}
 .hero h1 span{
 background:linear-gradient(90deg,#a58aff,#55a5ff);
--webkit-background-clip:text;
-background-clip:text;
-color:transparent
+-webkit-background-clip:text;background-clip:text;color:transparent
 }
-
-.hero p{
-position:relative;
-max-width:690px;
-margin:auto;
-color:var(--muted);
-line-height:1.8;
-font-size:16px
-}
-
-.hero-buttons{
-display:flex;
-justify-content:center;
-gap:10px;
-flex-wrap:wrap;
-margin-top:27px
-}
-
-.btn{
-border:0;
-color:#fff;
-padding:13px 21px;
-border-radius:13px;
-font-weight:900;
+.hero p{max-width:680px;margin:auto;color:var(--muted);line-height:1.8}
+.buttons{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:26px}
+.btn,.small-btn{
+border:0;color:white;border-radius:12px;font-weight:800;
 background:linear-gradient(135deg,var(--primary),var(--primary2));
-box-shadow:0 12px 30px rgba(92,83,255,.27);
-transition:.2s
+box-shadow:0 10px 25px rgba(92,83,255,.22)
 }
-
-.btn:hover{
-transform:translateY(-2px);
-filter:brightness(1.08)
-}
-
+.btn{padding:13px 21px}.small-btn{padding:9px 13px}
 .btn.secondary{
-background:rgba(255,255,255,.055);
-border:1px solid rgba(255,255,255,.10);
+background:rgba(255,255,255,.055);border:1px solid var(--border);
 box-shadow:none
 }
-
-.hero .btn{
-position:relative
-}
-
-/* MINI STATS */
-
 .hero-stats{
-position:relative;
-z-index:2;
-max-width:720px;
-margin:35px auto 0;
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px
+max-width:720px;margin:32px auto 0;display:grid;
+grid-template-columns:repeat(3,1fr);gap:10px
 }
-
 .hero-stat{
-padding:13px;
-border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.035);
-border-radius:14px
+padding:14px;border:1px solid var(--border);
+background:rgba(255,255,255,.035);border-radius:14px
+}
+.hero-stat strong{display:block;font-size:18px;margin-bottom:4px}
+.hero-stat span{font-size:11px;color:var(--muted)}
+
+.section-title{text-align:center;font-size:28px;margin:44px 0 18px}
+.section-subtitle{text-align:center;color:var(--muted);font-size:14px;margin-top:-10px;margin-bottom:20px}
+
+.features,.tasks{display:grid;gap:15px}
+.features{grid-template-columns:repeat(4,1fr)}
+.tasks{grid-template-columns:repeat(2,1fr)}
+.card,.task{
+background:linear-gradient(145deg,#131e33,#0d1627);
+border:1px solid var(--border);border-radius:20px;box-shadow:0 15px 45px rgba(0,0,0,.2)
+}
+.card{padding:22px}
+.feature{text-align:center}
+.icon{
+width:58px;height:58px;margin:0 auto 14px;border-radius:17px;
+display:flex;align-items:center;justify-content:center;font-size:27px;
+background:#1b2944;border:1px solid #2a3b5d
+}
+.feature h3{margin-bottom:7px}.feature p,.task p{color:var(--muted);font-size:13px;line-height:1.6}
+
+.task{padding:18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.task-left{display:flex;align-items:center;gap:12px;min-width:0}
+.task .icon{margin:0;flex:0 0 52px;width:52px;height:52px}
+.task h3{font-size:16px;margin-bottom:4px}
+.reward{color:var(--green);font-weight:900;text-align:right;margin-bottom:7px}
+
+.auth{max-width:480px;margin:35px auto}
+.auth h2{text-align:center;margin-bottom:20px}
+.form-group{margin-bottom:15px}
+label{display:block;color:#cbd6e9;font-size:13px;margin-bottom:7px}
+input,select{
+width:100%;padding:13px 14px;border-radius:12px;
+border:1px solid var(--border2,#263653);
+background:#0b1323;color:white;outline:none
+}
+input:focus,select:focus{border-color:var(--primary)}
+.form-note{text-align:center;color:var(--muted);font-size:13px;margin-top:15px}
+.form-note button{border:0;background:none;color:#9e8cff;font-weight:800}
+
+.dashboard-head{
+display:flex;align-items:center;justify-content:space-between;gap:10px;
+margin:10px 0 20px
+}
+.status{
+padding:7px 11px;border-radius:999px;font-size:11px;font-weight:900;
+background:rgba(32,217,155,.1);color:var(--green);
+border:1px solid rgba(32,217,155,.2)
+}
+.stats{
+display:grid;grid-template-columns:repeat(4,1fr);gap:12px
+}
+.stat{
+padding:18px;border-radius:18px;background:linear-gradient(145deg,#142039,#0d1729);
+border:1px solid var(--border)
+}
+.stat small{display:block;color:var(--muted);margin-bottom:9px}
+.stat strong{font-size:24px}
+
+.bonus{
+margin-top:15px;padding:22px;border-radius:20px;
+background:linear-gradient(135deg,rgba(124,92,255,.2),rgba(67,140,255,.12));
+border:1px solid rgba(124,92,255,.25);
+display:flex;align-items:center;justify-content:space-between;gap:15px
+}
+.bonus h3{margin-bottom:5px}.bonus p{color:var(--muted);font-size:13px}
+
+.referral{
+margin-top:15px;display:flex;align-items:center;justify-content:space-between;
+gap:15px;flex-wrap:wrap
+}
+.refcode{
+padding:12px 15px;border-radius:12px;background:#0a1221;
+border:1px dashed #34476d;color:#bcaeff;font-weight:900
 }
 
-.hero-stat strong{
-display:block;
-font-size:18px;
-margin-bottom:4px
+.table-wrap{overflow:auto;margin-top:15px}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{padding:12px;text-align:left;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px}
+th{color:#aab7cc}td{color:#dce4f4}
+.green{color:var(--green)}.red{color:var(--red)}.yellow{color:var(--yellow)}
+
+.admin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.admin-actions{display:flex;gap:7px;flex-wrap:wrap}
+.admin-actions button{padding:7px 10px;border:0;border-radius:8px;color:white;font-weight:700}
+.approve{background:#168b68}.reject{background:#b83b59}
+
+.hidden{display:none!important}
+
+@media(max-width:850px){
+.features{grid-template-columns:repeat(2,1fr)}
+.stats,.admin-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+.nav{align-items:flex-start}
+.logo{font-size:21px}
+.logo:before{width:30px;height:30px}
+.nav-links{max-width:245px}
+.nav-links button{padding:7px 8px;font-size:11px}
+.container{padding:15px 12px 40px}
+.hero{padding:50px 16px;border-radius:23px}
+.hero h1{font-size:38px}
+.hero p{font-size:14px}
+.hero-stats{grid-template-columns:1fr}
+.features,.tasks,.stats,.admin-grid{grid-template-columns:1fr}
+.section-title{font-size:24px}
+.bonus{align-items:flex-start;flex-direction:column}
+.dashboard-head{align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="nav">
+<div class="logo">EarnX</div>
+
+<div class="nav-links">
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('login')">Login</button>
+<button onclick="showPage('register')">Register</button>
+<button id="dashboardBtn" class="hidden" onclick="showPage('dashboard')">Dashboard</button>
+<button onclick="showPage('adminLogin')">Admin</button>
+<button id="logoutBtn" class="hidden" onclick="logout()">Logout</button>
+</div>
+</div>
+</header>
+
+<main class="container">
+
+<!-- HOME -->
+<section id="home" class="page active">
+
+<div class="hero">
+<div class="hero-content">
+
+<div class="badge">✦ Simple • Secure • Rewarding</div>
+
+<h1>Earn More With <span>EarnX</span></h1>
+
+<p>
+Complete simple online tasks, collect rewards, build your balance
+and request withdrawals from one easy platform.
+</p>
+
+<div class="buttons">
+<button class="btn" onclick="showPage('register')">Get Started</button>
+<button class="btn secondary" onclick="showPage('login')">Login</button>
+</div>
+
+<div class="hero-stats">
+<div class="hero-stat">
+<strong>⚡ Easy</strong>
+<span>Simple tasks</span>
+</div>
+<div class="hero-stat">
+<strong>💰 Rewards</strong>
+<span>Earn from tasks</span>
+</div>
+<div class="hero-stat">
+<strong>🔐 Secure</strong>
+<span>Protected account</span>
+</div>
+</div>
+
+</div>
+</div>
+
+<h2 class="section-title">Why EarnX?</h2>
+<p class="section-subtitle">Everything you need in one simple earning platform.</p>
+
+<div class="features">
+
+<div class="card feature">
+<div class="icon">⚡</div>
+<h3>Easy Tasks</h3>
+<p>Complete simple online tasks without complicated steps.</p>
+</div>
+
+<div class="card feature">
+<div class="icon">💰</div>
+<h3>Earn Rewards</h3>
+<p>Get rewards after completing available tasks.</p>
+</div>
+
+<div class="card feature">
+<div class="icon">👥</div>
+<h3>Referral</h3>
+<p>Invite friends and grow your earning opportunities.</p>
+</div>
+
+<div class="card feature">
+<div class="icon">🔐</div>
+<h3>Secure</h3>
+<p>Your account and earning information stay protected.</p>
+</div>
+
+</div>
+
+<h2 class="section-title">Available Tasks</h2>
+<p class="section-subtitle">Example earning opportunities.</p>
+
+<div class="tasks">
+
+<div class="task">
+<div class="task-left">
+<div class="icon">✈️</div>
+<div>
+<h3>Telegram</h3>
+<p>Join our Telegram task.</p>
+</div>
+</div>
+<div>
+<div class="reward">$0.50</div>
+<button class="small-btn" onclick="showPage('login')">Start</button>
+</div>
+</div>
+
+<div class="task">
+<div class="task-left">
+<div class="icon">▶️</div>
+<div>
+<h3>YouTube</h3>
+<p>Complete a YouTube task.</p>
+</div>
+</div>
+<div>
+<div class="reward">$0.25</div>
+<button class="small-btn" onclick="showPage('login')">Start</button>
+</div>
+</div>
+
+<div class="task">
+<div class="task-left">
+<div class="icon">📷</div>
+<div>
+<h3>Instagram</h3>
+<p>Complete an Instagram task.</p>
+</div>
+</div>
+<div>
+<div class="reward">$0.30</div>
+<button class="small-btn" onclick="showPage('login')">Start</button>
+</div>
+</div>
+
+<div class="task">
+<div class="task-left">
+<div class="icon">🎵</div>
+<div>
+<h3>TikTok</h3>
+<p>Complete a TikTok task.</p>
+</div>
+</div>
+<div>
+<div class="reward">$0.20</div>
+<button class="small-btn" onclick="showPage('login')">Start</button>
+</div>
+</div>
+
+</div>
+</section>
+
+
+<!-- REGISTER -->
+<section id="register" class="page">
+
+<div class="auth card">
+
+<h2>Create Account</h2>
+
+<div class="form-group">
+<label>Full Name</label>
+<input id="regName" type="text" placeholder="Enter your name">
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input id="regEmail" type="email" placeholder="Enter your email">
+</div>
+
+<div class="form-group">
+<label>Password</label>
+<input id="regPassword" type="password" placeholder="Create a password">
+</div>
+
+<div class="form-group">
+<label>Referral Code (Optional)</label>
+<input id="regReferral" type="text" placeholder="Referral code">
+</div>
+
+<button class="btn" style="width:100%" onclick="register()">Create Account</button>
+
+<div class="form-note">
+Already have an account?
+<button onclick="showPage('login')">Login</button>
+</div>
+
+</div>
+</section>
+
+
+<!-- LOGIN -->
+<section id="login" class="page">
+
+<div class="auth card">
+
+<h2>Welcome Back</h2>
+
+<div class="form-group">
+<label>Email</label>
+<input id="loginEmail" type="email" placeholder="Enter your email">
+</div>
+
+<div class="form-group">
+<label>Password</label>
+<input id="loginPassword" type="password" placeholder="Enter your password">
+</div>
+
+<button class="btn" style="width:100%" onclick="login()">Login</button>
+
+<div class="form-note">
+Don't have an account?
+<button onclick="showPage('register')">Register</button>
+</div>
+
+</div>
+</section>
+
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="page">
+
+<div class="dashboard-head">
+<div>
+<h2>My Dashboard</h2>
+<p style="color:var(--muted);font-size:13px;margin-top:5px">
+Manage your earnings and tasks
+</p>
+</div>
+<div class="status">● Active</div>
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<small>Available Balance</small>
+<strong id="balance">$0.00</strong>
+</div>
+
+<div class="stat">
+<small>Total Earned</small>
+<strong id="totalEarned">$0.00</strong>
+</div>
+
+<div class="stat">
+<small>Referrals</small>
+<strong id="referrals">0</strong>
+</div>
+
+<div class="stat">
+<small>Account</small>
+<strong style="color:var(--green)">Active</strong>
+</div>
+
+</div>
+
+
+<div class="bonus">
+<div>
+<h3>🎁 Daily Bonus</h3>
+<p>Claim your daily reward when available.</p>
+</div>
+<button class="btn" onclick="claimBonus()">Claim $1</button>
+</div>
+
+
+<div class="card referral">
+<div>
+<h3>👥 Referral Program</h3>
+<p style="color:var(--muted);font-size:13px;margin-top:5px">
+Share your referral code with friends.
+</p>
+</div>
+
+<div style="display:flex;gap:8px;align-items:center">
+<div class="refcode" id="refCode">---</div>
+<button class="small-btn" onclick="copyReferral()">Copy</button>
+</div>
+</div>
+
+
+<h2 class="section-title">Available Tasks</h2>
+
+<div id="dashboardTasks" class="tasks">
+<p style="color:var(--muted)">Loading tasks...</p>
+</div>
+
+
+<div class="card" style="margin-top:18px">
+
+<h2 style="margin-bottom:18px">💸 Withdraw Earnings</h2>
+
+<div class="form-group">
+<label>Method</label>
+<select id="withdrawMethod">
+<option value="bkash">bKash</option>
+<option value="nagad">Nagad</option>
+<option value="usdt">USDT</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Account / Wallet</label>
+<input id="withdrawAccount" type="text" placeholder="bKash/Nagad number or USDT wallet">
+</div>
+
+<div class="form-group">
+<label>Amount (Minimum $1)</label>
+<input id="withdrawAmount" type="number" min="1" step="0.01" placeholder="1.00">
+</div>
+
+<button class="btn" onclick="withdraw()">Request Withdrawal</button>
+
+</div>
+
+
+<div class="card" style="margin-top:18px">
+
+<h2>📜 Transaction History</h2>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Type</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody id="transactions">
+<tr><td colspan="3">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+
+<div class="card" style="margin-top:18px">
+
+<h2>💳 Withdrawal History</h2>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Method</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="withdrawals">
+<tr><td colspan="4">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ADMIN LOGIN -->
+<section id="adminLogin" class="page">
+
+<div class="auth card">
+
+<h2>Admin Login</h2>
+
+<div class="form-group">
+<label>Email</label>
+<input id="adminEmail" type="email" placeholder="Admin email">
+</div>
+
+<div class="form-group">
+<label>Password</label>
+<input id="adminPassword" type="password" placeholder="Admin password">
+</div>
+
+<button class="btn" style="width:100%" onclick="adminLogin()">Admin Login</button>
+
+</div>
+</section>
+
+
+<!-- ADMIN -->
+<section id="admin" class="page">
+
+<div class="dashboard-head">
+<div>
+<h2>Admin Panel</h2>
+<p style="color:var(--muted);font-size:13px;margin-top:5px">
+Manage users and withdrawal requests.
+</p>
+</div>
+<div class="status">ADMIN</div>
+</div>
+
+<div class="admin-grid">
+
+<div class="stat">
+<small>Total Users</small>
+<strong id="adminUsers">0</strong>
+</div>
+
+<div class="stat">
+<small>Total Balance</small>
+<strong id="adminBalance">$0.00</strong>
+</div>
+
+<div class="stat">
+<small>Pending</small>
+<strong id="adminPending">0</strong>
+</div>
+
+<div class="stat">
+<small>Approved</small>
+<strong id="adminApproved">0</strong>
+</div>
+
+</div>
+
+
+<div class="card" style="margin-top:18px">
+
+<h2>👥 Users</h2>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Balance</th>
+<th>Joined</th>
+</tr>
+</thead>
+<tbody id="adminUsersTable">
+<tr><td colspan="4">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+
+<div class="card" style="margin-top:18px">
+
+<h2>💸 Withdrawal Requests</h2>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>User</th>
+<th>Method</th>
+<th>Account</th>
+<th>Amount</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="adminWithdrawals">
+<tr><td colspan="6">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<script>
+const API="/api";
+
+async function api(path,options={}){
+try{
+const res=await fetch(API+path,{
+credentials:"include",
+headers:{
+"Content-Type":"application/json",
+...(options.headers||{})
+},
+...options
+});
+
+const data=await res.json().catch(()=>({}));
+
+if(!res.ok){
+throw new Error(data.error||data.message||"Something went wrong");
 }
 
-.hero-stat span{
-font-size:11px;
-color:var(--muted)
+return data;
+}catch(err){
+throw err;
+}
 }
 
-/* SECTION */
 
-.section-title{
-margin:45px 0 19px;
-text-align:center;
-font-size:28px;
-font-weight:900
+function showPage(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+
+const page=document.getElementById(id);
+
+if(page) page.classList.add("active");
+
+window.scrollTo({top:0,behavior:"smooth"});
 }
 
-.section-subtitle{
-text-align:center;
-color:var(--muted);
-font-size:14px;
-margin-top:-11px;
-margin-bottom:20px
+
+function money(value){
+return "$"+Number(value||0).toFixed(2);
 }
 
-/* CARDS */
 
-.card{
-background:
-linear-gradient(145deg,rgba(20,31,51,.96),rgba(12,20,34,.96));
-border:1px solid var(--border);
-border-radius:var(--radius);
-padding:22px;
-box-shadow:0 15px 45px rgba(0,0,0,.20)
+async function register(){
+
+const name=document.getElementById("regName").value.trim();
+const email=document.getElementById("regEmail").value.trim();
+const password=document.getElementById("regPassword").value;
+const referralCode=document.getElementById("regReferral").value.trim();
+
+if(!name||!email||!password){
+alert("Please fill in all required fields.");
+return;
 }
 
-.card:hover{
-border-color:rgba(124,92,255,.18)
+try{
+
+await api("/register",{
+method:"POST",
+body:JSON.stringify({
+name,
+email,
+password,
+referral_code:referralCode
+})
+});
+
+alert("Account created successfully!");
+
+document.getElementById("regName").value="";
+document.getElementById("regEmail").value="";
+document.getElementById("regPassword").value="";
+document.getElementById("regReferral").value="";
+
+showPage("login");
+
+}catch(e){
+alert(e.message);
+}
 }
 
-/* FEATURES */
 
-.features{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px
+async function login(){
+
+const email=document.getElementById("loginEmail").value.trim();
+const password=document.getElementById("loginPassword").value;
+
+if(!email||!password){
+alert("Enter email and password.");
+return;
 }
 
-.feature{
-text-align:center;
-transition:.2s
+try{
+
+await api("/login",{
+method:"POST",
+body:JSON.stringify({email,password})
+});
+
+document.getElementById("dashboardBtn").classList.remove("hidden");
+document.getElementById("logoutBtn").classList.remove("hidden");
+
+await loadDashboard();
+
+showPage("dashboard");
+
+}catch(e){
+alert(e.message);
+}
 }
 
-.feature:hover{
-transform:translateY(-3px)
+
+async function loadDashboard(){
+
+try{
+
+const me=await api("/me");
+
+const user=me.user||me;
+
+document.getElementById("balance").textContent=money(user.balance);
+document.getElementById("totalEarned").textContent=money(user.total_earned);
+document.getElementById("referrals").textContent=user.referrals_count||user.referrals||0;
+
+document.getElementById("refCode").textContent=
+user.referral_code||user.referralCode||"---";
+
+await loadTasks();
+await loadTransactions();
+await loadWithdrawals();
+
+}catch(e){
+console.log(e);
+}
 }
 
-.feature-icon{
-width:60px;
-height:60px;
-margin:0 auto 14px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:18px;
-background:
-linear-gradient(145deg,#202d4a,#151f35);
-font-size:29px;
-border:1px solid #2b3b5c;
-box-shadow:0 10px 25px rgba(0,0,0,.2)
+
+async function loadTasks(){
+
+const box=document.getElementById("dashboardTasks");
+
+try{
+
+const data=await api("/tasks");
+
+const tasks=data.tasks||data||[];
+
+if(!tasks.length){
+box.innerHTML='<p style="color:var(--muted)">No tasks available right now.</p>';
+return;
 }
 
-.feature h3{
-margin-bottom:7px;
-font-size:16px
+box.innerHTML=tasks.map(task=>`
+
+<div class="task">
+
+<div class="task-left">
+
+<div class="icon">
+${task.type==="telegram"?"✈️":
+task.type==="youtube"?"▶️":
+task.type==="instagram"?"📷":
+task.type==="tiktok"?"🎵":"⚡"}
+</div>
+
+<div>
+<h3>${escapeHtml(task.title||task.name||"Task")}</h3>
+<p>${escapeHtml(task.description||"Complete this task and earn rewards.")}</p>
+</div>
+
+</div>
+
+<div>
+<div class="reward">${money(task.reward)}</div>
+<button class="small-btn" onclick="completeTask(${task.id})">
+Complete
+</button>
+</div>
+
+</div>
+
+`).join("");
+
+}catch(e){
+
+box.innerHTML='<p style="color:var(--muted)">Unable to load tasks.</p>';
+
+}
 }
 
-.feature p{
-color:var(--muted);
-font-size:13px;
-line-height:1.6
+
+async function completeTask(id){
+
+try{
+
+const result=await api("/tasks/"+id+"/complete",{
+method:"POST"
+});
+
+alert(result.message||"Task completed!");
+
+await loadDashboard();
+
+}catch(e){
+alert(e.message);
+}
 }
 
-/* TASKS */
 
-.tasks{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px
+async function claimBonus(){
+
+try{
+
+const result=await api("/daily-bonus",{
+method:"POST"
+});
+
+alert(result.message||"Daily bonus claimed!");
+
+await loadDashboard();
+
+}catch(e){
+alert(e.message);
+}
 }
 
-.task{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px;
-padding:18px;
-border-radius:18px;
-background:
-linear-gradient(145deg,#141f34,#0e1729);
-border:1px solid var(--border);
-transition:.2s
+
+async function copyReferral(){
+
+const code=document.getElementById("refCode").textContent;
+
+if(code==="---") return;
+
+try{
+await navigator.clipboard.writeText(code);
+alert("Referral code copied!");
+}catch(e){
+alert("Copy failed.");
+}
 }
 
-.task:hover{
-transform:translateY(-2px);
-border-color:rgba(124,92,255,.25)
+
+async function loadTransactions(){
+
+const body=document.getElementById("transactions");
+
+try{
+
+const data=await api("/transactions");
+const list=data.transactions||data||[];
+
+if(!list.length){
+body.innerHTML='<tr><td colspan="3">No transactions yet.</td></tr>';
+return;
 }
 
-.task-left{
-display:flex;
-align-items:center;
-gap:13px;
-min-width:0
+body.innerHTML=list.map(x=>`
+
+<tr>
+<td>${formatDate(x.created_at||x.date)}</td>
+<td>${escapeHtml(x.type||"Earning")}</td>
+<td class="green">+${money(x.amount)}</td>
+</tr>
+
+`).join("");
+
+}catch(e){
+
+body.innerHTML='<tr><td colspan="3">Unable to load.</td></tr>';
+
+}
 }
 
-.task-icon{
-width:54px;
-height:54px;
-flex:0 0 54px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:16px;
-font-size:27px;
-background:linear-gradient(145deg,#202d49,#151f35);
-border:1px solid #2b3b5c
+
+async function withdraw(){
+
+const method=document.getElementById("withdrawMethod").value;
+const account=document.getElementById("withdrawAccount").value.trim();
+const amount=Number(document.getElementById("withdrawAmount").value);
+
+if(!account||!amount||amount<1){
+alert("Minimum withdrawal is $1.");
+return;
 }
 
-.task h3{
-font-size:16px;
-margin-bottom:5px
+try{
+
+const result=await api("/withdraw",{
+method:"POST",
+body:JSON.stringify({
+method,
+account,
+amount
+})
+});
+
+alert(result.message||"Withdrawal request submitted!");
+
+document.getElementById("withdrawAccount").value="";
+document.getElementById("withdrawAmount").value="";
+
+await loadDashboard();
+
+}catch(e){
+alert(e.message);
+}
 }
 
-.task p{
-color:var(--muted);
-font-size:13px
+
+async function loadWithdrawals(){
+
+const body=document.getElementById("withdrawals");
+
+try{
+
+const data=await api("/withdrawals");
+const list=data.withdrawals||data||[];
+
+if(!list.length){
+body.innerHTML='<tr><td colspan="4">No withdrawal requests.</td></tr>';
+return;
 }
 
-.reward{
-color:var(--green);
-font-weight:900;
-text-align:right;
-margin-bottom:8px
+body.innerHTML=list.map(x=>`
+
+<tr>
+<td>${formatDate(x.created_at||x.date)}</td>
+<td>${escapeHtml(x.method||"")}</td>
+<td>${money(x.amount)}</td>
+<td class="${x.status==="Approved"?"green":x.status==="Rejected"?"red":"yellow"}">
+${escapeHtml(x.status||"Pending")}
+</td>
+</tr>
+
+`).join("");
+
+}catch(e){
+
+body.innerHTML='<tr><td colspan="4">Unable to load.</td></tr>';
+
+}
 }
 
-.small-btn{
-border:0;
-border-radius:10px;
-padding:8px 12px;
-color:#fff;
-background:linear-gradient(135deg,var(--primary),var(--primary2));
-font-weight:800;
-transition:.2s
+
+async function logout(){
+
+try{
+await api("/logout",{method:"POST"});
+}catch(e){}
+
+document.getElementById("dashboardBtn").classList.add("hidden");
+document.getElementById("logoutBtn").classList.add("hidden");
+
+showPage("home");
 }
 
-.small-btn:hover{
-transform:translateY(-1px);
-filter:brightness(1.08)
+
+async function adminLogin(){
+
+const email=document.getElementById("adminEmail").value.trim();
+const password=document.getElementById("adminPassword").value;
+
+if(!email||!password){
+alert("Enter admin email and password.");
+return;
 }
 
-/* AUTH */
+try{
 
-.auth-box{
-max-width:480px;
-margin:35px auto
+await api("/admin/login",{
+method:"POST",
+body:JSON.stringify({email,password})
+});
+
+await loadAdmin();
+
+showPage("admin");
+
+}catch(e){
+alert(e.message);
+}
 }
 
-.auth-box h2{
-text-align:center;
-margin-bottom:21px;
-font-size:28px;
-font-weight:900
+
+async function loadAdmin(){
+
+try{
+
+const data=await api("/admin");
+
+const stats=data.stats||data;
+
+document.getElementById("adminUsers").textContent=
+stats.total_users||stats.users||0;
+
+document.getElementById("adminBalance").textContent=
+money(stats.total_balance||stats.balance);
+
+document.getElementById("adminPending").textContent=
+stats.pending_withdrawals||stats.pending||0;
+
+document.getElementById("adminApproved").textContent=
+stats.approved_withdrawals||stats.approved||0;
+
+}catch(e){}
+
+
+try{
+
+const data=await api("/admin/users");
+const users=data.users||data||[];
+
+const body=document.getElementById("adminUsersTable");
+
+if(!users.length){
+body.innerHTML='<tr><td colspan="4">No users found.</td></tr>';
+}else{
+
+body.innerHTML=users.map(u=>`
+
+<tr>
+<td>${escapeHtml(u.name||"")}</td>
+<td>${escapeHtml(u.email||"")}</td>
+<td>${money(u.balance)}</td>
+<td>${formatDate(u.created_at)}</td>
+</tr>
+
+`).join("");
+
 }
 
-.auth-box:before{
-content:"EarnX";
-display:block;
-width:max-content;
-margin:0 auto 12px;
-padding:6px 11px;
-border-radius:999px;
-font-size:11px;
-font-weight:900;
-letter-spacing:.5px;
-color:#bbaeff;
-background:rgba(124,92,255,.10);
-border:1px solid rgba(124,92,255,.18)
+}catch(e){}
+
+
+try{
+
+const data=await api("/admin/withdrawals");
+const list=data.withdrawals||data||[];
+
+const body=document.getElementById("adminWithdrawals");
+
+if(!list.length){
+body.innerHTML='<tr><td colspan="6">No withdrawal requests.</td></tr>';
+}else{
+
+body.innerHTML=list.map(x=>`
+
+<tr>
+
+<td>${escapeHtml(x.user_name||x.name||x.email||"User")}</td>
+
+<td>${escapeHtml(x.method||"")}</td>
+
+<td>${escapeHtml(x.account||x.wallet||"")}</td>
+
+<td>${money(x.amount)}</td>
+
+<td>${escapeHtml(x.status||"Pending")}</td>
+
+<td>
+<div class="admin-actions">
+
+${
+String(x.status||"").toLowerCase()==="pending"
+?
+`
+<button class="approve" onclick="updateWithdrawal(${x.id},'approve')">
+Approve
+</button>
+
+<button class="reject" onclick="updateWithdrawal(${x.id},'reject')">
+Reject
+</button>
+`
+:"—"
 }
 
-.form-group{
-margin-bottom:15px
+</div>
+</td>
+
+</tr>
+
+`).join("");
+
 }
 
-.form-group label{
-display:block;
-margin-bottom:7px;
-color:#cbd6e9;
-font-size:13
+}catch(e){}
+
+}
+
+
+async function updateWithdrawal(id,action){
+
+if(!confirm("Are you sure?")) return;
+
+try{
+
+const result=await api("/admin/withdrawals/"+id,{
+method:"POST",
+body:JSON.stringify({action})
+});
+
+alert(result.message||"Updated.");
+
+await loadAdmin();
+
+}catch(e){
+alert(e.message);
+}
+}
+
+
+function formatDate(value){
+
+if(!value) return "-";
+
+try{
+return new Date(value).toLocaleDateString();
+}catch(e){
+return value;
+}
+}
+
+
+function escapeHtml(value){
+
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
+
+
+/* CHECK LOGIN */
+
+(async function(){
+
+try{
+
+const result=await api("/me");
+
+if(result && (result.user||result.email||result.id)){
+
+document.getElementById("dashboardBtn").classList.remove("hidden");
+document.getElementById("logoutBtn").classList.remove("hidden");
+
+}
+
+}catch(e){}
+
+})();
+</script>
+
+</body>
+</html>
