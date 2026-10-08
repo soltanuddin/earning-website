@@ -93,7 +93,6 @@ async function getLoggedInUser(request, env) {
 
 export default {
   async fetch(request, env) {
-
     const url = new URL(request.url);
 
     // =========================
@@ -104,7 +103,6 @@ export default {
       request.method === "POST"
     ) {
       try {
-
         const body = await request.json();
 
         const name = String(body.name || "").trim();
@@ -151,7 +149,6 @@ export default {
         let referralCode = null;
 
         for (let i = 0; i < 10; i++) {
-
           const candidate = generateReferralCode();
 
           const exists = await env.DB
@@ -207,7 +204,6 @@ export default {
         }, 201);
 
       } catch (error) {
-
         return json({
           success: false,
           message: "Server error during registration."
@@ -223,7 +219,6 @@ export default {
       request.method === "POST"
     ) {
       try {
-
         const body = await request.json();
 
         const email = String(body.email || "")
@@ -319,7 +314,6 @@ export default {
         });
 
       } catch (error) {
-
         return json({
           success: false,
           message: "Server error during login."
@@ -335,7 +329,6 @@ export default {
       request.method === "GET"
     ) {
       try {
-
         const user = await getLoggedInUser(
           request,
           env
@@ -354,7 +347,6 @@ export default {
         });
 
       } catch (error) {
-
         return json({
           success: false,
           message: "Could not load account."
@@ -370,7 +362,6 @@ export default {
       request.method === "GET"
     ) {
       try {
-
         const user = await getLoggedInUser(
           request,
           env
@@ -419,7 +410,6 @@ export default {
         });
 
       } catch (error) {
-
         return json({
           success: false,
           message: "Could not load tasks."
@@ -437,7 +427,6 @@ export default {
       request.method === "POST"
     ) {
       try {
-
         const user = await getLoggedInUser(
           request,
           env
@@ -528,7 +517,6 @@ export default {
         const reward = Number(task.reward);
 
         await env.DB.batch([
-
           env.DB
             .prepare(`
               INSERT INTO task_completions
@@ -564,7 +552,6 @@ export default {
               reward,
               `Task Reward: ${task.title}`
             )
-
         ]);
 
         const updatedUser = await env.DB
@@ -589,15 +576,4 @@ export default {
           user: updatedUser
         });
 
-      } catch (error) {
-
-        return json({
-          success: false,
-          message: "Could not complete task."
-        }, 500);
-      }
-    }
-
-    // =========================
-    // DAILY BONUS
-    // =================
+      } catch (
