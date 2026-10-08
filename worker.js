@@ -812,4 +812,95 @@ async function testDb(env) {
   const result = await env.DB.prepare(`
     SELECT name
     FROM sqlite_master
-    WHERE
+    WHERE       type = 'table'
+    ORDER BY name
+  `).all();
+
+  return json({
+    success: true,
+    tables: result.results || []
+  });
+}
+
+
+/* =========================
+   MAIN WORKER
+========================= */
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    const path = url.pathname;
+    const method = request.method;
+
+    try {
+
+      if (path === "/api/register" && method === "POST") {
+        return await register(request, env);
+      }
+
+      if (path === "/api/login" && method === "POST") {
+        return await login(request, env);
+      }
+
+      if (path === "/api/me" && method === "GET") {
+        return await me(request, env);
+      }
+
+      if (path === "/api/tasks" && method === "GET") {
+        return await tasks(request, env);
+      }
+
+      if (
+        path.startsWith("/api/tasks/") &&
+        path.endsWith("/complete") &&
+        method === "POST"
+      ) {
+        const parts = path.split("/");
+        const taskId = Number(parts[3]);
+
+        if (!Number.isInteger(taskId)) {
+          return json({
+            success: false,
+            message: "Invalid task ID."
+          }, 400);
+        }
+
+        return await completeTask(request, env, taskId);
+      }
+
+      if (path === "/api/daily-bonus" && method === "POST") {
+        return await dailyBonus(request, env);
+      }
+
+      if (path === "/api/transactions" && method === "GET") {
+        return await transactions(request, env);
+      }
+
+      if (path === "/api/withdraw" && method === "POST") {
+        return await withdraw(request, env);
+      }
+
+      if (path === "/api/withdrawals" && method === "GET") {
+        return await getWithdrawals(request, env);
+      }
+
+      if (path === "/api/logout" && method === "POST") {
+        return await logout(request, env);
+      }
+
+      if (path === "/api/test-db" && method === "GET") {
+        return await testDb(env);
+      }
+
+      return env.ASSETS.fetch(request);
+
+    } catch (error) {
+      return json({
+        success: false,
+        message: "Server error.",
+        error: error.message
+      }, 500);
+    }
+  }
+};
