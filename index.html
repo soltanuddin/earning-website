@@ -270,6 +270,7 @@
 
 <header>
   <h1>EarnX</h1>
+
   <button
     id="logoutBtn"
     class="logout-btn hidden"
@@ -313,7 +314,6 @@
 
     </div>
 
-
     <div class="card bonus-card">
 
       <h2>🎁 Daily Bonus</h2>
@@ -331,7 +331,6 @@
 
     </div>
 
-
     <h2 class="section-title">
       Available Tasks
     </h2>
@@ -344,7 +343,6 @@
 
     </div>
 
-
     <h2 class="section-title">
       Transaction History
     </h2>
@@ -356,7 +354,6 @@
       </div>
 
     </div>
-
 
     <h2 class="section-title">
       Referral Program
@@ -383,7 +380,6 @@
     </div>
 
   </section>
-
 
   <h2 class="section-title">
     How EarnX Works
@@ -416,11 +412,9 @@
 
 </main>
 
-
 <footer>
   © 2026 EarnX. All rights reserved.
 </footer>
-
 
 <script>
 
@@ -499,23 +493,28 @@ async function loadUser() {
 
   try {
 
-    const response = await fetch(
-      "/api/me",
-      {
-        credentials: "include"
-      }
-    );
+    const response =
+      await fetch(
+        "/api/me",
+        {
+          credentials: "include"
+        }
+      );
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
     if (
       data.success &&
       data.user
     ) {
 
-      currentUser = data.user;
+      currentUser =
+        data.user;
 
-      showDashboard(currentUser);
+      showDashboard(
+        currentUser
+      );
 
     } else {
 
@@ -541,45 +540,62 @@ async function loadUser() {
 function showDashboard(user) {
 
   document
-    .getElementById("dashboardSection")
-    .classList.remove("hidden");
+    .getElementById(
+      "dashboardSection"
+    )
+    .classList.remove(
+      "hidden"
+    );
 
   document
-    .getElementById("logoutBtn")
-    .classList.remove("hidden");
-
+    .getElementById(
+      "logoutBtn"
+    )
+    .classList.remove(
+      "hidden"
+    );
 
   document
-    .getElementById("balance")
+    .getElementById(
+      "balance"
+    )
     .textContent =
     "$" +
-    Number(user.balance || 0).toFixed(2);
-
+    Number(
+      user.balance || 0
+    ).toFixed(2);
 
   document
-    .getElementById("userName")
+    .getElementById(
+      "userName"
+    )
     .textContent =
     user.name || "User";
 
-
   document
-    .getElementById("totalEarned")
+    .getElementById(
+      "totalEarned"
+    )
     .textContent =
     "$" +
-    Number(user.balance || 0).toFixed(2);
-
+    Number(
+      user.balance || 0
+    ).toFixed(2);
 
   document
-    .getElementById("referrals")
+    .getElementById(
+      "referrals"
+    )
     .textContent =
     "0";
 
-
   document
-    .getElementById("referralCode")
+    .getElementById(
+      "referralCode"
+    )
     .textContent =
-    user.referral_code || "--------";
-
+    user.referral_code ||
+    "--------";
 
   loadTasks();
 
@@ -595,12 +611,20 @@ function showDashboard(user) {
 function showLoggedOut() {
 
   document
-    .getElementById("dashboardSection")
-    .classList.add("hidden");
+    .getElementById(
+      "dashboardSection"
+    )
+    .classList.add(
+      "hidden"
+    );
 
   document
-    .getElementById("logoutBtn")
-    .classList.add("hidden");
+    .getElementById(
+      "logoutBtn"
+    )
+    .classList.add(
+      "hidden"
+    );
 
 }
 
@@ -616,13 +640,11 @@ async function loadTasks() {
       "tasksContainer"
     );
 
-
   container.innerHTML = `
     <div class="empty">
       ⏳ Loading tasks...
     </div>
   `;
-
 
   try {
 
@@ -635,10 +657,8 @@ async function loadTasks() {
         }
       );
 
-
     const data =
       await response.json();
-
 
     if (
       !response.ok ||
@@ -658,14 +678,16 @@ async function loadTasks() {
 
     }
 
-
     const tasks =
-      Array.isArray(data.tasks)
+      Array.isArray(
+        data.tasks
+      )
         ? data.tasks
         : [];
 
-
-    if (tasks.length === 0) {
+    if (
+      tasks.length === 0
+    ) {
 
       container.innerHTML = `
         <div class="empty">
@@ -677,13 +699,13 @@ async function loadTasks() {
 
     }
 
-
     container.innerHTML =
       tasks.map(task => {
 
         const title =
-          escapeHtml(task.title);
-
+          escapeHtml(
+            task.title
+          );
 
         const description =
           escapeHtml(
@@ -691,31 +713,42 @@ async function loadTasks() {
             "Complete this task and earn a reward."
           );
 
-
         const reward =
-          Number(task.reward || 0)
-            .toFixed(2);
-
+          Number(
+            task.reward || 0
+          ).toFixed(2);
 
         const type =
           escapeHtml(
-            task.task_type || "task"
+            task.task_type ||
+            "task"
           );
 
-
         const icon =
-          getTaskIcon(task.task_type);
+          getTaskIcon(
+            task.task_type
+          );
 
+        /*
+          IMPORTANT:
+          Escape button text for HTML,
+          but preserve the normal "&"
+          character visually.
+        */
 
         const buttonText =
-          getTaskButton(task.task_type);
+          getTaskButton(
+            task.task_type
+          );
 
+        const safeButtonText =
+          buttonText
+            .replace(/&/g, "&amp;");
 
         const safeUrl =
           encodeURIComponent(
             task.task_url || ""
           );
-
 
         return `
           <div class="task-card">
@@ -747,14 +780,13 @@ async function loadTasks() {
             <button
               class="task-btn"
               onclick="openTask('${safeUrl}')">
-              ${buttonText}
+              ${safeButtonText}
             </button>
 
           </div>
         `;
 
       }).join("");
-
 
   } catch (error) {
 
@@ -775,23 +807,28 @@ async function loadTasks() {
    OPEN TASK
 ----------------------------- */
 
-function openTask(encodedUrl) {
+function openTask(
+  encodedUrl
+) {
 
   let url = "";
 
   try {
 
     url =
-      decodeURIComponent(encodedUrl);
+      decodeURIComponent(
+        encodedUrl
+      );
 
   } catch (error) {
 
-    alert("Invalid task link.");
+    alert(
+      "Invalid task link."
+    );
 
     return;
 
   }
-
 
   if (!url) {
 
@@ -803,7 +840,6 @@ function openTask(encodedUrl) {
 
   }
 
-
   try {
 
     const parsed =
@@ -812,18 +848,18 @@ function openTask(encodedUrl) {
         window.location.origin
       );
 
-
     if (
       parsed.protocol !== "https:" &&
       parsed.protocol !== "http:"
     ) {
 
-      alert("Invalid task link.");
+      alert(
+        "Invalid task link."
+      );
 
       return;
 
     }
-
 
     window.open(
       parsed.href,
@@ -831,10 +867,11 @@ function openTask(encodedUrl) {
       "noopener,noreferrer"
     );
 
-
   } catch (error) {
 
-    alert("Invalid task link.");
+    alert(
+      "Invalid task link."
+    );
 
   }
 
@@ -852,7 +889,6 @@ async function loadTransactions() {
       "transactionsContainer"
     );
 
-
   try {
 
     const response =
@@ -863,10 +899,8 @@ async function loadTransactions() {
         }
       );
 
-
     const data =
       await response.json();
-
 
     if (
       !response.ok ||
@@ -886,14 +920,16 @@ async function loadTransactions() {
 
     }
 
-
     const transactions =
-      Array.isArray(data.transactions)
+      Array.isArray(
+        data.transactions
+      )
         ? data.transactions
         : [];
 
-
-    if (transactions.length === 0) {
+    if (
+      transactions.length === 0
+    ) {
 
       container.innerHTML = `
         <div class="empty">
@@ -905,62 +941,61 @@ async function loadTransactions() {
 
     }
 
-
     container.innerHTML =
-      transactions.map(transaction => {
+      transactions.map(
+        transaction => {
 
-        const amount =
-          Number(
-            transaction.amount || 0
-          );
+          const amount =
+            Number(
+              transaction.amount || 0
+            );
 
+          const sign =
+            amount >= 0
+              ? "+"
+              : "";
 
-        const sign =
-          amount >= 0
-            ? "+"
-            : "";
+          const date =
+            transaction.created_at
+              ? new Date(
+                  transaction.created_at
+                ).toLocaleString()
+              : "";
 
+          return `
+            <div class="transaction">
 
-        const date =
-          transaction.created_at
-            ? new Date(
-                transaction.created_at
-              ).toLocaleString()
-            : "";
+              <div>
 
+                <strong>
+                  ${escapeHtml(
+                    transaction.description ||
+                    transaction.type ||
+                    "Transaction"
+                  )}
+                </strong>
 
-        return `
-          <div class="transaction">
+                <div style="
+                  color:#667085;
+                  font-size:13px;
+                  margin-top:5px;
+                ">
+                  ${escapeHtml(date)}
+                </div>
 
-            <div>
+              </div>
 
-              <strong>
-                ${escapeHtml(
-                  transaction.description ||
-                  transaction.type ||
-                  "Transaction"
-                )}
-              </strong>
-
-              <div style="
-                color:#667085;
-                font-size:13px;
-                margin-top:5px;
-              ">
-                ${escapeHtml(date)}
+              <div class="transaction-amount">
+                ${sign}$${Math.abs(
+                  amount
+                ).toFixed(2)}
               </div>
 
             </div>
+          `;
 
-            <div class="transaction-amount">
-              ${sign}$${Math.abs(amount).toFixed(2)}
-            </div>
-
-          </div>
-        `;
-
-      }).join("");
-
+        }
+      ).join("");
 
   } catch (error) {
 
@@ -988,12 +1023,10 @@ async function claimBonus() {
       "bonusBtn"
     );
 
-
   button.disabled = true;
 
   button.textContent =
     "Claiming...";
-
 
   try {
 
@@ -1006,10 +1039,8 @@ async function claimBonus() {
         }
       );
 
-
     const data =
       await response.json();
-
 
     if (
       data.success &&
@@ -1019,36 +1050,34 @@ async function claimBonus() {
       currentUser =
         data.user;
 
-
       document
-        .getElementById("balance")
+        .getElementById(
+          "balance"
+        )
         .textContent =
         "$" +
         Number(
           data.user.balance || 0
         ).toFixed(2);
 
-
       document
-        .getElementById("totalEarned")
+        .getElementById(
+          "totalEarned"
+        )
         .textContent =
         "$" +
         Number(
           data.user.balance || 0
         ).toFixed(2);
-
 
       button.textContent =
         "Bonus Claimed ✓";
-
 
       alert(
         "🎉 Daily Bonus claimed successfully!"
       );
 
-
       loadTransactions();
-
 
     } else {
 
@@ -1057,14 +1086,12 @@ async function claimBonus() {
       button.textContent =
         "Already Claimed";
 
-
       alert(
         data.message ||
         "You cannot claim the bonus right now."
       );
 
     }
-
 
   } catch (error) {
 
@@ -1074,7 +1101,6 @@ async function claimBonus() {
 
     button.textContent =
       "Claim Bonus";
-
 
     alert(
       "Could not connect to the server."
@@ -1098,7 +1124,6 @@ function copyReferralCode() {
       )
       .textContent;
 
-
   if (
     !code ||
     code === "--------"
@@ -1111,7 +1136,6 @@ function copyReferralCode() {
     return;
 
   }
-
 
   navigator.clipboard
     .writeText(code)
@@ -1154,7 +1178,6 @@ async function logout() {
     console.error(error);
 
   }
-
 
   currentUser = null;
 
