@@ -696,4 +696,65 @@ async function testDatabase(env) {
 }
 
 export default {
- 
+  async fetch(request, env) {
+    try {
+      const url = new URL(request.url);
+      const path = url.pathname;
+      const method = request.method;
+
+      if (path === "/api/register" && method === "POST") {
+        return await register(request, env);
+      }
+
+      if (path === "/api/login" && method === "POST") {
+        return await login(request, env);
+      }
+
+      if (path === "/api/me" && method === "GET") {
+        return await me(request, env);
+      }
+
+      if (path === "/api/tasks" && method === "GET") {
+        return await getTasks(request, env);
+      }
+
+      if (
+        path.startsWith("/api/tasks/") &&
+        path.endsWith("/complete") &&
+        method === "POST"
+      ) {
+        const parts = path.split("/");
+        const taskId = parts[3];
+
+        return await completeTask(request, env, taskId);
+      }
+
+      if (path === "/api/daily-bonus" && method === "POST") {
+        return await dailyBonus(request, env);
+      }
+
+      if (path === "/api/transactions" && method === "GET") {
+        return await transactions(request, env);
+      }
+
+      if (path === "/api/logout" && method === "POST") {
+        return await logout(request, env);
+      }
+
+      if (path === "/api/test-db" && method === "GET") {
+        return await testDatabase(env);
+      }
+
+      return env.ASSETS.fetch(request);
+    } catch (error) {
+      return json(
+        {
+          success: false,
+          message: "Server error.",
+          error: String(error?.message || error)
+        },
+        500
+      );
+    }
+  }
+}; 
