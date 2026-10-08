@@ -162,10 +162,32 @@
       color: white;
       border-radius: 8px;
       font-weight: bold;
+      margin-top: 7px;
     }
 
     .task-btn:hover {
       opacity: .9;
+    }
+
+    .complete-btn {
+      background: #16a34a;
+    }
+
+    .complete-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .completed-btn {
+      background: #6b7280;
+      cursor: not-allowed;
+    }
+
+    .task-status {
+      font-size: 13px;
+      margin-top: 8px;
+      color: #667085;
+      text-align: center;
     }
 
     .empty,
@@ -465,22 +487,22 @@ function getTaskIcon(type) {
 function getTaskButton(type) {
 
   if (type === "telegram") {
-    return "Join & Verify";
+    return "Join Task";
   }
 
   if (type === "video") {
-    return "Watch & Start";
+    return "Watch Task";
   }
 
   if (type === "youtube") {
-    return "Subscribe & Start";
+    return "Subscribe Task";
   }
 
   if (type === "tiktok") {
-    return "Follow & Start";
+    return "Follow Task";
   }
 
-  return "Visit & Start";
+  return "Visit Task";
 
 }
 
@@ -555,15 +577,9 @@ function showDashboard(user) {
       "hidden"
     );
 
-  document
-    .getElementById(
-      "balance"
-    )
-    .textContent =
-    "$" +
-    Number(
-      user.balance || 0
-    ).toFixed(2);
+  updateBalance(
+    user.balance || 0
+  );
 
   document
     .getElementById(
@@ -571,16 +587,6 @@ function showDashboard(user) {
     )
     .textContent =
     user.name || "User";
-
-  document
-    .getElementById(
-      "totalEarned"
-    )
-    .textContent =
-    "$" +
-    Number(
-      user.balance || 0
-    ).toFixed(2);
 
   document
     .getElementById(
@@ -600,6 +606,34 @@ function showDashboard(user) {
   loadTasks();
 
   loadTransactions();
+
+}
+
+
+/* -----------------------------
+   UPDATE BALANCE
+----------------------------- */
+
+function updateBalance(balance) {
+
+  const amount =
+    Number(balance || 0);
+
+  document
+    .getElementById(
+      "balance"
+    )
+    .textContent =
+    "$" +
+    amount.toFixed(2);
+
+  document
+    .getElementById(
+      "totalEarned"
+    )
+    .textContent =
+    "$" +
+    amount.toFixed(2);
 
 }
 
@@ -729,13 +763,6 @@ async function loadTasks() {
             task.task_type
           );
 
-        /*
-          IMPORTANT:
-          Escape button text for HTML,
-          but preserve the normal "&"
-          character visually.
-        */
-
         const buttonText =
           getTaskButton(
             task.task_type
@@ -751,7 +778,9 @@ async function loadTasks() {
           );
 
         return `
-          <div class="task-card">
+          <div
+            class="task-card"
+            id="task-card-${Number(task.id)}">
 
             <div class="task-icon">
               ${icon}
@@ -778,9 +807,27 @@ async function loadTasks() {
             </div>
 
             <button
+              id="start-btn-${Number(task.id)}"
               class="task-btn"
-              onclick="openTask('${safeUrl}')">
+              onclick="startTask(
+                ${Number(task.id)},
+                '${safeUrl}'
+              )">
               ${safeButtonText}
+            </button>
+
+            <div
+              id="task-status-${Number(task.id)}"
+              class="task-status">
+            </div>
+
+            <button
+              id="complete-btn-${Number(task.id)}"
+              class="task-btn complete-btn hidden"
+              onclick="completeTask(
+                ${Number(task.id)}
+              )">
+              Complete & Claim $${reward}
             </button>
 
           </div>
@@ -804,10 +851,11 @@ async function loadTasks() {
 
 
 /* -----------------------------
-   OPEN TASK
+   START TASK
 ----------------------------- */
 
-function openTask(
+function startTask(
+  taskId,
   encodedUrl
 ) {
 
@@ -867,6 +915,38 @@ function openTask(
       "noopener,noreferrer"
     );
 
+    const status =
+      document.getElementById(
+        `task-status-${taskId}`
+      );
+
+    const completeBtn =
+      document.getElementById(
+        `complete-btn-${taskId}`
+      );
+
+    const startBtn =
+      document.getElementById(
+        `start-btn-${taskId}`
+      );
+
+    if (startBtn) {
+      startBtn.disabled = true;
+      startBtn.textContent =
+        "Task Opened ✓";
+    }
+
+    if (status) {
+      status.textContent =
+        "Task opened. You can now complete it.";
+    }
+
+    if (completeBtn) {
+      completeBtn.classList.remove(
+        "hidden"
+      );
+    }
+
   } catch (error) {
 
     alert(
@@ -879,163 +959,44 @@ function openTask(
 
 
 /* -----------------------------
-   LOAD TRANSACTIONS
+   COMPLETE TASK
 ----------------------------- */
 
-async function loadTransactions() {
-
-  const container =
-    document.getElementById(
-      "transactionsContainer"
-    );
-
-  try {
-
-    const response =
-      await fetch(
-        "/api/transactions",
-        {
-          credentials: "include"
-        }
-      );
-
-    const data =
-      await response.json();
-
-    if (
-      !response.ok ||
-      !data.success
-    ) {
-
-      container.innerHTML = `
-        <div class="error">
-          ${escapeHtml(
-            data.message ||
-            "Could not load transaction history."
-          )}
-        </div>
-      `;
-
-      return;
-
-    }
-
-    const transactions =
-      Array.isArray(
-        data.transactions
-      )
-        ? data.transactions
-        : [];
-
-    if (
-      transactions.length === 0
-    ) {
-
-      container.innerHTML = `
-        <div class="empty">
-          📭 No transactions yet.
-        </div>
-      `;
-
-      return;
-
-    }
-
-    container.innerHTML =
-      transactions.map(
-        transaction => {
-
-          const amount =
-            Number(
-              transaction.amount || 0
-            );
-
-          const sign =
-            amount >= 0
-              ? "+"
-              : "";
-
-          const date =
-            transaction.created_at
-              ? new Date(
-                  transaction.created_at
-                ).toLocaleString()
-              : "";
-
-          return `
-            <div class="transaction">
-
-              <div>
-
-                <strong>
-                  ${escapeHtml(
-                    transaction.description ||
-                    transaction.type ||
-                    "Transaction"
-                  )}
-                </strong>
-
-                <div style="
-                  color:#667085;
-                  font-size:13px;
-                  margin-top:5px;
-                ">
-                  ${escapeHtml(date)}
-                </div>
-
-              </div>
-
-              <div class="transaction-amount">
-                ${sign}$${Math.abs(
-                  amount
-                ).toFixed(2)}
-              </div>
-
-            </div>
-          `;
-
-        }
-      ).join("");
-
-  } catch (error) {
-
-    console.error(error);
-
-    container.innerHTML = `
-      <div class="error">
-        ❌ Could not load transaction history.
-      </div>
-    `;
-
-  }
-
-}
-
-
-/* -----------------------------
-   DAILY BONUS
------------------------------ */
-
-async function claimBonus() {
+async function completeTask(
+  taskId
+) {
 
   const button =
     document.getElementById(
-      "bonusBtn"
+      `complete-btn-${taskId}`
     );
+
+  const status =
+    document.getElementById(
+      `task-status-${taskId}`
+    );
+
+  if (!button) {
+    return;
+  }
 
   button.disabled = true;
 
   button.textContent =
-    "Claiming...";
+    "Checking...";
 
   try {
 
     const response =
       await fetch(
-        "/api/daily-bonus",
+        `/api/tasks/${taskId}/complete`,
         {
           method: "POST",
-          credentials: "include"
+          credentials: "include",
+          headers: {
+            "Content-Type":
+              "application/json"
+          }
         }
       );
 
@@ -1043,158 +1004,39 @@ async function claimBonus() {
       await response.json();
 
     if (
-      data.success &&
-      data.user
+      response.ok &&
+      data.success
     ) {
 
-      currentUser =
-        data.user;
+      if (data.user) {
 
-      document
-        .getElementById(
-          "balance"
-        )
-        .textContent =
-        "$" +
-        Number(
+        currentUser =
+          data.user;
+
+        updateBalance(
           data.user.balance || 0
-        ).toFixed(2);
+        );
 
-      document
-        .getElementById(
-          "totalEarned"
-        )
-        .textContent =
-        "$" +
-        Number(
-          data.user.balance || 0
-        ).toFixed(2);
-
-      button.textContent =
-        "Bonus Claimed ✓";
-
-      alert(
-        "🎉 Daily Bonus claimed successfully!"
-      );
-
-      loadTransactions();
-
-    } else {
-
-      button.disabled = false;
-
-      button.textContent =
-        "Already Claimed";
-
-      alert(
-        data.message ||
-        "You cannot claim the bonus right now."
-      );
-
-    }
-
-  } catch (error) {
-
-    console.error(error);
-
-    button.disabled = false;
-
-    button.textContent =
-      "Claim Bonus";
-
-    alert(
-      "Could not connect to the server."
-    );
-
-  }
-
-}
-
-
-/* -----------------------------
-   COPY REFERRAL CODE
------------------------------ */
-
-function copyReferralCode() {
-
-  const code =
-    document
-      .getElementById(
-        "referralCode"
-      )
-      .textContent;
-
-  if (
-    !code ||
-    code === "--------"
-  ) {
-
-    alert(
-      "Referral code is not available."
-    );
-
-    return;
-
-  }
-
-  navigator.clipboard
-    .writeText(code)
-    .then(() => {
-
-      alert(
-        "✅ Referral code copied!"
-      );
-
-    })
-    .catch(() => {
-
-      alert(
-        "Could not copy the referral code."
-      );
-
-    });
-
-}
-
-
-/* -----------------------------
-   LOGOUT
------------------------------ */
-
-async function logout() {
-
-  try {
-
-    await fetch(
-      "/api/logout",
-      {
-        method: "POST",
-        credentials: "include"
       }
-    );
 
-  } catch (error) {
+      button.textContent =
+        "Completed ✓";
 
-    console.error(error);
+      button.classList.remove(
+        "complete-btn"
+      );
 
-  }
+      button.classList.add(
+        "completed-btn"
+      );
 
-  currentUser = null;
+      if (status) {
 
-  showLoggedOut();
+        status.textContent =
+          `🎉 Task completed! You earned $${Number(
+            data.reward || 0
+          ).toFixed(2)}.`;
 
-  window.location.reload();
+      }
 
-}
-
-
-/* -----------------------------
-   START
------------------------------ */
-
-loadUser();
-
-</script>
-
-</body>
-</html>
+      load
