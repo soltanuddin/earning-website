@@ -2,250 +2,757 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EarnX — Earn Online</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:#f4f7fb;
+  background:#f5f7fb;
   color:#172033;
 }
-button,input,select{font:inherit}
-button{cursor:pointer}
 
+button,input,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+/* HEADER */
 header{
-  background:linear-gradient(135deg,#111827,#2563eb);
-  color:white;
-  padding:16px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
   position:sticky;
   top:0;
-  z-index:20;
+  z-index:1000;
+  background:rgba(255,255,255,.96);
+  border-bottom:1px solid #e9edf4;
+  backdrop-filter:blur(12px);
 }
-.logo{font-size:24px;font-weight:800}
-.navbtn{
-  border:0;
-  background:rgba(255,255,255,.15);
+
+.nav{
+  max-width:1150px;
+  margin:auto;
+  min-height:70px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:23px;
+  font-weight:800;
+}
+
+.logo-icon{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   color:#fff;
-  padding:9px 13px;
+  background:linear-gradient(135deg,#6c5ce7,#00b894);
+  box-shadow:0 8px 20px rgba(108,92,231,.25);
+}
+
+.logo span{
+  background:linear-gradient(90deg,#6c5ce7,#00a884);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.nav-links button{
+  border:0;
+  background:transparent;
+  padding:10px 13px;
   border-radius:10px;
-  margin-left:5px;
+  color:#596579;
+  font-weight:600;
 }
 
-.container{
-  width:min(1100px,94%);
-  margin:25px auto;
+.nav-links button:hover{
+  background:#f0f2ff;
+  color:#5b4bd8;
 }
 
+/* PAGES */
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+/* HERO */
 .hero{
-  background:linear-gradient(135deg,#2563eb,#7c3aed);
-  color:white;
-  border-radius:24px;
-  padding:35px 25px;
-  margin-bottom:22px;
-  box-shadow:0 15px 35px rgba(37,99,235,.2);
+  max-width:1150px;
+  margin:auto;
+  padding:65px 18px 35px;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:35px;
+  align-items:center;
 }
-.hero h1{font-size:34px;margin-bottom:10px}
-.hero p{opacity:.9;line-height:1.6}
 
-.card{
-  background:#fff;
-  border-radius:18px;
-  padding:20px;
+.badge{
+  display:inline-flex;
+  padding:8px 13px;
+  border-radius:30px;
+  background:#eeecff;
+  color:#5c4bd8;
+  font-weight:700;
+  font-size:13px;
   margin-bottom:18px;
-  box-shadow:0 7px 25px rgba(15,23,42,.07);
 }
 
-.grid{
+.hero h1{
+  font-size:52px;
+  line-height:1.05;
+  margin-bottom:18px;
+}
+
+.hero h1 span{
+  background:linear-gradient(90deg,#6c5ce7,#00b894);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.hero p{
+  color:#697386;
+  font-size:17px;
+  line-height:1.7;
+  max-width:600px;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:12px;
+  margin-top:28px;
+}
+
+.primary-btn,
+.secondary-btn{
+  border:0;
+  padding:13px 20px;
+  border-radius:13px;
+  font-weight:700;
+}
+
+.primary-btn{
+  color:#fff;
+  background:linear-gradient(135deg,#6c5ce7,#00b894);
+  box-shadow:0 10px 25px rgba(108,92,231,.22);
+}
+
+.secondary-btn{
+  background:#fff;
+  border:1px solid #e2e6ee;
+}
+
+/* HERO CARD */
+.hero-card{
+  background:#fff;
+  border:1px solid #e8ebf2;
+  border-radius:27px;
+  padding:25px;
+  box-shadow:0 20px 55px rgba(32,45,70,.10);
+}
+
+.balance-box{
+  padding:25px;
+  border-radius:22px;
+  color:#fff;
+  background:linear-gradient(135deg,#171c38,#5c4bd8);
+}
+
+.balance-label{
+  opacity:.8;
+  font-size:13px;
+}
+
+.balance{
+  font-size:37px;
+  font-weight:800;
+  margin:8px 0 18px;
+}
+
+.mini-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.mini-stat{
+  background:rgba(255,255,255,.12);
+  padding:12px;
+  border-radius:13px;
+}
+
+.mini-stat b{
+  display:block;
+  font-size:17px;
+}
+
+.mini-stat span{
+  font-size:10px;
+  opacity:.7;
+}
+
+/* FEATURES */
+.container{
+  max-width:1150px;
+  margin:auto;
+  padding:20px 18px 50px;
+}
+
+.section-heading{
+  text-align:center;
+  margin:35px 0 25px;
+}
+
+.section-heading h2{
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+.section-heading p{
+  color:#7a8495;
+}
+
+.feature-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:15px;
 }
-.stat{
+
+.feature{
   background:#fff;
-  border-radius:17px;
-  padding:18px;
-  box-shadow:0 7px 25px rgba(15,23,42,.06);
-}
-.stat small{color:#64748b}
-.stat strong{
-  display:block;
-  font-size:25px;
-  margin-top:7px;
+  border:1px solid #e8ebf2;
+  border-radius:19px;
+  padding:20px;
 }
 
-.btn{
-  border:0;
-  border-radius:11px;
-  padding:11px 16px;
-  color:#fff;
-  background:#2563eb;
-  font-weight:700;
-}
-.btn:hover{opacity:.9}
-.btn.green{background:#16a34a}
-.btn.red{background:#dc2626}
-.btn.gray{background:#64748b}
-.btn.purple{background:#7c3aed}
-
-input,select{
-  width:100%;
-  padding:12px 13px;
-  border:1px solid #dbe3ef;
-  border-radius:11px;
-  outline:none;
-  margin-top:7px;
-  margin-bottom:12px;
-  background:#fff;
-}
-input:focus,select:focus{border-color:#2563eb}
-
-label{
-  font-size:13px;
-  font-weight:700;
-  color:#475569;
-}
-
-.task{
-  border:1px solid #e5eaf2;
-  border-radius:14px;
-  padding:16px;
-  margin:10px 0;
+.feature-icon{
+  width:45px;
+  height:45px;
+  border-radius:13px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  gap:12px;
+  justify-content:center;
+  background:#f0efff;
+  font-size:21px;
+  margin-bottom:13px;
 }
-.task h3{font-size:16px;margin-bottom:5px}
-.task p{font-size:13px;color:#64748b}
+
+.feature h3{
+  font-size:15px;
+  margin-bottom:6px;
+}
+
+.feature p{
+  color:#7b8494;
+  font-size:12px;
+  line-height:1.5;
+}
+
+/* TASKS */
+.task-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+
+.task-card{
+  background:#fff;
+  border:1px solid #e6eaf1;
+  border-radius:21px;
+  padding:18px;
+  display:flex;
+  gap:15px;
+  box-shadow:0 7px 25px rgba(25,35,55,.05);
+}
+
+.task-icon{
+  min-width:55px;
+  height:55px;
+  border-radius:17px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  font-weight:bold;
+}
+
+.telegram .task-icon{
+  background:#e4f4ff;
+}
+
+.tiktok .task-icon{
+  background:#f0f0f0;
+}
+
+.youtube .task-icon{
+  background:#ffe7e7;
+}
+
+.website .task-icon{
+  background:#e7faf2;
+}
+
+.task-content{
+  flex:1;
+}
+
+.task-content h3{
+  font-size:16px;
+  margin-bottom:5px;
+}
+
+.task-content p{
+  font-size:12px;
+  color:#7d8797;
+  margin-bottom:13px;
+}
+
+.task-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
 .reward{
-  color:#16a34a;
+  color:#16a05d;
   font-weight:800;
-  margin-bottom:8px;
 }
 
-.auth{
-  max-width:440px;
-  margin:45px auto;
-}
-.auth h2{text-align:center;margin-bottom:18px}
-.switch{
-  text-align:center;
-  margin-top:15px;
-  color:#2563eb;
-  cursor:pointer;
-  font-weight:700;
-}
-
-.table-wrap{overflow-x:auto}
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:700px;
-}
-th,td{
-  padding:12px;
-  border-bottom:1px solid #e5e7eb;
-  text-align:left;
-  font-size:13px;
-}
-th{
-  background:#f8fafc;
-  color:#475569;
-}
-
-.badge{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
+.task-btn{
+  border:0;
+  background:#171c38;
+  color:#fff;
+  border-radius:10px;
+  padding:9px 13px;
   font-size:12px;
   font-weight:700;
 }
-.badge.pending{background:#fef3c7;color:#92400e}
-.badge.approved{background:#dcfce7;color:#166534}
-.badge.rejected{background:#fee2e2;color:#991b1b}
-.badge.active{background:#dbeafe;color:#1d4ed8}
 
-.withdraw-card{
-  border:1px solid #e5eaf2;
-  border-radius:14px;
-  padding:15px;
-  margin:10px 0;
-  background:#fafcff;
+/* AUTH */
+.auth-wrap{
+  min-height:calc(100vh - 70px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:30px 18px;
 }
 
-.withdraw-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
+.auth-card{
+  width:100%;
+  max-width:430px;
+  background:#fff;
+  border:1px solid #e7eaf0;
+  border-radius:24px;
+  padding:28px;
+  box-shadow:0 20px 55px rgba(25,35,55,.09);
+}
+
+.auth-card h2{
+  margin-bottom:7px;
+}
+
+.auth-card > p{
+  color:#7c8595;
+  font-size:13px;
+  margin-bottom:22px;
+}
+
+.input-group{
+  margin-bottom:14px;
+}
+
+.input-group label{
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.input-group input,
+.input-group select{
+  width:100%;
+  border:1px solid #dfe4ec;
+  background:#fafbfc;
+  border-radius:11px;
+  padding:12px;
+  outline:none;
+}
+
+.input-group input:focus,
+.input-group select:focus{
+  border-color:#6c5ce7;
+}
+
+.full-btn{
+  width:100%;
+  border:0;
+  padding:13px;
+  border-radius:12px;
+  color:#fff;
+  background:linear-gradient(135deg,#6c5ce7,#00a884);
+  font-weight:800;
+}
+
+.switch{
+  text-align:center;
+  margin-top:16px;
+  font-size:13px;
+  color:#737d8d;
+}
+
+.switch button{
+  border:0;
+  background:none;
+  color:#5b4bd8;
+  font-weight:800;
+}
+
+/* DASHBOARD */
+.dashboard{
+  max-width:1150px;
+  margin:auto;
+  padding:30px 18px 60px;
+}
+
+.dashboard-top{
+  margin-bottom:22px;
+}
+
+.dashboard-top h1{
+  font-size:30px;
+}
+
+.dashboard-top p{
+  color:#778193;
+  margin-top:5px;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.stat-card{
+  background:#fff;
+  border:1px solid #e7eaf1;
+  border-radius:18px;
+  padding:19px;
+}
+
+.stat-card .stat-icon{
+  font-size:22px;
   margin-bottom:10px;
 }
 
-.withdraw-method{
+.stat-card small{
+  color:#7e8797;
+  display:block;
+  margin-bottom:5px;
+}
+
+.stat-card strong{
+  font-size:23px;
+}
+
+/* BONUS */
+.bonus-card{
+  color:#fff;
+  background:linear-gradient(135deg,#171c38,#6c5ce7);
+  border-radius:22px;
+  padding:23px;
+  margin-bottom:22px;
+}
+
+.bonus-card h2{
+  margin-bottom:7px;
+}
+
+.bonus-card p{
+  opacity:.75;
+  font-size:13px;
+  margin-bottom:18px;
+}
+
+.bonus-btn{
+  border:0;
+  background:#fff;
+  color:#4d3fc2;
+  padding:11px 16px;
+  border-radius:11px;
   font-weight:800;
-  text-transform:uppercase;
 }
 
-.withdraw-info{
-  color:#64748b;
-  font-size:13px;
-  line-height:1.8;
-}
-
-.withdraw-note{
-  margin-top:8px;
-  padding:9px;
-  border-radius:9px;
-  background:#f1f5f9;
-  color:#475569;
-  font-size:13px;
-}
-
-.admin-title{
-  background:linear-gradient(135deg,#111827,#7c3aed);
-  color:white;
-  padding:25px;
-  border-radius:20px;
+/* PANELS */
+.panel{
+  background:#fff;
+  border:1px solid #e7eaf1;
+  border-radius:21px;
+  padding:21px;
   margin-bottom:20px;
 }
-.admin-title h1{margin-bottom:7px}
 
-.notice{
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:12px;
-  display:none;
+.panel h2{
+  margin-bottom:17px;
+  font-size:20px;
 }
-.notice.success{background:#dcfce7;color:#166534}
-.notice.error{background:#fee2e2;color:#991b1b}
 
-.hidden{display:none!important}
+.referral-box{
+  display:flex;
+  gap:10px;
+}
 
-footer{
-  text-align:center;
-  color:#64748b;
-  padding:30px 10px;
+.referral-box input{
+  flex:1;
+  border:1px solid #e1e5ed;
+  background:#f8f9fb;
+  padding:11px;
+  border-radius:10px;
+}
+
+.referral-box button{
+  border:0;
+  background:#171c38;
+  color:#fff;
+  padding:0 15px;
+  border-radius:10px;
+}
+
+/* TRANSACTIONS */
+.transaction{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 0;
+  border-bottom:1px solid #edf0f4;
+}
+
+.transaction:last-child{
+  border-bottom:0;
+}
+
+.transaction small{
+  display:block;
+  color:#8992a1;
+  margin-top:4px;
+}
+
+.plus{
+  color:#15985a;
+  font-weight:800;
+}
+
+.minus{
+  color:#e04d4d;
+  font-weight:800;
+}
+
+/* ADMIN */
+.admin-wrap{
+  max-width:1150px;
+  margin:auto;
+  padding:30px 18px 60px;
+}
+
+.admin-header{
+  margin-bottom:20px;
+}
+
+.admin-header h1{
+  font-size:30px;
+}
+
+.admin-header p{
+  color:#7a8494;
+  margin-top:5px;
+}
+
+.admin-stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.admin-table{
+  width:100%;
+  border-collapse:collapse;
   font-size:13px;
 }
 
-@media(max-width:800px){
-  .grid{grid-template-columns:repeat(2,1fr)}
+.admin-table th,
+.admin-table td{
+  text-align:left;
+  padding:12px 8px;
+  border-bottom:1px solid #edf0f4;
 }
 
-@media(max-width:550px){
-  header{padding:13px}
-  .logo{font-size:20px}
-  .navbtn{padding:7px 9px;font-size:12px}
-  .hero h1{font-size:27px}
-  .grid{grid-template-columns:1fr 1fr}
-  .task{align-items:flex-start;flex-direction:column}
-  .task .btn{width:100%}
-  .withdraw-top{align-items:flex-start;flex-direction:column}
+.action-btn{
+  border:0;
+  padding:7px 10px;
+  border-radius:8px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.approve{
+  background:#dcf8e9;
+  color:#12824a;
+}
+
+.reject{
+  background:#ffe5e5;
+  color:#c63d3d;
+}
+
+/* ALERT */
+#alert{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:5000;
+  max-width:320px;
+  display:none;
+  background:#171c38;
+  color:#fff;
+  padding:13px 16px;
+  border-radius:12px;
+  box-shadow:0 12px 35px rgba(0,0,0,.2);
+  font-size:13px;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:28px 18px;
+  border-top:1px solid #e8ebf0;
+  color:#8992a1;
+  font-size:12px;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+
+  .hero{
+    grid-template-columns:1fr;
+    padding-top:40px;
+  }
+
+  .hero h1{
+    font-size:39px;
+  }
+
+  .feature-grid,
+  .stats-grid,
+  .admin-stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .nav-links button{
+    padding:8px;
+    font-size:11px;
+  }
+}
+
+@media(max-width:600px){
+
+  .nav{
+    min-height:62px;
+  }
+
+  .logo{
+    font-size:19px;
+  }
+
+  .logo-icon{
+    width:36px;
+    height:36px;
+  }
+
+  .nav-links{
+    gap:2px;
+  }
+
+  .nav-links button{
+    padding:7px 6px;
+    font-size:10px;
+  }
+
+  .hero{
+    padding-top:32px;
+  }
+
+  .hero h1{
+    font-size:35px;
+  }
+
+  .hero p{
+    font-size:14px;
+  }
+
+  .hero-buttons{
+    flex-direction:column;
+  }
+
+  .feature-grid,
+  .task-grid,
+  .stats-grid,
+  .admin-stats{
+    grid-template-columns:1fr;
+  }
+
+  .task-card{
+    padding:15px;
+  }
+
+  .admin-table{
+    min-width:700px;
+  }
+
+  .panel{
+    overflow-x:auto;
+  }
+
+  .referral-box{
+    flex-direction:column;
+  }
+
+  .referral-box button{
+    padding:11px;
+  }
 }
 </style>
 </head>
@@ -253,407 +760,7 @@ footer{
 <body>
 
 <header>
-  <div class="logo">EarnX</div>
-  <div>
-    <button class="navbtn" onclick="showPage('home')">Home</button>
-    <button class="navbtn" id="dashBtn" onclick="showPage('dashboard')">Dashboard</button>
-    <button class="navbtn" id="loginBtn" onclick="showPage('login')">Login</button>
-    <button class="navbtn" id="logoutBtn" onclick="logout()">Logout</button>
-  </div>
-</header>
+  <div class="nav">
 
-<div class="container">
-
-<!-- HOME -->
-<section id="homePage">
-
-  <div class="hero">
-    <h1>Earn More With EarnX 🚀</h1>
-    <p>
-      Complete simple online tasks, collect daily bonus,
-      earn rewards and request withdrawals.
-    </p>
-    <br>
-    <button class="btn" onclick="showPage('register')">Get Started</button>
-  </div>
-
-  <div class="grid">
-
-    <div class="stat">
-      <small>Daily Bonus</small>
-      <strong>$1.00</strong>
-    </div>
-
-    <div class="stat">
-      <small>Simple Tasks</small>
-      <strong>Easy</strong>
-    </div>
-
-    <div class="stat">
-      <small>Referral</small>
-      <strong>Earn</strong>
-    </div>
-
-    <div class="stat">
-      <small>Withdraw</small>
-      <strong>Fast</strong>
-    </div>
-
-  </div>
-
-  <div class="card">
-    <h2>How EarnX Works</h2>
-    <br>
-    <p>1. Create an account</p>
-    <p>2. Complete available tasks</p>
-    <p>3. Claim your daily bonus</p>
-    <p>4. Invite friends</p>
-    <p>5. Request your withdrawal</p>
-  </div>
-
-  <div class="card">
-    <h2>Available Tasks</h2>
-    <br>
-    <div id="homeTasks">Loading tasks...</div>
-  </div>
-
-  <div class="card">
-    <h2>Admin</h2>
-    <p style="margin:8px 0;color:#64748b">
-      Authorized administrator only.
-    </p>
-
-    <button class="btn purple" onclick="showPage('adminLogin')">
-      Admin Login
-    </button>
-  </div>
-
-</section>
-
-
-<!-- LOGIN -->
-<section id="loginPage" class="auth hidden">
-
-  <div class="card">
-
-    <h2>Login</h2>
-
-    <div id="loginNotice" class="notice"></div>
-
-    <label>Email</label>
-    <input id="loginEmail" type="email" placeholder="Enter email">
-
-    <label>Password</label>
-    <input id="loginPassword" type="password" placeholder="Enter password">
-
-    <button class="btn" style="width:100%" onclick="login()">
-      Login
-    </button>
-
-    <div class="switch" onclick="showPage('register')">
-      Don't have an account? Register
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- REGISTER -->
-<section id="registerPage" class="auth hidden">
-
-  <div class="card">
-
-    <h2>Create Account</h2>
-
-    <div id="registerNotice" class="notice"></div>
-
-    <label>Name</label>
-    <input id="regName" type="text" placeholder="Your name">
-
-    <label>Email</label>
-    <input id="regEmail" type="email" placeholder="Your email">
-
-    <label>Password</label>
-    <input id="regPassword" type="password" placeholder="Create password">
-
-    <label>Referral Code (optional)</label>
-    <input id="regReferral" type="text" placeholder="Referral code">
-
-    <button class="btn" style="width:100%" onclick="register()">
-      Create Account
-    </button>
-
-    <div class="switch" onclick="showPage('login')">
-      Already have an account? Login
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- DASHBOARD -->
-<section id="dashboardPage" class="hidden">
-
-  <div class="hero">
-
-    <h1>
-      Welcome, <span id="userName">User</span> 👋
-    </h1>
-
-    <p>Manage your earnings and complete tasks.</p>
-
-  </div>
-
-
-  <div class="grid">
-
-    <div class="stat">
-      <small>Available Balance</small>
-      <strong id="balance">$0.00</strong>
-    </div>
-
-    <div class="stat">
-      <small>Total Earned</small>
-      <strong id="totalEarned">$0.00</strong>
-    </div>
-
-    <div class="stat">
-      <small>Referrals</small>
-      <strong id="referrals">0</strong>
-    </div>
-
-    <div class="stat">
-      <small>Status</small>
-      <strong>Active</strong>
-    </div>
-
-  </div>
-
-
-  <!-- DAILY BONUS -->
-
-  <br>
-
-  <div class="card">
-
-    <h2>Daily Bonus 🎁</h2>
-
-    <br>
-
-    <p>Claim your daily $1 bonus.</p>
-
-    <br>
-
-    <button class="btn green" onclick="claimBonus()">
-      Claim Daily Bonus
-    </button>
-
-    <div id="bonusNotice" class="notice"></div>
-
-  </div>
-
-
-  <!-- TASKS -->
-
-  <div class="card">
-
-    <h2>Tasks 💰</h2>
-
-    <br>
-
-    <div id="tasks">
-      Loading tasks...
-    </div>
-
-  </div>
-
-
-  <!-- REFERRAL -->
-
-  <div class="card">
-
-    <h2>Referral Program 🔗</h2>
-
-    <br>
-
-    <p>Your referral code:</p>
-
-    <br>
-
-    <input id="refCode" readonly>
-
-    <button class="btn" onclick="copyReferral()">
-      Copy Referral Code
-    </button>
-
-  </div>
-
-
-  <!-- WITHDRAW -->
-
-  <div class="card">
-
-    <h2>Withdraw Earnings 💵</h2>
-
-    <br>
-
-    <div id="withdrawNotice" class="notice"></div>
-
-    <label>Payment Method</label>
-
-    <select id="withdrawMethod">
-      <option value="bkash">bKash</option>
-      <option value="nagad">Nagad</option>
-      <option value="usdt">USDT</option>
-    </select>
-
-    <label>Account / Wallet</label>
-
-    <input
-      id="withdrawAccount"
-      placeholder="Enter account or wallet"
-    >
-
-    <label>Amount</label>
-
-    <input
-      id="withdrawAmount"
-      type="number"
-      min="1"
-      step="0.01"
-      placeholder="Minimum $1"
-    >
-
-    <button class="btn green" onclick="withdraw()">
-      Request Withdrawal
-    </button>
-
-  </div>
-
-
-  <!-- WITHDRAWAL HISTORY -->
-
-  <div class="card">
-
-    <h2>Withdrawal History 💸</h2>
-
-    <br>
-
-    <div id="withdrawalHistory">
-      Loading withdrawal history...
-    </div>
-
-  </div>
-
-
-  <!-- TRANSACTIONS -->
-
-  <div class="card">
-
-    <h2>Transaction History</h2>
-
-    <br>
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-
-          <tr>
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Description</th>
-            <th>Date</th>
-          </tr>
-
-        </thead>
-
-        <tbody id="transactions"></tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ADMIN LOGIN -->
-
-<section id="adminLoginPage" class="auth hidden">
-
-  <div class="card">
-
-    <h2>Admin Login 🔐</h2>
-
-    <div id="adminLoginNotice" class="notice"></div>
-
-    <label>Admin Email</label>
-
-    <input
-      id="adminEmail"
-      type="email"
-      value="soltanuddin45@gmail.com"
-      placeholder="Admin email"
-    >
-
-    <label>Admin Password</label>
-
-    <input
-      id="adminPassword"
-      type="password"
-      placeholder="Admin password"
-    >
-
-    <button
-      class="btn purple"
-      style="width:100%"
-      onclick="adminLogin()"
-    >
-      Login as Admin
-    </button>
-
-    <div class="switch" onclick="showPage('home')">
-      Back to Home
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ADMIN PANEL -->
-
-<section id="adminPage" class="hidden">
-
-  <div class="admin-title">
-
-    <h1>EarnX Admin Panel 🛡️</h1>
-
-    <p>
-      Manage users, withdrawals and website statistics.
-    </p>
-
-  </div>
-
-  <div id="adminNotice" class="notice"></div>
-
-
-  <div class="grid">
-
-    <div class="stat">
-      <small>Total Users</small>
-      <strong id="adminUsersCount">0</strong>
-    </div>
-
-    <div class="stat">
-      <small>Total Balance</small>
-      <strong id="adminBalance">$0.00</strong>
-    </div>
-
-    <div class="stat">
-      <small>Pending Withdrawals</small
+    <button class="logo" onclick="showPage('home')" style="border:0;background:none;">
+      <div
