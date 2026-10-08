@@ -96,7 +96,6 @@ export default {
 
     const url = new URL(request.url);
 
-
     // =========================
     // REGISTER
     // =========================
@@ -227,7 +226,6 @@ export default {
       }
     }
 
-
     // =========================
     // LOGIN
     // =========================
@@ -356,7 +354,6 @@ export default {
       }
     }
 
-
     // =========================
     // CURRENT USER
     // =========================
@@ -395,7 +392,6 @@ export default {
       }
     }
 
-
     // =========================
     // TASK LIST
     // =========================
@@ -423,16 +419,24 @@ export default {
           await env.DB
             .prepare(`
               SELECT
-                id,
-                title,
-                description,
-                reward,
-                task_type,
-                task_url
+                tasks.id,
+                tasks.title,
+                tasks.description,
+                tasks.reward,
+                tasks.task_type,
+                tasks.task_url
               FROM tasks
-              WHERE status = 'active'
-              ORDER BY id DESC
+              WHERE tasks.status = 'active'
+              AND NOT EXISTS (
+                SELECT 1
+                FROM task_completions
+                WHERE task_completions.user_id = ?
+                AND task_completions.task_id = tasks.id
+              )
+              ORDER BY tasks.id ASC
+              LIMIT 3
             `)
+            .bind(user.id)
             .all();
 
         return json({
@@ -450,7 +454,6 @@ export default {
         }, 500);
       }
     }
-
 
     // =========================
     // COMPLETE TASK
@@ -518,403 +521,4 @@ export default {
           }, 404);
         }
 
-        if (task.status !== "active") {
-          return json({
-            success: false,
-            message:
-              "This task is no longer active."
-          }, 400);
-        }
-
         if (
-          !Number.isFinite(
-            Number(task.reward)
-          ) ||
-          Number(task.reward) <= 0
-        ) {
-          return json({
-            success: false,
-            message:
-              "Invalid task reward."
-          }, 400);
-        }
-
-        const alreadyCompleted =
-          await env.DB
-            .prepare(`
-              SELECT id
-              FROM task_completions
-              WHERE user_id = ?
-              AND task_id = ?
-              LIMIT 1
-            `)
-            .bind(
-              user.id,
-              task.id
-            )
-            .first();
-
-        if (alreadyCompleted) {
-          return json({
-            success: false,
-            message:
-              "You have already completed this task."
-          }, 409);
-        }
-
-        const reward =
-          Number(task.reward);
-
-        await env.DB.batch([
-
-          env.DB
-            .prepare(`
-              INSERT INTO task_completions
-              (user_id, task_id, reward)
-              VALUES (?, ?, ?)
-            `)
-            .bind(
-              user.id,
-              task.id,
-              reward
-            ),
-
-          env.DB
-            .prepare(`
-              UPDATE users
-              SET balance = balance + ?
-              WHERE id = ?
-            `)
-            .bind(
-              reward,
-              user.id
-            ),
-
-          env.DB
-            .prepare(`
-              INSERT INTO transactions
-              (user_id, type, amount, description)
-              VALUES (?, ?, ?, ?)
-            `)
-            .bind(
-              user.id,
-              "task",
-              reward,
-              `Task Reward: ${task.title}`
-            )
-
-        ]);
-
-        const updatedUser =
-          await env.DB
-            .prepare(`
-              SELECT
-                id,
-                name,
-                email,
-                balance,
-                referral_code
-              FROM users
-              WHERE id = ?
-              LIMIT 1
-            `)
-            .bind(user.id)
-            .first();
-
-        return json({
-          success: true,
-          message:
-            "Task completed successfully.",
-          reward,
-          user: updatedUser
-        });
-
-      } catch (error) {
-
-        return json({
-          success: false,
-          message:
-            "Could not complete task."
-        }, 500);
-      }
-    }
-
-
-    // =========================
-    // DAILY BONUS
-    // =========================
-    if (
-      url.pathname === "/api/daily-bonus" &&
-      request.method === "POST"
-    ) {
-      try {
-
-        const user =
-          await getLoggedInUser(
-            request,
-            env
-          );
-
-        if (!user) {
-          return json({
-            success: false,
-            message:
-              "Please login first."
-          }, 401);
-        }
-
-        const now = new Date();
-
-        const bdDate =
-          new Intl.DateTimeFormat(
-            "en-CA",
-            {
-              timeZone: "Asia/Dhaka",
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit"
-            }
-          ).format(now);
-
-        const alreadyClaimed =
-          await env.DB
-            .prepare(`
-              SELECT id
-              FROM daily_bonus
-              WHERE user_id = ?
-              AND claim_date = ?
-              LIMIT 1
-            `)
-            .bind(
-              user.id,
-              bdDate
-            )
-            .first();
-
-        if (alreadyClaimed) {
-          return json({
-            success: false,
-            message:
-              "Today's bonus has already been claimed."
-          }, 409);
-        }
-
-        const bonusAmount = 1;
-
-        await env.DB
-          .prepare(`
-            INSERT INTO daily_bonus
-            (user_id, bonus_amount, claim_date)
-            VALUES (?, ?, ?)
-          `)
-          .bind(
-            user.id,
-            bonusAmount,
-            bdDate
-          )
-          .run();
-
-        await env.DB
-          .prepare(`
-            UPDATE users
-            SET balance = balance + ?
-            WHERE id = ?
-          `)
-          .bind(
-            bonusAmount,
-            user.id
-          )
-          .run();
-
-        await env.DB
-          .prepare(`
-            INSERT INTO transactions
-            (user_id, type, amount, description)
-            VALUES (?, ?, ?, ?)
-          `)
-          .bind(
-            user.id,
-            "bonus",
-            bonusAmount,
-            "Daily Bonus"
-          )
-          .run();
-
-        const updatedUser =
-          await env.DB
-            .prepare(`
-              SELECT
-                id,
-                name,
-                email,
-                balance,
-                referral_code
-              FROM users
-              WHERE id = ?
-              LIMIT 1
-            `)
-            .bind(user.id)
-            .first();
-
-        return json({
-          success: true,
-          message:
-            "Daily bonus claimed successfully.",
-          bonus: bonusAmount,
-          user: updatedUser
-        });
-
-      } catch (error) {
-
-        return json({
-          success: false,
-          message:
-            "Could not claim daily bonus."
-        }, 500);
-      }
-    }
-
-
-    // =========================
-    // TRANSACTION HISTORY
-    // =========================
-    if (
-      url.pathname === "/api/transactions" &&
-      request.method === "GET"
-    ) {
-      try {
-
-        const user =
-          await getLoggedInUser(
-            request,
-            env
-          );
-
-        if (!user) {
-          return json({
-            success: false,
-            message:
-              "Please login first."
-          }, 401);
-        }
-
-        const result =
-          await env.DB
-            .prepare(`
-              SELECT
-                id,
-                type,
-                amount,
-                description,
-                created_at
-              FROM transactions
-              WHERE user_id = ?
-              ORDER BY id DESC
-              LIMIT 100
-            `)
-            .bind(user.id)
-            .all();
-
-        return json({
-          success: true,
-          transactions:
-            result.results || []
-        });
-
-      } catch (error) {
-
-        return json({
-          success: false,
-          message:
-            "Could not load transaction history."
-        }, 500);
-      }
-    }
-
-
-    // =========================
-    // LOGOUT
-    // =========================
-    if (
-      url.pathname === "/api/logout" &&
-      request.method === "POST"
-    ) {
-      try {
-
-        const token =
-          getSessionToken(request);
-
-        if (token) {
-
-          await env.DB
-            .prepare(
-              "DELETE FROM sessions WHERE token = ?"
-            )
-            .bind(token)
-            .run();
-
-        }
-
-        return json({
-          success: true,
-          message:
-            "Logged out successfully."
-        }, 200, {
-          "Set-Cookie":
-            clearSessionCookie()
-        });
-
-      } catch (error) {
-
-        return json({
-          success: false,
-          message:
-            "Logout failed."
-        }, 500);
-      }
-    }
-
-
-    // =========================
-    // DATABASE TEST
-    // =========================
-    if (
-      url.pathname === "/api/test-db" &&
-      request.method === "GET"
-    ) {
-      try {
-
-        const result =
-          await env.DB
-            .prepare(`
-              SELECT name
-              FROM sqlite_master
-              WHERE type = 'table'
-              ORDER BY name
-            `)
-            .all();
-
-        return json({
-          success: true,
-          tables:
-            result.results
-        });
-
-      } catch (error) {
-
-        return json({
-          success: false,
-          message:
-            "Database connection failed."
-        }, 500);
-      }
-    }
-
-
-    // =========================
-    // WEBSITE FILES
-    // =========================
-
-    return env.ASSETS.fetch(request);
-  }
-};
