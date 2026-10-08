@@ -170,6 +170,42 @@ th{
 .badge.rejected{background:#fee2e2;color:#991b1b}
 .badge.active{background:#dbeafe;color:#1d4ed8}
 
+.withdraw-card{
+  border:1px solid #e5eaf2;
+  border-radius:14px;
+  padding:15px;
+  margin:10px 0;
+  background:#fafcff;
+}
+
+.withdraw-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.withdraw-method{
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.withdraw-info{
+  color:#64748b;
+  font-size:13px;
+  line-height:1.8;
+}
+
+.withdraw-note{
+  margin-top:8px;
+  padding:9px;
+  border-radius:9px;
+  background:#f1f5f9;
+  color:#475569;
+  font-size:13px;
+}
+
 .admin-title{
   background:linear-gradient(135deg,#111827,#7c3aed);
   color:white;
@@ -200,6 +236,7 @@ footer{
 @media(max-width:800px){
   .grid{grid-template-columns:repeat(2,1fr)}
 }
+
 @media(max-width:550px){
   header{padding:13px}
   .logo{font-size:20px}
@@ -208,6 +245,7 @@ footer{
   .grid{grid-template-columns:1fr 1fr}
   .task{align-items:flex-start;flex-direction:column}
   .task .btn{width:100%}
+  .withdraw-top{align-items:flex-start;flex-direction:column}
 }
 </style>
 </head>
@@ -240,22 +278,27 @@ footer{
   </div>
 
   <div class="grid">
+
     <div class="stat">
       <small>Daily Bonus</small>
       <strong>$1.00</strong>
     </div>
+
     <div class="stat">
       <small>Simple Tasks</small>
       <strong>Easy</strong>
     </div>
+
     <div class="stat">
       <small>Referral</small>
       <strong>Earn</strong>
     </div>
+
     <div class="stat">
       <small>Withdraw</small>
       <strong>Fast</strong>
     </div>
+
   </div>
 
   <div class="card">
@@ -279,6 +322,7 @@ footer{
     <p style="margin:8px 0;color:#64748b">
       Authorized administrator only.
     </p>
+
     <button class="btn purple" onclick="showPage('adminLogin')">
       Admin Login
     </button>
@@ -289,7 +333,9 @@ footer{
 
 <!-- LOGIN -->
 <section id="loginPage" class="auth hidden">
+
   <div class="card">
+
     <h2>Login</h2>
 
     <div id="loginNotice" class="notice"></div>
@@ -307,13 +353,17 @@ footer{
     <div class="switch" onclick="showPage('register')">
       Don't have an account? Register
     </div>
+
   </div>
+
 </section>
 
 
 <!-- REGISTER -->
 <section id="registerPage" class="auth hidden">
+
   <div class="card">
+
     <h2>Create Account</h2>
 
     <div id="registerNotice" class="notice"></div>
@@ -337,7 +387,9 @@ footer{
     <div class="switch" onclick="showPage('login')">
       Already have an account? Login
     </div>
+
   </div>
+
 </section>
 
 
@@ -345,11 +397,18 @@ footer{
 <section id="dashboardPage" class="hidden">
 
   <div class="hero">
-    <h1>Welcome, <span id="userName">User</span> 👋</h1>
+
+    <h1>
+      Welcome, <span id="userName">User</span> 👋
+    </h1>
+
     <p>Manage your earnings and complete tasks.</p>
+
   </div>
 
+
   <div class="grid">
+
     <div class="stat">
       <small>Available Balance</small>
       <strong id="balance">$0.00</strong>
@@ -369,45 +428,81 @@ footer{
       <small>Status</small>
       <strong>Active</strong>
     </div>
+
   </div>
+
+
+  <!-- DAILY BONUS -->
 
   <br>
 
   <div class="card">
+
     <h2>Daily Bonus 🎁</h2>
+
     <br>
+
     <p>Claim your daily $1 bonus.</p>
+
     <br>
+
     <button class="btn green" onclick="claimBonus()">
       Claim Daily Bonus
     </button>
+
     <div id="bonusNotice" class="notice"></div>
+
   </div>
 
+
+  <!-- TASKS -->
+
   <div class="card">
+
     <h2>Tasks 💰</h2>
+
     <br>
-    <div id="tasks">Loading tasks...</div>
+
+    <div id="tasks">
+      Loading tasks...
+    </div>
+
   </div>
 
+
+  <!-- REFERRAL -->
+
   <div class="card">
+
     <h2>Referral Program 🔗</h2>
+
     <br>
+
     <p>Your referral code:</p>
+
     <br>
+
     <input id="refCode" readonly>
+
     <button class="btn" onclick="copyReferral()">
       Copy Referral Code
     </button>
+
   </div>
 
+
+  <!-- WITHDRAW -->
+
   <div class="card">
+
     <h2>Withdraw Earnings 💵</h2>
+
     <br>
 
     <div id="withdrawNotice" class="notice"></div>
 
     <label>Payment Method</label>
+
     <select id="withdrawMethod">
       <option value="bkash">bKash</option>
       <option value="nagad">Nagad</option>
@@ -415,46 +510,90 @@ footer{
     </select>
 
     <label>Account / Wallet</label>
-    <input id="withdrawAccount" placeholder="Enter account or wallet">
+
+    <input
+      id="withdrawAccount"
+      placeholder="Enter account or wallet"
+    >
 
     <label>Amount</label>
-    <input id="withdrawAmount" type="number" min="1" step="0.01" placeholder="Minimum $1">
+
+    <input
+      id="withdrawAmount"
+      type="number"
+      min="1"
+      step="0.01"
+      placeholder="Minimum $1"
+    >
 
     <button class="btn green" onclick="withdraw()">
       Request Withdrawal
     </button>
+
   </div>
 
+
+  <!-- WITHDRAWAL HISTORY -->
+
   <div class="card">
-    <h2>Transaction History</h2>
+
+    <h2>Withdrawal History 💸</h2>
+
     <br>
+
+    <div id="withdrawalHistory">
+      Loading withdrawal history...
+    </div>
+
+  </div>
+
+
+  <!-- TRANSACTIONS -->
+
+  <div class="card">
+
+    <h2>Transaction History</h2>
+
+    <br>
+
     <div class="table-wrap">
+
       <table>
+
         <thead>
+
           <tr>
             <th>Type</th>
             <th>Amount</th>
             <th>Description</th>
             <th>Date</th>
           </tr>
+
         </thead>
+
         <tbody id="transactions"></tbody>
+
       </table>
+
     </div>
+
   </div>
 
 </section>
 
 
 <!-- ADMIN LOGIN -->
+
 <section id="adminLoginPage" class="auth hidden">
 
   <div class="card">
+
     <h2>Admin Login 🔐</h2>
 
     <div id="adminLoginNotice" class="notice"></div>
 
     <label>Admin Email</label>
+
     <input
       id="adminEmail"
       type="email"
@@ -463,33 +602,46 @@ footer{
     >
 
     <label>Admin Password</label>
+
     <input
       id="adminPassword"
       type="password"
       placeholder="Admin password"
     >
 
-    <button class="btn purple" style="width:100%" onclick="adminLogin()">
+    <button
+      class="btn purple"
+      style="width:100%"
+      onclick="adminLogin()"
+    >
       Login as Admin
     </button>
 
     <div class="switch" onclick="showPage('home')">
       Back to Home
     </div>
+
   </div>
 
 </section>
 
 
 <!-- ADMIN PANEL -->
+
 <section id="adminPage" class="hidden">
 
   <div class="admin-title">
+
     <h1>EarnX Admin Panel 🛡️</h1>
-    <p>Manage users, withdrawals and website statistics.</p>
+
+    <p>
+      Manage users, withdrawals and website statistics.
+    </p>
+
   </div>
 
   <div id="adminNotice" class="notice"></div>
+
 
   <div class="grid">
 
@@ -504,1221 +656,4 @@ footer{
     </div>
 
     <div class="stat">
-      <small>Pending Withdrawals</small>
-      <strong id="adminPending">0</strong>
-    </div>
-
-    <div class="stat">
-      <small>Total Withdrawals</small>
-      <strong id="adminWithdrawTotal">$0.00</strong>
-    </div>
-
-  </div>
-
-  <br>
-
-  <div class="card">
-    <h2>Admin Account</h2>
-    <br>
-    <p>
-      Logged in as:
-      <strong id="adminEmailDisplay"></strong>
-    </p>
-    <br>
-    <button class="btn red" onclick="adminLogout()">
-      Admin Logout
-    </button>
-  </div>
-
-  <div class="card">
-    <h2>Users 👥</h2>
-    <br>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Balance</th>
-            <th>Referral</th>
-            <th>Created</th>
-          </tr>
-        </thead>
-        <tbody id="adminUsersTable"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Withdrawals 💸</h2>
-    <br>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>User</th>
-            <th>Method</th>
-            <th>Account</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody id="adminWithdrawalsTable"></tbody>
-      </table>
-    </div>
-  </div>
-
-</section>
-
-</div>
-
-<footer>
-  © 2026 EarnX — All Rights Reserved
-</footer>
-
-
-<script>
-
-let currentUser = null;
-let adminUser = null;
-
-
-/* ---------------- BASIC UI ---------------- */
-
-function hideAllPages(){
-  document.querySelectorAll(
-    '#homePage,#loginPage,#registerPage,#dashboardPage,#adminLoginPage,#adminPage'
-  ).forEach(x => x.classList.add('hidden'));
-}
-
-function showPage(page){
-
-  hideAllPages();
-
-  if(page === 'home'){
-    document.getElementById('homePage').classList.remove('hidden');
-  }
-
-  if(page === 'login'){
-    document.getElementById('loginPage').classList.remove('hidden');
-  }
-
-  if(page === 'register'){
-    document.getElementById('registerPage').classList.remove('hidden');
-  }
-
-  if(page === 'dashboard'){
-    if(!currentUser){
-      showPage('login');
-      return;
-    }
-
-    document.getElementById('dashboardPage').classList.remove('hidden');
-    loadDashboard();
-  }
-
-  if(page === 'adminLogin'){
-    document.getElementById('adminLoginPage').classList.remove('hidden');
-  }
-
-  if(page === 'admin'){
-    if(!adminUser){
-      showPage('adminLogin');
-      return;
-    }
-
-    document.getElementById('adminPage').classList.remove('hidden');
-    loadAdminPanel();
-  }
-}
-
-
-function escapeHtml(value){
-  return String(value ?? '')
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
-    .replaceAll("'","&#039;");
-}
-
-
-function money(value){
-  return '$' + Number(value || 0).toFixed(2);
-}
-
-
-function notice(id,message,type='success'){
-  const el=document.getElementById(id);
-  if(!el)return;
-
-  el.className='notice ' + type;
-  el.textContent=message;
-  el.style.display='block';
-
-  setTimeout(()=>{
-    el.style.display='none';
-  },4000);
-}
-
-
-/* ---------------- HOME ---------------- */
-
-async function loadHomeTasks(){
-
-  try{
-
-    const res=await fetch('/api/tasks');
-    const data=await res.json();
-
-    const tasks=data.tasks || data || [];
-
-    const box=document.getElementById('homeTasks');
-
-    if(!tasks.length){
-      box.innerHTML='<p>No tasks available.</p>';
-      return;
-    }
-
-    box.innerHTML=tasks.map(task=>`
-
-      <div class="task">
-
-        <div>
-          <h3>${escapeHtml(task.title)}</h3>
-          <p>${escapeHtml(task.description || '')}</p>
-        </div>
-
-        <div>
-          <div class="reward">+${money(task.reward)}</div>
-        </div>
-
-      </div>
-
-    `).join('');
-
-  }catch(e){
-
-    document.getElementById('homeTasks').innerHTML=
-      '<p>Unable to load tasks.</p>';
-
-  }
-
-}
-
-
-/* ---------------- REGISTER ---------------- */
-
-async function register(){
-
-  const name=document.getElementById('regName').value.trim();
-  const email=document.getElementById('regEmail').value.trim();
-  const password=document.getElementById('regPassword').value;
-  const referral=document.getElementById('regReferral').value.trim();
-
-  if(!name || !email || !password){
-    notice('registerNotice','Please fill all required fields.','error');
-    return;
-  }
-
-  try{
-
-    const res=await fetch('/api/register',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        name,
-        email,
-        password,
-        referral_code:referral
-      })
-    });
-
-    const data=await res.json();
-
-    if(!res.ok){
-      notice(
-        'registerNotice',
-        data.error || 'Registration failed.',
-        'error'
-      );
-      return;
-    }
-
-    notice(
-      'registerNotice',
-      'Registration successful. Please login.',
-      'success'
-    );
-
-    document.getElementById('regName').value='';
-    document.getElementById('regEmail').value='';
-    document.getElementById('regPassword').value='';
-    document.getElementById('regReferral').value='';
-
-    setTimeout(()=>{
-      showPage('login');
-    },1000);
-
-  }catch(e){
-
-    notice(
-      'registerNotice',
-      'Network error. Please try again.',
-      'error'
-    );
-
-  }
-
-}
-
-
-/* ---------------- LOGIN ---------------- */
-
-async function login(){
-
-  const email=document.getElementById('loginEmail').value.trim();
-  const password=document.getElementById('loginPassword').value;
-
-  if(!email || !password){
-    notice('loginNotice','Enter email and password.','error');
-    return;
-  }
-
-  try{
-
-    const res=await fetch('/api/login',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        email,
-        password
-      })
-    });
-
-    const data=await res.json();
-
-    if(!res.ok){
-      notice(
-        'loginNotice',
-        data.error || 'Login failed.',
-        'error'
-      );
-      return;
-    }
-
-    currentUser=data.user || data;
-
-    document.getElementById('loginEmail').value='';
-    document.getElementById('loginPassword').value='';
-
-    showPage('dashboard');
-
-  }catch(e){
-
-    notice(
-      'loginNotice',
-      'Network error. Please try again.',
-      'error'
-    );
-
-  }
-
-}
-
-
-/* ---------------- CURRENT USER ---------------- */
-
-async function loadCurrentUser(){
-
-  try{
-
-    const res=await fetch('/api/me');
-
-    if(!res.ok){
-      currentUser=null;
-      return;
-    }
-
-    const data=await res.json();
-
-    currentUser=data.user || data;
-
-  }catch(e){
-
-    currentUser=null;
-
-  }
-
-}
-
-
-/* ---------------- DASHBOARD ---------------- */
-
-async function loadDashboard(){
-
-  await loadCurrentUser();
-
-  if(!currentUser){
-    showPage('login');
-    return;
-  }
-
-  document.getElementById('userName').textContent=
-    currentUser.name || 'User';
-
-  document.getElementById('balance').textContent=
-    money(currentUser.balance);
-
-  document.getElementById('refCode').value=
-    currentUser.referral_code || '';
-
-  await loadTransactions();
-  await loadTasks();
-
-}
-
-
-async function loadTasks(){
-
-  try{
-
-    const res=await fetch('/api/tasks');
-    const data=await res.json();
-
-    const tasks=data.tasks || data || [];
-
-    const box=document.getElementById('tasks');
-
-    if(!tasks.length){
-      box.innerHTML='<p>No tasks available.</p>';
-      return;
-    }
-
-    box.innerHTML=tasks.map(task=>`
-
-      <div class="task">
-
-        <div>
-          <h3>${escapeHtml(task.title)}</h3>
-          <p>${escapeHtml(task.description || '')}</p>
-        </div>
-
-        <div>
-          <div class="reward">+${money(task.reward)}</div>
-
-          <button
-            class="btn"
-            onclick="completeTask(${Number(task.id)})"
-          >
-            ${task.task_url ? 'Open & Claim' : 'Claim'}
-          </button>
-
-        </div>
-
-      </div>
-
-    `).join('');
-
-  }catch(e){
-
-    document.getElementById('tasks').innerHTML=
-      '<p>Unable to load tasks.</p>';
-
-  }
-
-}
-
-
-async function completeTask(id){
-
-  try{
-
-    const taskRes=await fetch('/api/tasks');
-    const taskData=await taskRes.json();
-
-    const tasks=taskData.tasks || taskData || [];
-    const task=tasks.find(x=>Number(x.id)===Number(id));
-
-    if(task && task.task_url){
-      window.open(task.task_url,'_blank');
-    }
-
-    const res=await fetch('/api/tasks/complete',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        task_id:id
-      })
-    });
-
-    const data=await res.json();
-
-    if(!res.ok){
-      alert(data.error || 'Unable to complete task.');
-      return;
-    }
-
-    alert(
-      'Task completed! Reward: ' +
-      money(data.reward || task?.reward || 0)
-    );
-
-    loadDashboard();
-
-  }catch(e){
-
-    alert('Network error.');
-
-  }
-
-}
-
-
-/* ---------------- DAILY BONUS ---------------- */
-
-async function claimBonus(){
-
-  try{
-
-    const res=await fetch('/api/daily-bonus',{
-      method:'POST'
-    });
-
-    const data=await res.json();
-
-    if(!res.ok){
-
-      notice(
-        'bonusNotice',
-        data.error || 'Bonus unavailable.',
-        'error'
-      );
-
-      return;
-    }
-
-    notice(
-      'bonusNotice',
-      'Daily bonus claimed successfully! +' +
-      money(data.amount || 1),
-      'success'
-    );
-
-    loadDashboard();
-
-  }catch(e){
-
-    notice(
-      'bonusNotice',
-      'Network error.',
-      'error'
-    );
-
-  }
-
-}
-
-
-/* ---------------- WITHDRAW ---------------- */
-
-async function withdraw(){
-
-  const method=document.getElementById('withdrawMethod').value;
-  const account=document.getElementById('withdrawAccount').value.trim();
-  const amount=Number(
-    document.getElementById('withdrawAmount').value
-  );
-
-  if(!account){
-    notice(
-      'withdrawNotice',
-      'Enter your account or wallet.',
-      'error'
-    );
-    return;
-  }
-
-  if(!amount || amount < 1){
-    notice(
-      'withdrawNotice',
-      'Minimum withdrawal is $1.',
-      'error'
-    );
-    return;
-  }
-
-  try{
-
-    const res=await fetch('/api/withdraw',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        method,
-        account,
-        amount
-      })
-    });
-
-    const data=await res.json();
-
-    if(!res.ok){
-
-      notice(
-        'withdrawNotice',
-        data.error || 'Withdrawal failed.',
-        'error'
-      );
-
-      return;
-    }
-
-    notice(
-      'withdrawNotice',
-      'Withdrawal request submitted successfully.',
-      'success'
-    );
-
-    document.getElementById('withdrawAccount').value='';
-    document.getElementById('withdrawAmount').value='';
-
-    loadDashboard();
-
-  }catch(e){
-
-    notice(
-      'withdrawNotice',
-      'Network error.',
-      'error'
-    );
-
-  }
-
-}
-
-
-/* ---------------- TRANSACTIONS ---------------- */
-
-async function loadTransactions(){
-
-  try{
-
-    const res=await fetch('/api/transactions');
-    const data=await res.json();
-
-    const transactions=
-      data.transactions || data || [];
-
-    const tbody=document.getElementById('transactions');
-
-    if(!transactions.length){
-
-      tbody.innerHTML=`
-        <tr>
-          <td colspan="4">No transactions yet.</td>
-        </tr>
-      `;
-
-      return;
-    }
-
-    tbody.innerHTML=transactions.map(t=>`
-
-      <tr>
-        <td>${escapeHtml(t.type)}</td>
-        <td>${Number(t.amount)>=0?'+':''}${money(t.amount)}</td>
-        <td>${escapeHtml(t.description || '')}</td>
-        <td>${escapeHtml(t.created_at || '')}</td>
-      </tr>
-
-    `).join('');
-
-  }catch(e){
-
-    document.getElementById('transactions').innerHTML=`
-      <tr>
-        <td colspan="4">Unable to load transactions.</td>
-      </tr>
-    `;
-
-  }
-
-}
-
-
-/* ---------------- REFERRAL ---------------- */
-
-function copyReferral(){
-
-  const input=document.getElementById('refCode');
-
-  if(!input.value){
-    alert('No referral code available.');
-    return;
-  }
-
-  navigator.clipboard.writeText(input.value);
-
-  alert('Referral code copied!');
-
-}
-
-
-/* ---------------- USER LOGOUT ---------------- */
-
-async function logout(){
-
-  try{
-
-    await fetch('/api/logout',{
-      method:'POST'
-    });
-
-  }catch(e){}
-
-  currentUser=null;
-
-  showPage('home');
-
-}
-
-
-/* =========================================================
-   ADMIN
-========================================================= */
-
-
-/* ---------------- ADMIN LOGIN ---------------- */
-
-async function adminLogin(){
-
-  const email=
-    document.getElementById('adminEmail').value.trim();
-
-  const password=
-    document.getElementById('adminPassword').value;
-
-  if(!email || !password){
-
-    notice(
-      'adminLoginNotice',
-      'Enter admin email and password.',
-      'error'
-    );
-
-    return;
-  }
-
-  try{
-
-    const res=await fetch('/api/admin/login',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        email,
-        password
-      })
-    });
-
-    const data=await res.json();
-
-    if(!res.ok){
-
-      notice(
-        'adminLoginNotice',
-        data.error || 'Admin login failed.',
-        'error'
-      );
-
-      return;
-    }
-
-    adminUser=data.admin || data;
-
-    document.getElementById('adminPassword').value='';
-
-    showPage('admin');
-
-  }catch(e){
-
-    notice(
-      'adminLoginNotice',
-      'Network error.',
-      'error'
-    );
-
-  }
-
-}
-
-
-/* ---------------- ADMIN CURRENT SESSION ---------------- */
-
-async function loadAdminMe(){
-
-  try{
-
-    const res=await fetch('/api/admin/me');
-
-    if(!res.ok){
-      adminUser=null;
-      return false;
-    }
-
-    const data=await res.json();
-
-    adminUser=data.admin || data;
-
-    return true;
-
-  }catch(e){
-
-    adminUser=null;
-    return false;
-
-  }
-
-}
-
-
-/* ---------------- ADMIN PANEL ---------------- */
-
-async function loadAdminPanel(){
-
-  const loggedIn=await loadAdminMe();
-
-  if(!loggedIn){
-
-    showPage('adminLogin');
-    return;
-  }
-
-  document.getElementById('adminEmailDisplay').textContent=
-    adminUser.email || 'Admin';
-
-  await loadAdminStats();
-  await loadAdminUsers();
-  await loadAdminWithdrawals();
-
-}
-
-
-/* ---------------- ADMIN STATS ---------------- */
-
-async function loadAdminStats(){
-
-  try{
-
-    const res=await fetch('/api/admin/stats');
-    const data=await res.json();
-
-    if(!res.ok){
-      throw new Error(data.error || 'Stats failed');
-    }
-
-    document.getElementById('adminUsersCount').textContent=
-      data.users ?? data.total_users ?? 0;
-
-    document.getElementById('adminBalance').textContent=
-      money(data.balance ?? data.total_balance ?? 0);
-
-    document.getElementById('adminPending').textContent=
-      data.pending_withdrawals ??
-      data.pending ??
-      0;
-
-    document.getElementById('adminWithdrawTotal').textContent=
-      money(
-        data.withdrawals ??
-        data.total_withdrawals ??
-        0
-      );
-
-  }catch(e){
-
-    notice(
-      'adminNotice',
-      'Unable to load statistics.',
-      'error'
-    );
-
-  }
-
-}
-
-
-/* ---------------- ADMIN USERS ---------------- */
-
-async function loadAdminUsers(){
-
-  try{
-
-    const res=await fetch('/api/admin/users');
-    const data=await res.json();
-
-    if(!res.ok){
-      throw new Error(data.error || 'Users failed');
-    }
-
-    const users=data.users || data || [];
-
-    const tbody=
-      document.getElementById('adminUsersTable');
-
-    if(!users.length){
-
-      tbody.innerHTML=`
-        <tr>
-          <td colspan="6">No users found.</td>
-        </tr>
-      `;
-
-      return;
-    }
-
-    tbody.innerHTML=users.map(u=>`
-
-      <tr>
-
-        <td>${escapeHtml(u.id)}</td>
-
-        <td>${escapeHtml(u.name)}</td>
-
-        <td>${escapeHtml(u.email)}</td>
-
-        <td>${money(u.balance)}</td>
-
-        <td>${escapeHtml(u.referral_code || '')}</td>
-
-        <td>${escapeHtml(u.created_at || '')}</td>
-
-      </tr>
-
-    `).join('');
-
-  }catch(e){
-
-    document.getElementById('adminUsersTable').innerHTML=`
-      <tr>
-        <td colspan="6">Unable to load users.</td>
-      </tr>
-    `;
-
-  }
-
-}
-
-
-/* ---------------- ADMIN WITHDRAWALS ---------------- */
-
-async function loadAdminWithdrawals(){
-
-  try{
-
-    const res=await fetch('/api/admin/withdrawals');
-    const data=await res.json();
-
-    if(!res.ok){
-      throw new Error(data.error || 'Withdrawals failed');
-    }
-
-    const withdrawals=
-      data.withdrawals || data || [];
-
-    const tbody=
-      document.getElementById('adminWithdrawalsTable');
-
-    if(!withdrawals.length){
-
-      tbody.innerHTML=`
-        <tr>
-          <td colspan="7">No withdrawals found.</td>
-        </tr>
-      `;
-
-      return;
-    }
-
-    tbody.innerHTML=withdrawals.map(w=>{
-
-      const status=
-        String(w.status || 'pending').toLowerCase();
-
-      return `
-
-        <tr>
-
-          <td>${escapeHtml(w.id)}</td>
-
-          <td>
-            ${escapeHtml(
-              w.user_name ||
-              w.name ||
-              w.user_email ||
-              ''
-            )}
-          </td>
-
-          <td>${escapeHtml(w.method)}</td>
-
-          <td>${escapeHtml(w.account)}</td>
-
-          <td>${money(w.amount)}</td>
-
-          <td>
-            <span class="badge ${escapeHtml(status)}">
-              ${escapeHtml(status)}
-            </span>
-          </td>
-
-          <td>
-
-            ${
-              status === 'pending'
-              ? `
-                <button
-                  class="btn green"
-                  onclick="approveWithdrawal(${Number(w.id)})"
-                >
-                  Approve
-                </button>
-
-                <button
-                  class="btn red"
-                  onclick="rejectWithdrawal(${Number(w.id)})"
-                >
-                  Reject
-                </button>
-              `
-              : `
-                <span style="color:#64748b">
-                  ${escapeHtml(w.admin_note || 'Processed')}
-                </span>
-              `
-            }
-
-          </td>
-
-        </tr>
-
-      `;
-
-    }).join('');
-
-  }catch(e){
-
-    document.getElementById('adminWithdrawalsTable').innerHTML=`
-      <tr>
-        <td colspan="7">
-          Unable to load withdrawals.
-        </td>
-      </tr>
-    `;
-
-  }
-
-}
-
-
-/* ---------------- APPROVE ---------------- */
-
-async function approveWithdrawal(id){
-
-  const note=
-    prompt('Optional admin note:', 'Payment approved');
-
-  if(note === null){
-    return;
-  }
-
-  try{
-
-    const res=await fetch(
-      '/api/admin/withdrawals/' +
-      encodeURIComponent(id) +
-      '/approve',
-      {
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json'
-        },
-        body:JSON.stringify({
-          note
-        })
-      }
-    );
-
-    const data=await res.json();
-
-    if(!res.ok){
-
-      notice(
-        'adminNotice',
-        data.error || 'Approval failed.',
-        'error'
-      );
-
-      return;
-    }
-
-    notice(
-      'adminNotice',
-      'Withdrawal approved successfully.',
-      'success'
-    );
-
-    await loadAdminStats();
-    await loadAdminWithdrawals();
-
-  }catch(e){
-
-    notice(
-      'adminNotice',
-      'Network error.',
-      'error'
-    );
-
-  }
-
-}
-
-
-/* ---------------- REJECT ---------------- */
-
-async function rejectWithdrawal(id){
-
-  const note=
-    prompt(
-      'Why are you rejecting this withdrawal?',
-      'Invalid payment information'
-    );
-
-  if(note === null){
-    return;
-  }
-
-  try{
-
-    const res=await fetch(
-      '/api/admin/withdrawals/' +
-      encodeURIComponent(id) +
-      '/reject',
-      {
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json'
-        },
-        body:JSON.stringify({
-          note
-        })
-      }
-    );
-
-    const data=await res.json();
-
-    if(!res.ok){
-
-      notice(
-        'adminNotice',
-        data.error || 'Rejection failed.',
-        'error'
-      );
-
-      return;
-    }
-
-    notice(
-      'adminNotice',
-      'Withdrawal rejected and balance refunded.',
-      'success'
-    );
-
-    await loadAdminStats();
-    await loadAdminWithdrawals();
-
-  }catch(e){
-
-    notice(
-      'adminNotice',
-      'Network error.',
-      'error'
-    );
-
-  }
-
-}
-
-
-/* ---------------- ADMIN LOGOUT ---------------- */
-
-async function adminLogout(){
-
-  try{
-
-    await fetch('/api/admin/logout',{
-      method:'POST'
-    });
-
-  }catch(e){}
-
-  adminUser=null;
-
-  showPage('home');
-
-}
-
-
-/* ---------------- HEADER STATE ---------------- */
-
-async function updateHeader(){
-
-  await loadCurrentUser();
-
-  document.getElementById('loginBtn')
-    .classList.toggle('hidden',!!currentUser);
-
-  document.getElementById('dashBtn')
-    .classList.toggle('hidden',!currentUser);
-
-  document.getElementById('logoutBtn')
-    .classList.toggle('hidden',!currentUser);
-
-}
-
-
-/* ---------------- START ---------------- */
-
-(async function(){
-
-  await updateHeader();
-
-  await loadHomeTasks();
-
-  if(currentUser){
-    showPage('dashboard');
-  }else{
-    showPage('home');
-  }
-
-})();
-
-</script>
-
-</body>
-</html>
+      <small>Pending Withdrawals</small
