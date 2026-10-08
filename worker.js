@@ -890,22 +890,25 @@ async function withdrawals(
   }
 
   const result = await env.DB.prepare(`
-  SELECT *
-  FROM withdrawals
-  WHERE user_id = ?
-  ORDER BY id DESC
-  LIMIT 100
-`)
-  .bind(user.id)
-  .all();
+    SELECT *
+    FROM withdrawals
+    WHERE user_id = ?
+    ORDER BY id DESC
+    LIMIT 100
+  `)
+    .bind(user.id)
+    .all();
 
-return json({
-  success: true,
-  withdrawals: result.results || []
-});
+  return json({
+    success: true,
+    withdrawals: result.results || []
+  });
 }
 
-async function adminLogin(request, env) {
+async function adminLogin(
+  request,
+  env
+) {
   await ensureAdmin(env);
 
   let body;
@@ -919,11 +922,13 @@ async function adminLogin(request, env) {
     }, 400);
   }
 
-  const email = String(body.email || "")
-    .trim()
-    .toLowerCase();
+  const email = String(
+    body.email || ""
+  ).trim().toLowerCase();
 
-  const password = String(body.password || "");
+  const password = String(
+    body.password || ""
+  );
 
   if (!email || !password) {
     return json({
@@ -981,7 +986,10 @@ async function adminLogin(request, env) {
   );
 }
 
-async function adminLogout(request, env) {
+async function adminLogout(
+  request,
+  env
+) {
   const token = getCookie(
     request,
     "admin_session"
@@ -1005,14 +1013,22 @@ async function adminLogout(request, env) {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Set-Cookie": clearCookie("admin_session")
+        "Set-Cookie": clearCookie(
+          "admin_session"
+        )
       }
     }
   );
 }
 
-async function adminMe(request, env) {
-  const admin = await getAdmin(request, env);
+async function adminMe(
+  request,
+  env
+) {
+  const admin = await getAdmin(
+    request,
+    env
+  );
 
   if (!admin) {
     return json({
@@ -1028,3 +1044,523 @@ async function adminMe(request, env) {
     }
   });
 }
+
+async function adminStats(
+  request,
+  env
+) {
+  const admin = await getAdmin(
+    request,
+    env
+  );
+
+  if (!admin) {
+    return json({
+      success: false,
+      message: "Admin not logged in."
+    }, 401);
+  }
+
+  const users = await env.DB.prepare(`
+    SELECT COUNT(*) AS total
+    FROM users
+  `).first();
+
+  const balance = await env.DB.prepare(`
+    SELECT COALESCE(
+      SUM(balance),
+      0
+    ) AS total
+    FROM users
+  `).first();
+
+  const pending = await env.DB.prepare(`
+    SELECT COUNT(*) AS total
+    FROM withdrawals
+    WHERE status = 'pending'
+  `).first();
+
+  const approved = await env.DB.prepare(`
+    SELECT COALESCE(
+      SUM(amount),
+      0
+    ) AS total
+    FROM withdrawals
+    WHERE status = 'approved'
+  `).first();
+
+  const rejected = await env.DB.prepare(`
+    SELECT COALESCE(
+      SUM(amount),
+      0
+    ) AS total
+    FROM withdrawals
+    WHERE status = 'rejected'
+  `).first();
+
+  return json({
+    success: true,
+    stats: {
+      users: Number(
+        users?.total || 0
+      ),
+      total_balance: Number(
+        balance?.total || 0
+      ),
+      pending_withdrawals: Number(
+        pending?.total || 0
+      ),
+      approved_withdrawals: Number(
+        approved?.total || 0
+      ),
+      rejected_withdrawals: Number(
+        rejected?.total || 0
+      )
+    }
+  });
+}
+
+async function adminUsers(
+  request,
+  env
+) {
+  const admin = await getAdmin(
+    request,
+    env
+  );
+
+  if (!admin) {
+    return json({
+      success: false,
+      message: "Admin not logged in."
+    }, 401);
+  }
+
+  const result = await env.DB.prepare(`
+    SELECT
+      id,
+      name,
+      email,
+      balance,
+      referral_code,
+      referred_by,
+      created_at
+    FROM users
+    ORDER BY id DESC
+    LIMIT 500
+  `).all();
+
+  return json({
+    success: true,
+    users: result.results || []
+  });
+}
+
+async function adminWithdrawals(
+  request,
+  env
+) {
+  const admin = await getAdmin(
+    request,
+    env
+  );
+
+  if (!admin) {
+    return json({
+      success: false,
+      message: "Admin not logged in."
+    }, 401);
+  }
+
+  const result = await env.DB.prepare(`
+    SELECT
+      withdrawals.*,
+      users.name,
+      users.email
+    FROM withdrawals
+    JOIN users
+      ON users.id = withdrawals.user_id
+    ORDER BY withdrawals.id DESC
+    LIMIT 500
+  `).all();
+
+  return json({
+    success: true,
+    withdrawals: result.results || []
+  });
+}
+
+async function approveWithdrawal(
+  request,
+  env,
+  withdrawalId
+) {
+  const admin = await getAdmin(
+    request,
+    env
+  );
+
+  if (!admin) {
+    return json({
+      success: false,
+      message: "Admin not logged in."
+    }, 401);
+  }
+
+  const withdrawal = await env.DB.prepare(`
+    SELECT *
+    FROM withdrawals
+    WHERE id = ?
+  `)
+    .bind(withdrawalId)
+    .first();
+
+  if (!withdrawal) {
+    return json({
+      success: false,
+      message: "Withdrawal not found."
+    }, 404);
+  }
+
+  if (withdrawal.status !== "pending") {
+    return json({
+      success: false,
+      message: "Withdrawal already processed."
+    }, 400);
+  }
+
+  await env.DB.prepare(`
+    UPDATE withdrawals
+    SET
+      status = 'approved',
+      processed_at = datetime('now')
+    WHERE id = ?
+      AND status = 'pending'
+  `)
+    .bind(withdrawalId)
+    .run();
+
+  return json({
+    success: true,
+    message: "Withdrawal approved."
+  });
+}
+
+async function rejectWithdrawal(
+  request,
+  env,
+  withdrawalId
+) {
+  const admin = await getAdmin(
+    request,
+    env
+  );
+
+  if (!admin) {
+    return json({
+      success: false,
+      message: "Admin not logged in."
+    }, 401);
+  }
+
+  const withdrawal = await env.DB.prepare(`
+    SELECT *
+    FROM withdrawals
+    WHERE id = ?
+  `)
+    .bind(withdrawalId)
+    .first();
+
+  if (!withdrawal) {
+    return json({
+      success: false,
+      message: "Withdrawal not found."
+    }, 404);
+  }
+
+  if (withdrawal.status !== "pending") {
+    return json({
+      success: false,
+      message: "Withdrawal already processed."
+    }, 400);
+  }
+
+  const result = await env.DB.prepare(`
+    UPDATE withdrawals
+    SET
+      status = 'rejected',
+      processed_at = datetime('now')
+    WHERE id = ?
+      AND status = 'pending'
+  `)
+    .bind(withdrawalId)
+    .run();
+
+  if (
+    !result.meta ||
+    result.meta.changes !== 1
+  ) {
+    return json({
+      success: false,
+      message: "Withdrawal already processed."
+    }, 400);
+  }
+
+  await env.DB.prepare(`
+    UPDATE users
+    SET balance = balance + ?
+    WHERE id = ?
+  `)
+    .bind(
+      Number(withdrawal.amount),
+      withdrawal.user_id
+    )
+    .run();
+
+  await env.DB.prepare(`
+    INSERT INTO transactions
+      (user_id, type, amount, description)
+    VALUES
+      (?, 'refund', ?, 'Withdrawal rejected - balance refunded')
+  `)
+    .bind(
+      withdrawal.user_id,
+      Number(withdrawal.amount)
+    )
+    .run();
+
+  return json({
+    success: true,
+    message: "Withdrawal rejected and balance refunded."
+  });
+}
+
+async function handleApi(
+  request,
+  env,
+  pathname
+) {
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204
+    });
+  }
+
+  if (
+    pathname === "/api/register" &&
+    request.method === "POST"
+  ) {
+    return register(request, env);
+  }
+
+  if (
+    pathname === "/api/login" &&
+    request.method === "POST"
+  ) {
+    return login(request, env);
+  }
+
+  if (
+    pathname === "/api/logout" &&
+    request.method === "POST"
+  ) {
+    return logout(request, env);
+  }
+
+  if (
+    pathname === "/api/me" &&
+    request.method === "GET"
+  ) {
+    return me(request, env);
+  }
+
+  if (
+    pathname === "/api/tasks" &&
+    request.method === "GET"
+  ) {
+    return tasks(request, env);
+  }
+
+  const completeMatch = pathname.match(
+    /^\/api\/tasks\/(\d+)\/complete$/
+  );
+
+  if (
+    completeMatch &&
+    request.method === "POST"
+  ) {
+    return completeTask(
+      request,
+      env,
+      completeMatch[1]
+    );
+  }
+
+  if (
+    pathname === "/api/daily-bonus" &&
+    request.method === "POST"
+  ) {
+    return dailyBonus(
+      request,
+      env
+    );
+  }
+
+  if (
+    pathname === "/api/transactions" &&
+    request.method === "GET"
+  ) {
+    return transactions(
+      request,
+      env
+    );
+  }
+
+  if (
+    pathname === "/api/withdraw" &&
+    request.method === "POST"
+  ) {
+    return withdraw(
+      request,
+      env
+    );
+  }
+
+  if (
+    pathname === "/api/withdrawals" &&
+    request.method === "GET"
+  ) {
+    return withdrawals(
+      request,
+      env
+    );
+  }
+
+  if (
+    pathname === "/api/admin/login" &&
+    request.method === "POST"
+  ) {
+    return adminLogin(
+      request,
+      env
+    );
+  }
+
+  if (
+    pathname === "/api/admin/logout" &&
+    request.method === "POST"
+  ) {
+    return adminLogout(
+      request,
+      env
+    );
+  }
+
+  if (
+    pathname === "/api/admin/me" &&
+    request.method === "GET"
+  ) {
+    return adminMe(
+      request,
+      env
+    );
+  }
+
+  if (
+    pathname === "/api/admin/stats" &&
+    request.method === "GET"
+  ) {
+    return adminStats(
+      request,
+      env
+    );
+  }
+
+  if (
+    pathname === "/api/admin/users" &&
+    request.method === "GET"
+  ) {
+    return adminUsers(
+      request,
+      env
+    );
+  }
+
+  if (
+    pathname === "/api/admin/withdrawals" &&
+    request.method === "GET"
+  ) {
+    return adminWithdrawals(
+      request,
+      env
+    );
+  }
+
+  const approveMatch = pathname.match(
+    /^\/api\/admin\/withdrawals\/(\d+)\/approve$/
+  );
+
+  if (
+    approveMatch &&
+    request.method === "POST"
+  ) {
+    return approveWithdrawal(
+      request,
+      env,
+      approveMatch[1]
+    );
+  }
+
+  const rejectMatch = pathname.match(
+    /^\/api\/admin\/withdrawals\/(\d+)\/reject$/
+  );
+
+  if (
+    rejectMatch &&
+    request.method === "POST"
+  ) {
+    return rejectWithdrawal(
+      request,
+      env,
+      rejectMatch[1]
+    );
+  }
+
+  return json({
+    success: false,
+    message: "API endpoint not found."
+  }, 404);
+}
+
+export default {
+  async fetch(request, env) {
+    try {
+      const url = new URL(
+        request.url
+      );
+
+      if (
+        url.pathname.startsWith(
+          "/api/"
+        )
+      ) {
+        return await handleApi(
+          request,
+          env,
+          url.pathname
+        );
+      }
+
+      return env.ASSETS.fetch(
+        request
+      );
+    } catch (error) {
+      console.error(error);
+
+      return json({
+        success: false,
+        message: "Internal server error."
+      }, 500);
+    }
+  }
+};
